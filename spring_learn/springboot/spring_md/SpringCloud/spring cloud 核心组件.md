@@ -4,9 +4,37 @@
 3.ribbion 负载均衡，请求服务时，从该服务的多台机器中选择一台。
 4.feign 动态代理，包装繁琐的网络请求，和Eurake配合使用，根据注解和选择的机器拼接地址，发起请求。
 5.Zuul 网关，请求服务的统一入口。
+6.zipkin 分布式链路追踪
 
 TPS：Transactions Per Second 每秒的处理事务的数量
 QPS:每秒查询的数量
 多线程模型：
 并行工作者模型
 流水线模型
+
+调用方
+```java
+@FeignClient(value = "eqianbao-server", fallback = SignServiceApiFallback.class)
+public interface SignServiceApi {
+	@RequestLine("POST")
+	public UnifiedSignApiVoRes unifiedSignPDF(URI requestUrl, UnifiedSignApiVoReq request);
+```
+
+spring-cloud-netflix
+服务发现
+Service Discovery:Eureka Clients
+```
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+```
+Service Discovery:Eureka Server
+服务熔断 
+Circuit Breaker:Hystrix Dashboard
+Circuit Breaker:Hystrix Clients
+负载均衡
+Client Side Load Balancer:Ribbon
+路由器和过滤器
+Router and Filter:Zuul
+
