@@ -1,4 +1,4 @@
-package com.leetcode;
+package com.github.chuangkel.leetcode;
 
 import org.junit.Test;
 

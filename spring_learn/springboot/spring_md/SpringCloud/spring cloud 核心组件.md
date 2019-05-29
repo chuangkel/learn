@@ -4,7 +4,7 @@
 3.ribbion 负载均衡，请求服务时，从该服务的多台机器中选择一台。
 4.feign 动态代理，包装繁琐的网络请求，和Eurake配合使用，根据注解和选择的机器拼接地址，发起请求。
 5.Zuul 网关，请求服务的统一入口。
-6.zipkin 分布式链路追踪
+6.zipkin 分布式链路追踪.
 
 TPS：Transactions Per Second 每秒的处理事务的数量
 QPS:每秒查询的数量
@@ -37,4 +37,13 @@ Circuit Breaker:Hystrix Clients
 Client Side Load Balancer:Ribbon
 路由器和过滤器
 Router and Filter:Zuul
+网关
+Route: Route the basic building block of the gateway. It is defined by an ID, a destination URI, a collection of predicates and a collection of filters. A route is matched if aggregate predicate is true.
 
+Predicate: This is a Java 8 Function Predicate. The input type is a Spring Framework ServerWebExchange. This allows developers to match on anything from the HTTP request, such as headers or parameters.
+
+Filter: These are instances Spring Framework GatewayFilter constructed in with a specific factory. Here, requests and responses can be modified before or after sending the downstream request.
+专有词汇：
+Route:路由
+Predicate
+Filter

@@ -1,0 +1,49 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!-- 1. 定义 GreetingService 的应用名 -->
+    <dubbo:application name="greeting-service-provider"/>
+
+    <!-- 2. 指定注册中心地址 -->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+    <!-- 3. 使用 Dubbo 原生协议在 20881 端口上暴露服务 -->
+    <dubbo:protocol name="dubbo" port="20881"/>
+
+    <!-- 4. 声明 HelloService 的远程代理，并在 Dubbo 的 filter chain 中增加 tracing filter -->
+    <dubbo:reference id="helloService" check="false" interface="com.github.chuangkel.dubboconsumer.api.HelloService" filter="tracing"/>
+
+    <!-- 5. 将 GreetingServiceImpl 的实现声明成一个 spring bean，并将 HelloService 的远程代理装配进去 -->
+    <bean id="greetingService" class="com.github.chuangkel.dubboconsumer.service.greeting.GreetingServiceImpl">
+        <property name="helloService" ref="helloService"/>
+    </bean>
+
+    <!-- 6. 将 GreetingServiceImpl 声明成一个 Dubbo 服务，并在 Dubbo 的 filter chain 中增加 tracing filter -->
+    <dubbo:service interface="com.github.chuangkel.dubboconsumer.api.GreetingService" ref="greetingService" filter="tracing"/>
+
+    <!-- 7. zipkin 相关的配置 -->
+    <bean id="sender" class="zipkin2.reporter.beans.OkHttpSenderFactoryBean">
+        <property name="endpoint" value="http://localhost:9411/api/v2/spans"/>
+    </bean>
+
+    <bean id="tracing" class="brave.spring.beans.TracingFactoryBean">
+        <property name="localServiceName" value="greeting-service"/>
+        <property name="spanReporter">
+            <bean class="zipkin2.reporter.beans.AsyncReporterFactoryBean">
+                <property name="sender" ref="sender"/>
+                <!-- wait up to half a second for any in-flight spans on close -->
+                <property name="closeTimeout" value="500"/>
+            </bean>
+        </property>
+        <property name="currentTraceContext">
+            <bean class="brave.spring.beans.CurrentTraceContextFactoryBean">
+                <property name="scopeDecorators">
+                    <bean class="brave.context.slf4j.MDCScopeDecorator" factory-method="create"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+</beans>
