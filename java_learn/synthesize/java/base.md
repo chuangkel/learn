@@ -274,3 +274,5 @@ public int nextInt(int bound) {
         return (int)(nextseed >>> (48 - bits));
     }
 ```
+>> 和 >>> 的区别
+都是表示向右移位，但是>>移位时高位用1填充，而>>>是用0填充

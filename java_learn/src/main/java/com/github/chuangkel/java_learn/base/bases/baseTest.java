@@ -24,6 +24,13 @@ public class baseTest implements Externalizable {
         //true intern()方法会将字符串移入常量区
         System.out.println(str3 == str5.intern());
 
+        /** >> 和 >>> 的区别 都表示移位*/
+        System.out.println(4>>1);
+        System.out.println(4>>>1);
+        /** 输出 -2*/
+        System.out.println(-4>>1);
+        /** 输出 2147483646*/
+        System.out.println(-4>>>1);
     }
 
     @Override

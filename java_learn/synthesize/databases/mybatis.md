@@ -250,3 +250,9 @@ Mybatis学习门槛低，简单易学，程序员直接编写原生态sql，可�
 
 Hibernate对象/关系映射能力强，数据库无关性好，对于关系模型要求高的软件（例如需求固定的定制化软件）如果用hibernate开发可以节省很多代码，提高效率。但是Hibernate的缺点是学习门槛高，要精通门槛更高，而且怎么设计O/R映射，在性能和对象模型之间如何权衡，以及怎样用好Hibernate需要具有很强的经验和能力才行。 
 总之，按照用户的需求在有限的资源环境下只要能做出维护性、扩展性良好的软件架构都是好架构，所以框架只有适合才是最好。
+
+### springboot - mybatis 打印出sql 日志的配置
+在application.properties中配置
+logging.level.mapper包的包全名=debug
+比如：com.github.chuangkel.dao.mapper
+插件：idea中搜索mybatis sql log 可以将日志中的sql语句拼接好
