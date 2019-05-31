@@ -80,7 +80,7 @@ mapper文件示例代码
 
 遍历一遍传入的列表
 ```
-<foreach collection="list" item="tacode"
+<foreach collection="tracks" item="tacode"
 index="index" open="(" close=")" separator=",">
 #{tacode}
 </foreach>

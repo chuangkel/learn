@@ -139,6 +139,19 @@ public class JavaNewCStream {
         });
         return trackNames;
     }
+    /** 继续重构
+     *flatMap 合并流
+     *filter过滤
+     *map元素转换
+     *Collectors.toSet() 会创建Set集合
+     * */
+    public Set<String> findLongTracks2(List<Album> albums) {
+        return albums.stream()
+                .flatMap(album -> album.getTracks().stream())
+                .filter(track -> track.getLength() > 60)
+                .map(track -> track.getName())
+                .collect(Collectors.toSet());
+    }
 
     private static boolean isDigit(char c) {
         if (c >= '0' && c <= '9'){
