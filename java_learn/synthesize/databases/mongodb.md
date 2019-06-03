@@ -27,7 +27,8 @@ service mongod start
 less /var/log/mongodb/mongod.log 
 //连接数据库
 [root@host ~]# mongo --host 127.0.0.1:27017
-
+//将配置的mongodb.conf中bindIP:127.0.0.1 改为0.0.0.0或将这一行注释掉
+//127.0.0.1只允许本地连接，不接受远程连接mongodb
 //新建数据库
 > use souyunku
 switched to db souyunku

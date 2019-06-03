@@ -1,9 +1,10 @@
 package com.github.chuangkel.java_learn.base.bases;
 
 import java.io.InterruptedIOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 /**
@@ -32,5 +33,24 @@ public class Demo {
          */
         Boolean b = Pattern.matches(".*01$","11101");
         System.out.println(b);
+
+        List<String> list1 = new ArrayList<>();
+        /** java8提供了接口的默认实现方法 */
+        list1.sort((c,d)->{return 0;});
+
+
+        Thread thread2 = new Thread(()->{});
+        /** Runnable 既可以Thread启动，也可以线程池启动，Callable 只能线程池启动 */
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(Demo::fetch);
+
+        /** if获取的value值为空，或者不包含的key值，则返回默认值*/
+        Map<Integer,String> map = new HashMap<>();
+        map.getOrDefault(-1,"value");
+
+    }
+
+    public static Callable<String> fetch() {
+        return () -> "Tricky example ;-)";
     }
 }

@@ -37,11 +37,16 @@ public class LocalTimeT {
         System.out.println(p.getDays());
         //日期加一天 对应的时间可以加一个小时
         LocalDate plusDay = localDate.plusDays(1);
+        //LocalDate localDate1 = LocalDate.;
+
+        localDate.minusDays(30);
         System.out.println(plusDay);
         //日期格式化
         DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;
         String time = "20190108";
         LocalDate formatDate = LocalDate.parse(time, formatter);
+        formatDate.minusDays(30);
+        formatDate.getYear();
         System.out.println(formatDate);
         //2019-01-08T19:42:54.050+08:00[GMT+08:00]
         ZonedDateTime zonedDateTime = ZonedDateTime.now();
