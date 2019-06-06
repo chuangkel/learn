@@ -5,6 +5,8 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
+import java.util.function.IntPredicate;
 import java.util.regex.Pattern;
 
 /**
@@ -47,7 +49,18 @@ public class Demo {
         /** if获取的value值为空，或者不包含的key值，则返回默认值*/
         Map<Integer,String> map = new HashMap<>();
         map.getOrDefault(-1,"value");
-
+        //第二个参数 方法引用
+        forEach(
+                Arrays.asList(1,2,3,4,5),
+                (Integer ii) -> System.out.println(ii)
+        );
+        //默认函数的参数是int
+        IntPredicate intPredicate = (t)->{return t>0;};
+    }
+    public static <T> void forEach(List<T> list, Consumer<T> c){
+        for(T i: list){
+            c.accept(i);
+        }
     }
 
     public static Callable<String> fetch() {
