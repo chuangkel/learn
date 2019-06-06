@@ -277,3 +277,12 @@ grep -r aa 文件名  //-r递归
 ```
 获取日志最后100行，持续刷新
 tail -100f fintaskcenter-biztask.log
+附： 
+① 更改文件拥有者 (chown ) 
+[root@linux ~]# chown 账号名称 文件或目录 
+② 改变文件的用户组用命令 chgrp 
+[root@linux ~]# chgrp 组名 文件或目录 
+③ 对于目录权限修改之后，默认只是修改当前级别的权限。如果子目录也要递归需要加R参数 
+Chown -R : 进行递归,连同子目录下的所有文件、目录
+
+查询mysql 是否启动
