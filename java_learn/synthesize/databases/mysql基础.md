@@ -187,7 +187,7 @@ net start mysql
 //查看mysql初始密码：
 sudo grep 'temporary password' /var/log/mysqld.log
 //开启远程登录
-Grant all privileges on *.* to 'root'@'%' identified by 'MyNewPass4!' with grant option;
+Grant all privileges on *.* to 'root'@'%' identified by '@HSDZgfyxgs3588h' with grant option;
 flush privileges
 
 ### 外部连接
