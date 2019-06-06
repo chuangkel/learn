@@ -90,6 +90,45 @@ index="index" open="(" close=")" separator=",">
 
 ## linux上安装问题
 最近在ubuntu系统上安装了MySQL，但是安装时没有提示输入root用户密码，在网上找了一天解决方案，试图修改root用户下的登入密码
+## centos7 安装mysql
+//检查是否安装有mysql
+rpm -qa | grep mysql
+//下载mysql
+yum install mysql
+//安装mysql 
+sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm
+//安装mysql-server
+//sudo yum install mysql-server
+登录
+# mysql -u root
+登录时有可能报这样的错：ERROR 2002 (HY000): Can’t connect to local MySQL server through socket ‘/var/lib/mysql/mysql.sock’ (2)，
+原因是/var/lib/mysql的访问权限问题。下面的命令把/var/lib/mysql的拥有者改为当前用户：
+# sudo chown -R openscanner:openscanner /var/lib/mysql
+如果报chown: 无效的用户: "openscanner:openscanner"错误，更换命令，并用 ll 查看目录权限列表
+chown root /var/lib/mysql/
+ll
+重启服务：
+service mysqld restart
+接下来登录重置密码：
+
+ mysql -u root -p
+mysql > use mysql;
+mysql > update user set password=password('123456') where user='root';
+mysql > exit;
+重启mysql服务后才生效 # service mysqld restart
+
+必要时加入以下命令行，为root添加远程连接的能力。链接密码为 “root”（不包括双引号）
+
+mysql> GRANT ALL PRIVILEGES ON *.* TO root@"%" IDENTIFIED BY "root";　　
+1
+1
+6、查询数据库编码格式，确保是 UTF-8
+
+show variables like "%char%";
+
+
+
+
 
 1、安装
 ```
@@ -115,10 +154,7 @@ tcp6        0       0       [::]:mysql    [::]:*    LISTEN    7510/mysqld
 $ mysql -u root -p
 ```
  输入密码，如果可以进入则下面的不用看了；如果提示不能登入，则我们尝试启用安全模式登入MySQL，这样可以绕过密码登入，登入后再修改密码。
-
 3、安全模式登入MySQL
-
-
 
 ```
 $ sudo /etc/init.d/mysql stop
@@ -134,8 +170,8 @@ $ sudo /etc/init.d/mysql stop
 ```
 $ sudo /usr/bin/mysqld_safe --skip-grant-tables --skip-networking &
 ```
- 输入第一行终止MySQL运行，成功，会提示下面两行；输入第四行，成功，没有任何报错则可以另外打开一个终端窗口进行下一步操作；但是一般会报错，比如提示mysqld_safe Directory ‘/var/run/mysqld’ for UNIX socket file don’t exists
-
+ 输入第一行终止MySQL运行，成功，会提示下面两行；输入第四行，成功，没有任何报错则可以另外打开一个终端窗口进行下一步操作；
+ 但是一般会报错，比如提示mysqld_safe Directory ‘/var/run/mysqld’ for UNIX socket file don’t exists
 因此我们尝试输入以下代码
 
 ```
@@ -155,23 +191,18 @@ mysql -u root
  
 ```
 > use mysql;
- 
 > update user set authentication_string=PASSWORD("这里输入你要改的密码") where User='root'; #更改密码
 > update user set plugin="mysql_native_password"; #如果没这一行可能也会报一个错误，因此需要运行这一行
  
 > flush privileges; #更新所有操作权限
 > quit;
 ```
-
  4、使用修改的密码登入MySQL
 
 经过上面一系列的操作，应该可以正常使用你更改的密码登入了。
-
-
 ```
 > sudo /etc/init.d/mysql stop
 > sudo /etc/init.d/mysql start # reset mysql
- 
 > mysql -u root -p
  第一行先终止数据库运行，第二行重启数据库服务，第三行root用户登入。
 ```
