@@ -1,6 +1,7 @@
 package com.github.chuangkel.java_learn.base.bases;
 
 import java.io.InterruptedIOException;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -66,4 +67,35 @@ public class Demo {
     public static Callable<String> fetch() {
         return () -> "Tricky example ;-)";
     }
+
+
+    /**
+     * 判断对象的参数是否是null
+     * @param object
+     * @return
+     */
+    private boolean paramIsNull(Object object) {
+        for (Field field : object.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(object);
+                if (value == null) {
+                    return false;
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    //public long update() {
+    //    for(;;) {
+    //        long version = this.version;
+    //        long newVersion = version + 1;
+    //        if (UNSAFE.compareAndSwapLong(this, VERSION_OFFSET, version, newVersion)) {
+    //            return newVersion;
+    //        }
+    //    }
+    //}
 }
