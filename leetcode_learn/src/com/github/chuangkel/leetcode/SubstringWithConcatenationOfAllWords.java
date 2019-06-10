@@ -23,7 +23,7 @@ public class SubstringWithConcatenationOfAllWords {
         //String[] words = new String[]{"foo","bar"};
 
         //String s = "aaa";
-        //String[] words = new String[]{"aa","aa"};
+        //String[] words = new String[]{"WildcardMatching","WildcardMatching"};
         System.out.println(findSubstring(s, words));
     }
 

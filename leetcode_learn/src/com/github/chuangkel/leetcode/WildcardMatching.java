@@ -1,52 +1,83 @@
-package com.github.chuangkel.leetcode;
+package com.github.chuangkel.leetcode;/**
+ * Created by Fortuner on 2019/6/7.
+ */
 
 import java.util.regex.Pattern;
 
 /**
  * @program: learn
- * @description:
+ * @description: 44. Wildcard Matching
  * @author: chuangkel
- * @create: 2019-06-10 10:09
+ * @create: 2019-06-07 10:27
  **/
 public class WildcardMatching {
 
-    public static boolean isMatch(String ss, String pp) {
-        int m = ss.length();
-        int n = pp.length();
-        char[] s = ss.toCharArray();
-        char[] p = pp.toCharArray();
-        boolean[][] f = new boolean[m + 1][n + 1];
-        for (int i = 0; i <= m; ++i) {
-            for (int j = 0; j <= n; ++j) {
-                if (i == 0 && j == 0) {
-                    f[i][j] = true;
-                    continue;
-                }
-                if (j == 0) {
-                    f[i][j] = false;
-                    continue;
-                }
-                if (p[j - 1] != '*') {
-                    if (i > 0 && (s[i - 1] == p[j - 1] || p[j - 1] == '?')) {
-                        f[i][j] |= f[i - 1][j - 1];
-                    }
-                } else {
-                    if (j > 0) {
-                        f[i][j] |= f[i][j - 1];
-                    }
-                    if (i > 0) {
-                        f[i][j] |= f[i - 1][j];
-                    }
-                }
-            }
-        }
-        return f[m][n];
-    }
 
     public static void main(String[] args) {
-        String s,p;
-        s = "acdcb";
-        p = "a*c?b";
-        isMatch(s,p);
+
+        //String s = "aa";
+        //String p = "a";
+        String s, p;
+        s = "aa";
+        p = "\\*";
+
+        System.out.println(isMatch2(s, p));
     }
+
+    public static boolean isMatch(String s, String p) {
+        if ("*".equals(p)) {
+            return true;
+        }
+        int idx = 0;
+        // * 匹配0个或者多个 ?匹配一个
+        for (int i = 0; i < p.length(); i++) {
+            //字符 核对
+            if (p.charAt(i) != '*' && p.charAt(i) != '?') {
+                if (s.charAt(idx) == p.charAt(i)) {
+                    idx++;
+                    continue;
+                } else {
+                    return false;
+                }
+            }
+            //是？ 下一个
+            if (p.charAt(i) == '?') {
+                idx++;
+                continue;
+            }
+            //是* 同时是p的最后一个
+            if (p.charAt(i) == '*' && i == p.length() - 1) {
+                return true;
+            }
+            //是* 不是最后一个 从后往前匹配 看看能否到i
+            int s_indx = s.length() - 1;
+            for (int j = p.length() - 1; j >= i; j--) {
+                if (j == i) {
+                    return true;
+                }
+                if (p.charAt(j) != '?') {
+                    s_indx--;
+                    continue;
+                }
+                //是字母
+                if (p.charAt(j) != '?' && p.charAt(j) != '*') {
+                    if (p.charAt(j) != s.charAt(s_indx)) {
+                        return false;
+                    }
+                    s_indx --;
+                    continue;
+                }
+                //是* 看中间匹不匹配
+                String [] xings = s.split("\\*");
+                for(int q = 1; q < xings.length-1  ;q++){
+                }
+            }
+            //dao i 说明匹配
+            //不到i 说明有*  split 处理 中间匹配
+            return ;
+
+        }
+    }
+
+
 }
