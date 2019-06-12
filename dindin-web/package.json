@@ -10,15 +10,26 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@kmdtmyk/vue-fields": "0.0.8",
     "axios": "^0.19.0",
     "element-ui": "^2.0.8",
     "font-awesome": "^4.7.0",
     "mavon-editor": "^2.4.13",
     "vue": "^2.5.2",
+    "vue-calendar-component": "^2.8.2",
     "vue-echarts": "^2.6.0",
-    "vue-router": "^3.0.1"
+    "vue-element-extends": "^1.2.20",
+    "vue-router": "^3.0.1",
+    "vuejs-datetimepicker": "^1.1.11",
+    "xe-utils": "^1.9.4"
   },
   "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0",
+    "@vue/cli-plugin-eslint": "^3.0.0",
+    "@vue/cli-service": "^3.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0-0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.26.3",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",

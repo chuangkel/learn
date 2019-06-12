@@ -28,6 +28,7 @@ export const postRequest = (url, params) => {
 }
 
 export const postRequestJson = (url, params) => {
+  debugger
   return axios({
     method: 'post',
     url: `${base}${url}`,
@@ -83,6 +84,17 @@ export const getRequest = (url,params) => {
       }
       return ret
     }],
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    url: `${base}${url}`
+  });
+}
+
+export const getAllRequest = (url) => {
+  return axios({
+    method: 'get',
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },

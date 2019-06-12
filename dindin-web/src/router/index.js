@@ -8,11 +8,26 @@ import DataCharts from '@/components/DataCharts'
 import PostArticle from '@/components/PostArticle'
 import UserMana from '@/components/UserMana'
 import BlogDetail from '@/components/BlogDetail'
+import ActivityList from '@/components/ActivityList'
+import MyCanlendar from '@/components/MyCanlendar'
+import PrizeManage from '@/components/PrizeManage'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/prizemanage',
+      name: '个人日历',
+      hidden: true,
+      component: PrizeManage
+    },
+    {
+      path: '/mycanlendar',
+      name: '个人日历',
+      hidden: true,
+      component: MyCanlendar
+    },
     {
       path: '/',
       name: '登录',
@@ -30,9 +45,9 @@ export default new Router({
       iconCls: 'fa fa-file-text-o',
       children: [
         {
-          path: '/articleList',
+          path: '/ActivityList',
           name: '活动列表',
-          component: ArticleList,
+          component: ActivityList,
           meta: {
             keepAlive: true
           }

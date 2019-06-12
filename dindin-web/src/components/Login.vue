@@ -40,9 +40,7 @@
           username: this.loginForm.username,
           password: this.loginForm.password
         }).then(resp=> {
-          debugger
           _this.loading = false;
-          debugger
           if (resp.status == 200) {
             //成功
             var json = resp.data;

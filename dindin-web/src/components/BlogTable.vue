@@ -34,7 +34,7 @@
       <el-table-column
         label="标题"
         width="400" align="left">
-        <template slot-scope="scope"><span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">{{ scope.row.title}}</span>
+        <template slot-scope="scope"><span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">{{ scope.row.actName}}</span>
         </template>
       </el-table-column>
       <el-table-column
