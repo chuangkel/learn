@@ -26,3 +26,6 @@ CENTOS_MANTISBT_PROJECT_VERSION="7"
 REDHAT_SUPPORT_PRODUCT="centos"
 REDHAT_SUPPORT_PRODUCT_VERSION="7"
 ```
+netstat -ano|findstr "80"
+tasklist|findstr "5588"
+taskkill -pid 5588 -f
