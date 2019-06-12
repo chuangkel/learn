@@ -209,7 +209,9 @@ export default {
         dynamicTags: [],
         title: "",
         mdContent: "",
-        cid: ""
+        cid: "",
+        actUptime:new Date(),
+        actDowntime:new Date()
       },
       //选择日历
       exampleCode: '< Calendar  <br> v-model="example.value" <br> :range="example.range" <br> :lang="example.lang" <br> :firstDayOfWeek="example.firstDayOfWeek" <br> :input-class="example.inputClass"  <br> :position="example.position" <br> :disabled-start-date="example.disabledStartDate" <br> :text-format="example.textFormat" <br> :date-format="example.dateFormat" <br> :disabled-end-date="example.disabledEndDate"/>',

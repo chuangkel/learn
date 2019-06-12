@@ -28,7 +28,6 @@ export const postRequest = (url, params) => {
 }
 
 export const postRequestJson = (url, params) => {
-  debugger
   return axios({
     method: 'post',
     url: `${base}${url}`,
