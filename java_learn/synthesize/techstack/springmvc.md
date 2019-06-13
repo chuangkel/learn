@@ -79,3 +79,27 @@ Interceptor可以访问Action的上下文，值栈里的对象，而Filter不能
 在action的生命周期里，Interceptor可以被多次调用，而Filter只能在容器初始化时调用一次。
 Filter和Interceptor的执行顺序
      过滤前-拦截前-action执行-拦截后-过滤后
+     
+     
+     
+     
+     
+     执行过程大致如下：
+     第一步：用户发起request请求，请求至DispatcherServlet前端控制器。
+     第二步：DispatcherServlet前端控制器请求HandlerMapping处理器映射器查找Handler。DispatcherServlet: 前端控制器，相当于中央调度器，各个组件都和前端控制器进行交互，降低了各个组件之间的耦合度。
+     第三步：HandlerMapping处理器映射器，根据url及一些配置规则(xml配置、注解配置)查找Handler，将Handler返回给DispatcherServlet前端控制器。
+     第四步：DispatcherServlet前端控制器调用适配器执行Handler，有了适配器通过适配器去扩展对不同Handler执行方式(比如：原始servlet开发，注解开发)
+     第五步：适配器执行Handler；Handler是后端控制器，可以当成模型。
+     第六步：Handler执行完后后返回ModelAndView。ModelAndView: SpringMVC的一个对象，对model和view进行封装。
+     第七步：适配器将ModelAndView返回给DispatcherServlet前端控制器。
+     第八步：DispatcherServlet调用视图解析器进行视图解析，解析后生成view，视图解析器根据逻辑视图名解析出真正的视图。view：SpringMVC视图封装对象，提供了很多view，比如jsp、freemarker、pdf、execel.......。
+     第九步：ViewResolver视图解析器给前端控制器返回view。
+     第十步：DispatcherServlet调用view的渲染视图的方法，将模型数据填充到request域。
+     第十一步：DispatcherServlet向用户响应结果(jsp页面、json数据......).
+     
+     DispatcherServlet：前端控制器，由SpringMVC提供。
+     HandlerMapping：处理器映射器，由SpringMVC提供。
+     HandlerAdapter：处理器适配器，由SpringMVC提供。
+     Handler：处理器，需要程序员开发。
+     ViewResolver：视图解析器，由SpringMVC提供。
+     view：真正的视图页面，由程序员编写。

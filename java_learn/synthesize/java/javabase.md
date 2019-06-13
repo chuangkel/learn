@@ -282,21 +282,7 @@ EventLooop:控制流 多线程处理 并发。定义了Netty的核心抽象，�
 
 12.OOM错误 stackoverflow错误 permgen space错误
 
-##  资源跨站
 
-* 资源跨域 
-* 同源策略SOP（Same origin policy）：是一种约定，由Netscape公司1995年引入浏览器，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，浏览器很容易受到XSS、CSFR等攻击。所谓同源是指"协议+域名+端口"三者相同，即便两个不同的域名指向同一个ip地址，也非同源。
-
-- 解决方案
-    - 通过jsonp跨域
-    - document.domain + iframe跨域
-    -  location.hash + iframe
-    - window.name + iframe跨域
-    - postMessage跨域
-    - 跨域资源共享（CORS）
-    - nginx代理跨域
-    - nodejs中间件代理跨域
-    - WebSocket协议跨域
 
 
 
