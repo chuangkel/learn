@@ -17,18 +17,6 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/prizemanage',
-      name: '个人日历',
-      hidden: true,
-      component: PrizeManage
-    },
-    {
-      path: '/mycanlendar',
-      name: '个人日历',
-      hidden: true,
-      component: MyCanlendar
-    },
-    {
       path: '/',
       name: '登录',
       hidden: true,
@@ -111,6 +99,19 @@ export default new Router({
           iconCls: 'fa fa-bar-chart',
           name: '信息管理',
           component: DataCharts
+        }
+      ]
+    }, {
+      path: '/home',
+      component: Home,
+      name: '奖励管理1',
+      iconCls: 'fa fa-bar-chart',
+      children: [
+        {
+          path: '/prizemanage',
+          iconCls: 'fa fa-bar-chart',
+          name: '奖励管理1',
+          component: PrizeManage
         }
       ]
     }
