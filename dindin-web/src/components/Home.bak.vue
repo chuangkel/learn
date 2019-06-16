@@ -1,7 +1,7 @@
 <template>
   <el-row class="container">
     <el-col :span="12" class="header">
-      <div class="title">滴打卡管理平台</div>
+      <div class="title">滴打卡活动管理平台</div>
     </el-col>
     <el-col :span="12" class="header">
       <div class="userinfoContainer">

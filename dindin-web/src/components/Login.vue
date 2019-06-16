@@ -43,8 +43,8 @@
           _this.loading = false;
           if (resp.status == 200) {
             //成功
-            var json = resp.data;
-            if (json.data.status == 'success') {
+            if (resp.data.result.status == 'success') {
+              _this.GLOBAL.userId =  resp.data.result.userId;
               _this.$router.replace({path: '/home'});
             } else {
               _this.$alert('登录失败!', '失败!');

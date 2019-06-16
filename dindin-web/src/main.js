@@ -9,21 +9,30 @@ import './utils/filter_utils.js'
 //编辑表格
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/index.css'
+import global_ from './utils/Global'
 
-      Vue.use(VXETable, {
-        size: 'small',
-        version: 0,
-        tooltipConfig: {
-          zIndex: 3000
-        }
-      })
-    
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
+Vue.config.productionTip = false
+
+Vue.use(Antd)
+
+
+Vue.use(VXETable, {
+  size: 'small',
+  version: 0,
+  tooltipConfig: {
+    zIndex: 3000
+  }
+})
+
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+Vue.prototype.GLOBAL = global_;
 window.bus = new Vue();
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: {App}
+  components: { App }
 })

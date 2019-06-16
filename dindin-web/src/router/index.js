@@ -32,14 +32,7 @@ export default new Router({
       name: '活动管理',
       iconCls: 'fa fa-file-text-o',
       children: [
-        {
-          path: '/ActivityList',
-          name: '活动列表',
-          component: ActivityList,
-          meta: {
-            keepAlive: true
-          }
-        }, {
+         {
           path: '/postArticle',
           name: '发起活动',
           component: PostArticle,
@@ -47,6 +40,13 @@ export default new Router({
             keepAlive: false
           }
         }, {
+          path: '/ActivityList',
+          name: '活动列表',
+          component: ActivityList,
+          meta: {
+            keepAlive: true
+          }
+        },{
           path: '/blogDetail',
           name: '活动详情',
           component: BlogDetail,

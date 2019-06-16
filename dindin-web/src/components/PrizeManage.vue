@@ -6,9 +6,15 @@
       </div>
       <div>
         <div class="button_div">
-          <select v-model="selected" style="width: 120px;">
-            <option v-for="option in options" v-bind:value="option.value">{{ option.text }}</option>
-          </select>
+          <el-select v-model="value" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+
           <vxe-button @click="$refs.xTable.insertAt({actName: ''}, -1)">新增</vxe-button>
           <vxe-button @click="getInsertEvent">提交</vxe-button>
         </div>
@@ -61,12 +67,29 @@ export default {
   data() {
     return {
       loading: false,
-      selected: 'A',
-    options: [
-      { text: 'One', value: 'A' },
-      { text: 'Two', value: 'B' },
-      { text: 'Three', value: 'C' }
-    ],
+      options: [
+        {
+          value: "选项1",
+          label: "黄金糕"
+        },
+        {
+          value: "选项2",
+          label: "双皮奶"
+        },
+        {
+          value: "选项3",
+          label: "蚵仔煎"
+        },
+        {
+          value: "选项4",
+          label: "龙须面"
+        },
+        {
+          value: "选项5",
+          label: "北京烤鸭"
+        }
+      ],
+      value: "",
       tableData: [],
       validRules: {
         actName: [
@@ -88,6 +111,7 @@ export default {
       let record = {
         name: Date.now()
       };
+
       this.$refs.xTable
         .insertAt(record, this.tableData[2])
         .then(({ row }) => this.$refs.xTable.setActiveCell(row, "sex"));

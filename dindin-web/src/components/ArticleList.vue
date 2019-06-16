@@ -32,6 +32,7 @@
   import {deleteRequest} from '../utils/api'
   import {getRequest} from '../utils/api'
   import {getAllRequest} from '../utils/api'
+  
   export default {
     mounted: function () {
       var _this = this;
@@ -51,7 +52,7 @@
     methods: {
       handleClick(tab, event) {
       var _this = this;
-      var userId = 0;
+      var userId = _this.GLOBAL.userId;
       getAllRequest('/getActivities/'+userId).then(resq=>{
           if (resq.status == 200) {
           _this.isAdmin = resq.data;

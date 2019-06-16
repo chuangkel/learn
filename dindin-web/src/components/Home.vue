@@ -1,7 +1,7 @@
 <template>
   <el-container class="home_container">
     <el-header>
-      <div class="home_title">di打卡管理平台</div>
+      <div class="home_title">滴打卡活动管理平台</div>
       <div class="home_userinfoContainer">
         <el-dropdown @command="handleCommand">
   <span class="el-dropdown-link home_userinfo">
