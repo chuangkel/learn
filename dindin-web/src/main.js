@@ -10,14 +10,13 @@ import './utils/filter_utils.js'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/index.css'
 import global_ from './utils/Global'
-
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 Vue.config.productionTip = false
 
 Vue.use(Antd)
 
-
+localStorage.setItem("base",global_.base)
 Vue.use(VXETable, {
   size: 'small',
   version: 0,
@@ -36,3 +35,4 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+

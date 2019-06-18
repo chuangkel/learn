@@ -45,6 +45,7 @@
             //成功
             if (resp.data.result.status == 'success') {
               _this.GLOBAL.userId =  resp.data.result.userId;
+              localStorage.setItem("userId", resp.data.result.userId)
               _this.$router.replace({path: '/home'});
             } else {
               _this.$alert('登录失败!', '失败!');

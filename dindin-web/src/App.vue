@@ -5,8 +5,17 @@
 </template>
 
 <script>
+
 export default {
-  name: 'app'
+  name: 'app',
+   mounted () {
+    window.addEventListener('unload', this.saveState)
+  },
+  methods: {
+    saveState () {
+      sessionStorage.setItem('state', JSON.stringify(this.$store.state))
+    }
+  }
 }
 </script>
 

@@ -120,16 +120,22 @@ mysql > exit;
 必要时加入以下命令行，为root添加远程连接的能力。链接密码为 “root”（不包括双引号）
 
 mysql> GRANT ALL PRIVILEGES ON *.* TO root@"%" IDENTIFIED BY "root";　　
-1
-1
-6、查询数据库编码格式，确保是 UTF-8
 
+* 查询数据库编码格式，确保是 UTF-8
 show variables like "%char%";
-
-
-
-
-
+* 修改字符编码
+set character_set_server=utf8;
+set character_set_database=utf8;
+设置成下面的样子
+ Variable_name            | Value                                             |
++--------------------------+---------------------------------------------------+
+| character_set_client     | utf8                                              |
+| character_set_connection | utf8                                              |
+| character_set_database   | utf8                                              |
+| character_set_filesystem | binary                                            |
+| character_set_results    | utf8                                              |
+| character_set_server     | utf8                                              |
+| character_set_system     | utf8      
 1、安装
 ```
 $ sudo apt-get install mysql-server
@@ -212,7 +218,7 @@ mysql -u root
 
 ```
 net start mysql 
- net stop mysql
+net stop mysql
 ```
 
 //查看mysql初始密码：

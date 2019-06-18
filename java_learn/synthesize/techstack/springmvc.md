@@ -103,3 +103,51 @@ Filter和Interceptor的执行顺序
      Handler：处理器，需要程序员开发。
      ViewResolver：视图解析器，由SpringMVC提供。
      view：真正的视图页面，由程序员编写。
+     
+## 静态文件上传和下载
+application.properties文件中配置
+spring.resources.static-locations= classpath:static/
+
+* 默认静态资源映射规则
+Spring Boot 默认将 / 所有访问映射到以下目录：**
+classpath:/static
+classpath:/public
+classpath:/resources
+classpath:/META-INF/resources
+
+接下来，在main/resources下新建static、public和resources三个文件夹，分别放入public/a.png、resources/b.png和static/c.png三张图片，如下： 
+启动项目，分别访问：
+http://localhost:8083/a.png
+http://localhost:8083/b.png
+http://localhost:8083/c.png
+发现都能正常访问相应的图片资源。那么说明，Spring Boot 默认会挨个从 public、resources和static 里面找是否存在相应的资源，如果有则直接返回。
+
+
+### 自定义图片存放自动 和图片访问路径
+```java
+
+@Configuration
+public class MyWebAppConfigurer 
+        extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        File upload = null;
+        try {
+            File path = new File(ResourceUtils.getURL("classpath:").getPath());
+            if(!path.exists()) {
+                path = new File(ResourceUtils.getURL("classpath:").getPath());
+            }
+            upload = new File(path.getAbsolutePath(),"static/upload/");
+            if(!upload.exists()) {
+                upload.mkdirs();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        //指定图片访问路径 /image/1.png 将会在 "file:"+upload.getAbsolutePath()+"/" 下取
+        registry.addResourceHandler("/image/**").addResourceLocations( "file:"+upload.getAbsolutePath()+"/");
+        super.addResourceHandlers(registry);
+    }
+}
+```
