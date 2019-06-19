@@ -50,3 +50,10 @@ update user set plugin="mysql_native_password"; #如果没这一行可能也会�
 > flush privileges; #更新所有操作权限
 > quit;
 SET PASSWORD FOR 'root'@'%' = PASSWORD('@HSDZgfyxgs3588h'); 
+
+### 制作镜像-上传-下载镜像-运行镜像
+
+docker commit 镜像id  docker用户名/docker仓库名  //提交镜像到本地
+docker login //登录docker 输入密码
+docker push  docker用户名/docker仓库名 //提交镜到远程
+docker pull docker用户名/docker仓库名 //拉取镜像到本地 

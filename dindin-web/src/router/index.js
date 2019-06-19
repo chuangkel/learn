@@ -11,6 +11,8 @@ import BlogDetail from '@/components/BlogDetail'
 import ActivityList from '@/components/ActivityList'
 import MyCanlendar from '@/components/MyCanlendar'
 import PrizeManage from '@/components/PrizeManage'
+import ActivityCard from '@/components/ActivityCard'
+import ActivityDetail from '@/components/ActivityDetail'
 
 Vue.use(Router)
 
@@ -37,14 +39,28 @@ export default new Router({
           name: '发起活动',
           component: PostArticle,
           meta: {
-            keepAlive: false
+            keepAlive: true
           }
         }, {
+          path: '/ActivityCard',
+          name: '活动卡片',
+          component: ActivityCard,
+          meta: {
+            keepAlive: false
+          }
+        },{
           path: '/ActivityList',
           name: '活动列表',
           component: ActivityList,
           meta: {
-            keepAlive: true
+            keepAlive: false
+          }
+        },{
+          path: '/ActivityDetail',
+          name: '活动详情 ',
+          component: ActivityDetail,
+          meta: {
+            keepAlive: false
           }
         },{
           path: '/blogDetail',

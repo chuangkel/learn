@@ -268,7 +268,6 @@ export default {
   },
   methods: {
      handleChange (info) {
-       debugger
       if (info.file.status === 'uploading') {
         this.loading = true
         return
@@ -294,22 +293,20 @@ export default {
       // 第一步.将图片上传到服务器.
       var formdata = new FormData();
       formdata.append("image", file.originFileObj);
-      debugger
       uploadFileRequest("/activity/uploadimg", formdata).then(resp => {
-        debugger
         var json = resp.data;
-        if (json.status == "success") {
-                  this.$message.success(`${info.file.name} file uploaded successfully`);
+        var fileName = file.name;
+        if (resp.status == 200 && json.result == "success") {
+            _this.fileList[0].url = localStorage.getItem("base")+"/image/" + fileName;
+            this.$message.success(`${file.name} file uploaded successfully`);
         } else {
-         this.$message.error(`${info.file.name} file upload failed.`);
+            this.$message.error(`${file.name} file upload failed.`);
         }
       });
       return isJPG && isLt2M
     },
     handchangeVailte(e){
-      debugger
       if(e.data.length > 5){
-        debugger
         this.checkActName = false;
       }
       this.checkActName = true;
@@ -356,7 +353,7 @@ export default {
       
       this.form.validateFields((err, values) => {
         var actTime = this.startValue._d;
-        var actEndTime = this.endValue._d;
+        var actEndtime = this.endValue._d;
         var actPicture = this.fileList[0].url;
         var actContent = this.activity.mdContent;
 
@@ -375,7 +372,7 @@ export default {
             actAddress: values.actAddress,
             actTags:values.actTags,
             actTime: actTime,
-            actEndTime: actEndTime,           
+            actEndtime: actEndtime,           
             actPicture: actPicture,
             actPeople:values.actPeople,
             actType:values.actType,
@@ -388,25 +385,29 @@ export default {
           }).then(
             resp => {
               _this.loading = false;
-              if (resp.status == 200 && resp.data.status == "success") {
+              debugger
+              if (resp.status == 200 && resp.data.result) {
                 _this.activity.id = resp.data.msg;
+                var actId = resp.data.result;
                 _this.$message({
                   type: "success",
-                  message: state == 0 ? "保存成功!" : "发布成功!"
+                  message: "发布成功!"
                 });
+                this.$router.push({path: '/ActivityDetail',query: {selected: actId}})
+
                 //            if (_this.from != undefined) {
-                window.bus.$emit("blogTableReload");
+                // window.bus.$emit("blogTableReload");
                 //            }
-                if (state == 1) {
-                  _this.$router.replace({ path: "/articleList" });
-                }
+                // if (state == 1) {
+                //   _this.$router.replace({ path: "/articleList" });
+                // }
               }
             },
             resp => {
               _this.loading = false;
               _this.$message({
                 type: "error",
-                message: state == 0 ? "保存草稿失败!" : "博客发布失败!"
+                message:"活动发布失败!"
               });
             }
           );
@@ -414,19 +415,16 @@ export default {
       });
     },
     imgAdd(pos, $file) {
-      debugger
       var _this = this;
       // 第一步.将图片上传到服务器.
       var formdata = new FormData();
       formdata.append("image", $file);
       uploadFileRequest("/activity/uploadimg", formdata).then(resp => {
         var json = resp.data;
-        var url = localStorage.getItem("base");
-        if (json.status == "success") {
-          //            _this.$refs.md.$imgUpdateByUrl(pos, json.msg)
-          _this.$refs.md.$imglst2Url([[pos, json.msg]]);
-          //替换图片url
-          mavonEditor.$img2Url(pos, url);
+        var url = localStorage.getItem("base")+"/image/"+$file.name;
+        if (json.status == 200 && json.result == "success") {
+          // _this.$refs.md.$imglst2Url([[pos, url]]);
+          _this.$refs.md.$img2Url(pos, url);
         } else {
           _this.$message({ type: json.status, message: json.msg });
         }
@@ -486,13 +484,12 @@ export default {
       previewVisible: false,
       previewImage: "",
       fileList: [
-        {
-          uid: "-1",
-          name: "xxx.png",
-          status: "done",
-          url:
-            "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-        }
+        // {
+        //   uid: "-1",
+        //   name: "xxx.png",
+        //   status: "done",
+        //   url:""
+        // }
       ],
       labelCol: {
         xs: { span: 24 },

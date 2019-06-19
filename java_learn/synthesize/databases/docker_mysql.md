@@ -27,6 +27,6 @@ docker run --name mysql -e MYSQL_ROOT_PASSWORD=@HSDZgfyxgs3588h -d -i -p 3306:33
 #解决：主要原因还是centos系统版本兼容性问题，如果将系统做更新升级，即可解决。
 [root@VM_0_10_centos ~]#yum update
 
-进入MySQL容器
+运行MySQL容器
 docker exec -ti mysql bash
 
