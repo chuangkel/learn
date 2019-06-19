@@ -1,18 +1,37 @@
 <template>
-  <div class=" markdown-body">
-    <div style="background:#ECECEC; padding:30px">
-  <a-card title="Card title" :bordered="false" style="width: 300px">
-    <p>Card content</p>
-    <p>Card content</p>
-    <p>Card content</p>
-  </a-card>
-</div>
+  <div>
+    <el-container v-loading="loading" class="post-article">
+      <el-header class="header">
+        <h1 class="base-info__title">活动简介</h1>
+      </el-header>
+      <el-main class="main">
+    <div style="background:#ECECEC; padding:30px;  ">
+      <div style="width: 240px; display: inline-block; float:left;">
+        <img :alt="activity.actPicture" :src="activity.actPicture" slot="cover">
+      </div>
+      <a-divider type="vertical" />
+      <div style="display:inline-block; float:right;">
+        <a-card :title="activity.actName" :bordered="false" style="background:#ECECEC; width: 300px;" >
+          <a-card-meta :title="activity.actName">
+            <template
+              slot="description"
+            >举办时间:{{activity.actTime | formatDateTime}}-{{activity.actEndtime | formatDateTime}}</template>
+            <p>Card content</p>
+            <p>Card content</p>
+            <p>Card content</p>
+          </a-card-meta>
+        </a-card>
+      </div>
+    </div>
+    </el-main>
+    </el-container>
+    <a-divider ></a-divider>
     <el-container v-loading="loading" class="post-article">
       <el-header class="header">
         <h1 class="base-info__title">活动内容</h1>
       </el-header>
       <el-main class="main">
-         <div id="editor">
+        <div id="editor">
           <mavon-editor
             class="md"
             :placeholder="placeholder"
@@ -25,9 +44,7 @@
             :boxShadow="boxShadow"
           ></mavon-editor>
         </div>
-        
-      </el-main> 
-      
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -37,51 +54,84 @@ import { mavonEditor } from "mavon-editor";
 // 可以通过 mavonEditor.markdownIt 获取解析器markdown-it对象
 import "mavon-editor/dist/css/index.css";
 import { getAllRequest } from "../utils/api";
-import marked from 'marked'
-import { debuglog } from 'util';
+import marked from "marked";
+import { debuglog } from "util";
 export default {
   components: {
     mavonEditor
   },
-   //页面初始化时请求数据
+  //页面初始化时请求数据
   mounted: function() {
     let _this = this;
     _this.actId = _this.$route.query.selected;
     getAllRequest("/getActivity/" + _this.actId).then(resq => {
       if (resq.status == 200 && resq.data.result != null) {
         _this.activity = resq.data.result;
-      }else{
+      } else {
         this.$message({ type: "error", message: "查询不到活动详情" });
       }
     });
   },
-  methods:{
-//     getMardownFileContent(data) {
-// 		//处理markdown数据，data为markdown文件读出的字符串
-// 		this.readmeContent = marked(articleDetail || '<h>aaaa</h>', {
-// 		  sanitize: true
-// 		}); 
-//   }
+  methods: {
+    //     getMardownFileContent(data) {
+    // 		//处理markdown数据，data为markdown文件读出的字符串
+    // 		this.readmeContent = marked(articleDetail || '<h>aaaa</h>', {
+    // 		  sanitize: true
+    // 		});
+    //   }
   },
-  data(){
-      return{
-        actId:"",
-        activity: "",
-        placeholder:"",//输入框为空时默认提示文本
-        subfield: false, // 单双栏模式
-        defaultOpen: "preview" , //edit： 默认展示编辑区域 ， preview： 默认展示预览区域
-        editable: false,
-        toolbarsFlag: false,
-        scrollStyle: true,
-        loading:false,
-        articleDetail:"",
-        boxShadow:true,
-      }
-  },
-  
+  data() {
+    return {
+      actId: "",
+      activity: "",
+      placeholder: "", //输入框为空时默认提示文本
+      subfield: false, // 单双栏模式
+      defaultOpen: "preview", //edit： 默认展示编辑区域 ， preview： 默认展示预览区域
+      editable: false,
+      toolbarsFlag: false,
+      scrollStyle: true,
+      loading: false,
+      articleDetail: "",
+      boxShadow: true
+    };
+  }
 };
 </script>
 <style>
+.base-info__title {
+  line-height: 60px;
+  padding-left: 30px;
+  border-bottom: 1px solid white;
+  font-size: 18px;
+  color: #20a0ff;
+  font-weight: bold;
+  margin-right: -30px;
+}
+h1 {
+  margin: 0;
+  padding: 0;
+}
+.post-article > .main > #editor {
+  width: 100%;
+  height: 450px;
+  text-align: left;
+}
 
+.post-article > .header {
+  background-color: #ececec;
+  margin-top: 10px;
+  padding-left: 5px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.post-article > .main {
+  /*justify-content: flex-start;*/
+  display: flex;
+  flex-direction: column;
+  padding-left: 5px;
+  background-color: #ececec;
+  padding-top: 0px;
+}
 </style>
 
