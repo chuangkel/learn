@@ -6,12 +6,12 @@
       </div>
       <div>
         <div class="button_div">
-          <el-select v-model="value" placeholder="请选择">
+          <el-select v-model="value" placeholder="请选择" @change="deliverValue">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in actPrizes"
+              :key="item.actId"
+              :label="item.actName"
+              :value="item.actId"
             ></el-option>
           </el-select>
 
@@ -31,24 +31,49 @@
             :edit-config="{key: 'id', trigger: 'click', mode: 'cell'}"
           >
             <vxe-table-column type="selection" width="60"></vxe-table-column>
-            <vxe-table-column prop="actId" label="所属活动" :edit-render="{name: 'input'}" width="300"></vxe-table-column>
+            <vxe-table-column prop="id" label="活动id" :edit-render="{name: 'input'}" width="100"></vxe-table-column>
+            <vxe-table-column prop="actId" label="所属活动" :edit-render="{name: 'input'}" width="100"></vxe-table-column>
+            <vxe-table-column
+              prop="actName"
+              label="活动名称"
+              :edit-render="{name: 'input'}"
+              width="100"
+            ></vxe-table-column>
             <vxe-table-column
               prop="prizeLevel"
               label="奖品等级"
               :edit-render="{name: 'input'}"
-              width="300"
+              width="100"
+            ></vxe-table-column>
+            <vxe-table-column
+              prop="prizeLevelName"
+              label="等级名称"
+              :edit-render="{name: 'input'}"
+              width="100"
             ></vxe-table-column>
             <vxe-table-column
               prop="prizeName"
               label="奖品名称"
               :edit-render="{name: 'input'}"
-              width="300"
+              width="100"
             ></vxe-table-column>
             <vxe-table-column
               prop="prizeTotal"
               label="总数量"
               :edit-render="{name: 'input'}"
-              width="300"
+              width="100"
+            ></vxe-table-column>
+            <vxe-table-column
+              prop="prizeLeft"
+              label="奖品剩余"
+              :edit-render="{name: 'input'}"
+              width="100"
+            ></vxe-table-column>
+            <vxe-table-column
+              prop="gmtCreate"
+              label="创建时间"
+              :edit-render="{name: 'input'}"
+              width="100"
             ></vxe-table-column>
           </vxe-table>
         </div>
@@ -59,51 +84,45 @@
 
 <script>
 import { postRequestJson } from "../utils/api";
+import { getAllRequest } from "../utils/api";
 export default {
-  mounted: function() {
+  mounted: function() { 
     var _this = this;
-    // this.loading = true;
+    var userId = localStorage.getItem("userId");
+    getAllRequest("/getPrizes/" + userId).then(resq => {
+      if (resq.status == 200) {
+        _this.actPrizes = resq.data.result.prizesList;
+        _this.selectedAct = resq.data.result.selectOptions;
+      }
+    });
   },
   data() {
     return {
       loading: false,
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
-      ],
+      actPrizes:"",
+      selectedAct:"",
       value: "",
-      tableData: [],
+      tableData: [[]],
       validRules: {
         actName: [
           { required: true, message: "活动名称必须填写" }
-          // { min: 3, max: 50, message: '名称长度在 3 到 50 个字符' }
         ],
         prize_level: [{ required: true, message: "奖品等级必须填写" }]
       }
     };
   },
   created() {
-    // this.tableData = {name:"aaa"};
   },
   methods: {
+    deliverValue(){
+      var arr = new Array();
+      for(var i = 0; i < this.actPrizes.length; i++){
+        if(this.value == this.actPrizes[i].actId){
+            arr.push(this.actPrizes[i]);
+        }
+      }
+      this.tableData = arr;
+    },
     goBack() {
       this.$router.go(-1);
     },
@@ -118,7 +137,6 @@ export default {
     },
     getInsertEvent() {
       let insertRecords = this.$refs.xTable.getInsertRecords();
-      // alert(insertRecords.length);
       postRequestJson("/insertPrizes", insertRecords).then(resq => {
         if (resq.status == 200) {
           if (resq.data.data == "success") {

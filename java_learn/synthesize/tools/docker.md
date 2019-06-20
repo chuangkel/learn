@@ -37,7 +37,6 @@ vi /etc/mysql/my.cnf
 skip-grant-tables
 
 3.重启mysql容器
-
 docker restart mysql
 
 

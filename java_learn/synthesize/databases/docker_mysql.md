@@ -24,9 +24,27 @@ docker run --name mysql -e MYSQL_ROOT_PASSWORD=@HSDZgfyxgs3588h -d -i -p 3306:33
 --restart=always 当docker重启时，该容器自动重启
 
 /usr/bin/docker-current: Error response from daemon: oci runtime error: container_linux.go:235: starting container process caused "process_linux.go:258: applying cgroup configuration for process caused \"Cannot set property TasksAccounting, or unknown property.\"".
-#解决：主要原因还是centos系统版本兼容性问题，如果将系统做更新升级，即可解决。
+解决：主要原因还是centos系统版本兼容性问题，如果将系统做更新升级，即可解决。
 [root@VM_0_10_centos ~]#yum update
 
 运行MySQL容器
 docker exec -ti mysql bash
 
+
+进入mysql，查看mysql的全局端口(还需注意系统是否开启了3306端口)
+show global variables like 'port';
+netstat -tap | grep mysql //查看端口是否开启
+查询数据库用户
+mysql> SELECT DISTINCT CONCAT('User: ''',user,'''@''',host,''';') AS query FROM mysql.user;
++------------------------------+
+| query                        |
++------------------------------+
+| User: 'root'@'%';            |
+| User: 'root'@'127.0.0.1';    |
+| User: 'root'@'::1';          |
+| User: ''@'a934ee46bfb9';     |
+| User: 'root'@'a934ee46bfb9'; |
+| User: ''@'localhost';        |
+| User: 'root'@'localhost';    |
++------------------------------+
+7 rows in set (0.00 sec)
