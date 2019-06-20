@@ -114,6 +114,7 @@ export default {
   created() {
   },
   methods: {
+    
     deliverValue(){
       var arr = new Array();
       for(var i = 0; i < this.actPrizes.length; i++){
@@ -137,6 +138,11 @@ export default {
     },
     getInsertEvent() {
       let insertRecords = this.$refs.xTable.getInsertRecords();
+      let updateRecords = this.$refs.xTable.getUpdateRecords();
+      if(updateRecords.length == 0){
+        $message.info("没有修改数据喔");
+      }
+      debugger
       postRequestJson("/insertPrizes", insertRecords).then(resq => {
         if (resq.status == 200) {
           if (resq.data.data == "success") {
