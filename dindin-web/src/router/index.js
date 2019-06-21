@@ -59,6 +59,7 @@ export default new Router({
           path: '/ActivityDetail',
           name: '活动详情 ',
           component: ActivityDetail,
+          
           meta: {
             keepAlive: false
           }

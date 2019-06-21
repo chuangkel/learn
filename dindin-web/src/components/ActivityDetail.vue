@@ -5,27 +5,39 @@
         <h1 class="base-info__title">活动简介</h1>
       </el-header>
       <el-main class="main">
-    <div style="background:#ECECEC; padding:30px;  ">
-      <div style="width: 240px; display: inline-block; float:left;">
-        <img :alt="activity.actPicture" :src="activity.actPicture" slot="cover">
-      </div>
-      <a-divider type="vertical" />
-      <div style="display:inline-block; float:right;">
-        <a-card :title="activity.actName" :bordered="false" style="background:#ECECEC; width: 300px;" >
-          <a-card-meta :title="activity.actName">
-            <template
-              slot="description"
-            >举办时间:{{activity.actTime | formatDateTime}}-{{activity.actEndtime | formatDateTime}}</template>
-            <p>Card content</p>
-            <p>Card content</p>
-            <p>Card content</p>
-          </a-card-meta>
-        </a-card>
-      </div>
-    </div>
-    </el-main>
+        <div style="background:#ECECEC; padding:30px;  ">
+          <div style="width: 400px; display: inline-block; float:left;">
+            <img
+              :alt="activity.actPicture"
+              :src="activity.actPicture"
+              slot="cover"
+              style="width: 100%;height: 100%;"
+            >
+          </div>
+          <!-- <a-divider type="vertical"/> -->
+          <div style="width: 400px;display:inline-block; float:left;">
+            <a-card
+              align="left"
+              :title="activity.actName"
+              :bordered="false"
+              style="background:#ECECEC; width: 100%;"
+            >
+              <a-card-meta :title="activity.actAddress" style="float:left; padding:0px">
+                <template slot="description">
+                  <div align="left">
+                    <p>举办时间：{{activity.actTime | formatDateTime}}-{{activity.actEndtime | formatDateTime}}</p>
+                    <p>限额人数：{{activity.actPeople}}</p>
+                    <p>活动亮点：{{activity.actStar}}</p>
+                    <p>活动标签：{{activity.actTags}}</p>
+                  </div>
+                </template>
+              </a-card-meta>
+            </a-card>
+          </div>
+        </div>
+      </el-main>
     </el-container>
-    <a-divider ></a-divider>
+    <a-divider></a-divider>
     <el-container v-loading="loading" class="post-article">
       <el-header class="header">
         <h1 class="base-info__title">活动内容</h1>

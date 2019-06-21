@@ -48,3 +48,4 @@ mysql> SELECT DISTINCT CONCAT('User: ''',user,'''@''',host,''';') AS query FROM 
 | User: 'root'@'localhost';    |
 +------------------------------+
 7 rows in set (0.00 sec)
+
