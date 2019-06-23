@@ -11,10 +11,10 @@
               :label-col="labelCol"
               :wrapper-col="wrapperCol"
               label="活动标题"
-              validate-status="error"
               help="不少于5个字,最多50个字"
             >
               <a-input
+                ref="actNameInput"
                 id="error"
                 placeholder="输入活动标题"
                 v-decorator="['actName', { rules: [{ required: true, message: '活动标题必填' }],}]"
@@ -26,10 +26,8 @@
               :label-col="labelCol"
               :wrapper-col="wrapperCol"
               style="margin-bottom:0;"
-              validate-status="error"
             >
               <a-form-item
-                validate-status="error"
                 :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
               >
                 <a-date-picker
@@ -61,7 +59,6 @@
               :label-col="labelCol"
               :wrapper-col="wrapperCol"
               label="活动地址"
-              validate-status="error"
               help="不少于5个字,最多50个字"
             >
               <a-input
@@ -91,7 +88,7 @@
                 </a-modal>
                 <div class="create-box-poster-tips">
                   <p class="create-box-poster-tips__title">温馨提示：</p>
-                  <p>1、图片尺寸 1080*640，.jpg 或 .png格式，不超过4M</p>
+                  <p>1、图片尺寸 1080*640，.jpg 格式，不超过4M</p>
                   <p>2、精美海报有助于增加报名量，并有机会获得强力推荐！</p>
                 </div>
               </div>
@@ -102,15 +99,14 @@
               :wrapper-col="wrapperCol"
               label="活动类型"
               has-feedback
-              validate-status="success"
             >
               <a-select
                 default-value="1"
                 v-decorator="['actType', { rules: [{ required: true, message: '活动类型必填' }],}]"
               >
-                <a-select-option value="1">Option 1</a-select-option>
-                <a-select-option value="2">Option 2</a-select-option>
-                <a-select-option value="3">Option 3</a-select-option>
+                <a-select-option value="1">金融</a-select-option>
+                <a-select-option value="2">互联网</a-select-option>
+                <a-select-option value="3">其他</a-select-option>
               </a-select>
             </a-form-item>
 
@@ -118,7 +114,6 @@
               :label-col="labelCol"
               :wrapper-col="wrapperCol"
               label="活动标签"
-              validate-status="success"
             >
               <a-input
                 id="warning"
@@ -132,7 +127,6 @@
               :wrapper-col="wrapperCol"
               label="活动亮点"
               has-feedback
-              validate-status="success"
             >
               <a-input
                 id="validating"
@@ -141,14 +135,10 @@
               />
             </a-form-item>
 
-            <a-form-item
-              :label-col="labelCol"
-              :wrapper-col="wrapperCol"
-              label="活动人数"
-              has-feedback
-              validate-status="error"
-            >
-              <a-input
+            <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="活动人数" has-feedback>
+              <a-input-number
+                :min="1"
+                v-model="numValue"
                 id="success"
                 placeholder="活动人数上限"
                 v-decorator="['actPeople', { rules: [{ required: true, message: '设置活动人数上限' }],}]"
@@ -164,6 +154,51 @@
                 <a-radio :style="radioStyle" :value="1">公开发布</a-radio>
                 <a-radio :style="radioStyle" :value="2">私密活动，仅能通过您的分享链接报名</a-radio>
               </a-radio-group>
+            </a-form-item>
+            <a-form-item
+              :label-col="labelCol"
+              :wrapper-col="wrapperCol"
+              label="是否多个活动"
+              has-feedback
+            >
+              <div style="width:100%">
+                <div style="width:100%;">
+                  <a-switch
+                    @change="switchChange"
+                    style="float:left; margin-left:20px;border:0;padding:0;"
+                  />
+                  <div
+                    style="float:left;margin-left:30px;border:0;padding:0;"
+                    v-if="switchIsHidden"
+                  >
+                    <el-select
+                      v-model="combinationActName"
+                      placeholder="选一个活动组合名称"
+                      @change="changeSelectValue"
+                      style="float:left;height:100%;"
+                    >
+                      <el-option
+                        v-for="item in comActivities"
+                        :key="item.id"
+                        :label="item.combinationActName"
+                        :value="item.id"
+                      ></el-option>
+                    </el-select>
+                  </div>
+                </div>
+                <br>
+                <div style="width:100%; height:40px; margin-top:6px; " v-if="switchIsHidden">
+                  <a-input
+                    placeholder="新建一个活动组合试试~"
+                    v-model="comActValue"
+                    style="float:left;height:100%; width:300px; display: inline-block; "
+                  />
+                  <a-button
+                    @click="plusClick"
+                    style="float:left;height:100%; margin-left:3px; display: inline-block; "
+                  >提交组合</a-button>
+                </div>
+              </div>
             </a-form-item>
           </a-form>
         </div>
@@ -186,7 +221,7 @@
             ></mavon-editor>
           </div>
           <div style="display: flex;align-items: center;margin-top: 15px;justify-content: flex-end">
-            <template v-if="from==undefined || from=='draft'">
+            <template>
               <el-button type="primary" @click="saveBlog(1)">提交活动</el-button>
             </template>
           </div>
@@ -207,42 +242,23 @@ import { mavonEditor } from "mavon-editor";
 // 可以通过 mavonEditor.markdownIt 获取解析器markdown-it对象
 import "mavon-editor/dist/css/index.css";
 import { isNotNullORBlank } from "../utils/utils";
-function getBase64 (img, callback) {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result))
-  reader.readAsDataURL(img)
+import { getAllRequest } from "../utils/api";
+import { debuglog } from "util";
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
 }
 export default {
-
   mounted: function() {
-    this.getCategories();
-    var from = this.$route.query.from;
-    this.from = from;
-    var _this = this;
-    if (from != null && from != "" && from != undefined) {
-      var id = this.$route.query.id;
-      this.id = id;
-      this.loading = true;
-      getRequest("/activity/" + id).then(
-        resp => {
-          _this.loading = false;
-          if (resp.status == 200) {
-            _this.activity = resp.data;
-            var tags = resp.data.tags;
-            _this.activity.dynamicTags = [];
-            for (var i = 0; i < tags.length; i++) {
-              _this.activity.dynamicTags.push(tags[i].tagName);
-            }
-          } else {
-            _this.$message({ type: "error", message: "页面加载失败!" });
-          }
-        },
-        resp => {
-          _this.loading = false;
-          _this.$message({ type: "error", message: "页面加载失败!" });
-        }
-      );
-    }
+    let _this = this;
+    var userId = localStorage.getItem("userId");
+    _this.$refs.actNameInput.focus();
+    getAllRequest("/selectComActivity/" + userId).then(resq => {
+      if (resq.status == 200) {
+        _this.comActivities = resq.data.result;
+      }
+    });
   },
   components: {
     mavonEditor
@@ -258,36 +274,62 @@ export default {
             value: this.username
           })
         };
-      },
-      onValuesChange: (_, values) => {
-        console.log(values);
-        // Synchronize to vuex store in real time
-        // this.$store.commit('update', values)
       }
     });
   },
   methods: {
-     handleChange (info) {
-      if (info.file.status === 'uploading') {
-        this.loading = true
-        return
+    changeSelectValue() {},
+    showModal() {
+      this.visible = true;
+    },
+    handleOk(e) {
+      console.log(e);
+      this.visible = false;
+    },
+    plusClick() {
+      var _this = this;
+      _this.loading = true;
+      postRequestJson("/insertComActivity/", {
+        id: "",
+        userId: localStorage.getItem("userId"),
+        actId: " ",
+        combinationActName: _this.comActValue,
+        combinationActContent: " "
+      }).then(
+        resp => {
+          _this.loading = false;
+          if (resp.status == 200 && resp.data.status == 200) {
+            _this.comActivities = resp.data.result;
+            _this.$message({ type: "success", message: "新增成功!" });
+          }else{
+            _this.$message({ type: "error", message: "新增组合失败!" });
+          }
+        }
+      );
+    },
+    switchChange() {
+      this.switchIsHidden = !this.switchIsHidden;
+    },
+    handleChange(info) {
+      if (info.file.status === "uploading") {
+        this.loading = true;
+        return;
       }
-      if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, (imageUrl) => {
-          this.imageUrl = imageUrl
-          this.loading = false
-        })
+      if (info.file.status === "done") {
+        getBase64(info.file.originFileObj, imageUrl => {
+          this.imageUrl = imageUrl;
+          this.loading = false;
+        });
       }
     },
-    beforeUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
+    beforeUpload(file) {
+      const isJPG = file.type === "image/jpeg";
       if (!isJPG) {
-        this.$message.error('只能上传jpg文件')
+        this.$message.error("只能上传jpg文件");
       }
-      const isLt2M = file.size / 1024 / 1024 < 4
+      const isLt2M = file.size / 1024 / 1024 < 4;
       if (!isLt2M) {
-        this.$message.error('图片需要小于4MB!')
+        this.$message.error("图片需要小于4MB!");
       }
       var _this = this;
       // 第一步.将图片上传到服务器.
@@ -297,16 +339,17 @@ export default {
         var json = resp.data;
         var fileName = file.name;
         if (resp.status == 200 && json.result == "success") {
-            _this.fileList[0].url = localStorage.getItem("base")+"/image/" + fileName;
-            this.$message.success(`${file.name} file uploaded successfully`);
+          _this.fileList[0].url =
+            localStorage.getItem("base") + "/image/" + fileName;
+          this.$message.success(`${file.name} 上传成功`);
         } else {
-            this.$message.error(`${file.name} file upload failed.`);
+          this.$message.error(`${file.name} 上传失败`);
         }
       });
-      return isJPG && isLt2M
+      return isJPG && isLt2M;
     },
-    handchangeVailte(e){
-      if(e.data.length > 5){
+    handchangeVailte(e) {
+      if (e.data.length > 5) {
         this.checkActName = false;
       }
       this.checkActName = true;
@@ -350,42 +393,53 @@ export default {
       this.$router.go(-1);
     },
     saveBlog(state) {
-      
       this.form.validateFields((err, values) => {
         var actTime = this.startValue._d;
         var actEndtime = this.endValue._d;
         var actPicture = this.fileList[0].url;
         var actContent = this.activity.mdContent;
-
+        var combinationActName;
+        debugger
+        if(err){
+          this.$message({ type: "error", message: "数据不能为空!" });
+        }
         if (!err) {
           if (!isNotNullORBlank(this.activity.mdContent)) {
             this.$message({ type: "error", message: "数据不能为空!" });
             return;
-      }
+          }
+          if (this.switchIsHidden) {
+            //开启活动组合 判断组合选中否
+            if (this.combinationActName == "") {
+              this.$message({ type: "error", message: "请选择活动组合" });
+              return;
+            }
+            combinationActName = this.combinationActName;
+          }
           var _this = this;
           _this.loading = true;
           postRequestJson("/insertActivity/", {
-            id:"",
+            id: "",
             userId: localStorage.getItem("userId"),
             actName: values.actName,
             actContent: actContent,
             actAddress: values.actAddress,
-            actTags:values.actTags,
+            actTags: values.actTags,
             actTime: actTime,
-            actEndtime: actEndtime,           
+            actEndtime: actEndtime,
             actPicture: actPicture,
-            actPeople:values.actPeople,
-            actType:values.actType,
-            actStar:values.actStar,
-            actIsOpen:values.actIsOpen,
-            actUptime:"",
-            actDowntime:"",
-            gmtCreate:"",
-            gmtModified:""
+            actPeople: values.actPeople,
+            actType: values.actType,
+            actStar: values.actStar,
+            actIsOpen: values.actIsOpen,
+            actUptime: "",
+            actDowntime: "",
+            gmtCreate: "",
+            gmtModified: "",
+            combinationActId: combinationActName
           }).then(
             resp => {
               _this.loading = false;
-              debugger
               if (resp.status == 200 && resp.data.result) {
                 _this.activity.id = resp.data.msg;
                 var actId = resp.data.result;
@@ -393,21 +447,17 @@ export default {
                   type: "success",
                   message: "发布成功!"
                 });
-                this.$router.push({path: '/ActivityDetail',query: {selected: actId}})
-
-                //            if (_this.from != undefined) {
-                // window.bus.$emit("blogTableReload");
-                //            }
-                // if (state == 1) {
-                //   _this.$router.replace({ path: "/articleList" });
-                // }
+                this.$router.push({
+                  path: "/ActivityDetail",
+                  query: { selected: actId }
+                });
               }
             },
             resp => {
               _this.loading = false;
               _this.$message({
                 type: "error",
-                message:"活动发布失败!"
+                message: "活动发布失败!"
               });
             }
           );
@@ -421,9 +471,8 @@ export default {
       formdata.append("image", $file);
       uploadFileRequest("/activity/uploadimg", formdata).then(resp => {
         var json = resp.data;
-        var url = localStorage.getItem("base")+"/image/"+$file.name;
+        var url = localStorage.getItem("base") + "/image/" + $file.name;
         if (json.status == 200 && json.result == "success") {
-          // _this.$refs.md.$imglst2Url([[pos, url]]);
           _this.$refs.md.$img2Url(pos, url);
         } else {
           _this.$message({ type: json.status, message: json.msg });
@@ -431,46 +480,58 @@ export default {
       });
     },
     imgDel(pos) {},
-    getCategories() {
-      let _this = this;
-      getRequest("/admin/category/all").then(resp => {
-        _this.categories = resp.data;
-      });
-    },
-    handleClose(tag) {
-      this.activity.dynamicTags.splice(
-        this.activity.dynamicTags.indexOf(tag),
-        1
-      );
-    },
-    showInput() {
-      this.tagInputVisible = true;
-      this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-    handleInputConfirm() {
-      let tagValue = this.tagValue;
-      if (tagValue) {
-        this.activity.dynamicTags.push(tagValue);
-      }
-      this.tagInputVisible = false;
-      this.tagValue = "";
-    }
+    // getCategories() {
+    //   let _this = this;
+    //   getRequest("/admin/category/all").then(resp => {
+    //     _this.categories = resp.data;
+    //   });
+    // },
+    // handleClose(tag) {
+    //   this.activity.dynamicTags.splice(
+    //     this.activity.dynamicTags.indexOf(tag),
+    //     1
+    //   );
+    // },
+    // showInput() {
+    //   this.tagInputVisible = true;
+    //   this.$nextTick(_ => {
+    //     this.$refs.saveTagInput.$refs.input.focus();
+    //   });
+    // },
+  //   handleInputConfirm() {
+  //     let tagValue = this.tagValue;
+  //     if (tagValue) {
+  //       this.activity.dynamicTags.push(tagValue);
+  //     }
+  //     this.tagInputVisible = false;
+  //     this.tagValue = "";
+  //   }
   },
-  watch: {
-    startValue(val) {
-      console.log("startValue", val);
-    },
-    endValue(val) {
-      console.log("endValue", val);
-    }
-  },
+  // watch: {
+  //   startValue(val) {
+  //     console.log("startValue", val);
+  //   },
+  //   endValue(val) {
+  //     console.log("endValue", val);
+  //   }
+  // },
   data() {
     return {
+      combinationActName: "", //组合下拉框选中值
+      comActValue: "", //组合活动名称输入框
+      comActivities: "", //组合活动下拉框
+      visible: false,
+      numValue: 0,
+      collectActs: [
+        { value: "1", label: "123" },
+        { value: "2", label: "123" },
+        { value: "3", label: "123" },
+        { value: "4", label: "123" }
+      ],
+      switchIsHidden: false, //是否开启活动组合
       loading: false,
-      imageUrl: '',
-      checkActName:true,
+      imageUrl: "",
+      checkActName: true,
       form: this.$form.createForm(this),
       startValue: null,
       endValue: null,
@@ -507,10 +568,10 @@ export default {
       from: "",
       activity: {
         id: "-1",
-        dynamicTags: [],
-        title: "",
+        // dynamicTags: [],
+        // title: "",
         mdContent: "",
-        cid: "",
+        // cid: "",
         actUptime: new Date(),
         actDowntime: new Date()
       }
@@ -538,7 +599,6 @@ export default {
 }
 
 .post-article > .main {
-  /*justify-content: flex-start;*/
   display: flex;
   flex-direction: column;
   padding-left: 5px;
@@ -589,17 +649,17 @@ h1 {
   padding: 0;
 }
 
-  .avatar-uploader > .ant-upload {
-    width: 128px;
-    height: 128px;
-  }
-  .ant-upload-select-picture-card i {
-    font-size: 32px;
-    color: #999;
-  }
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
 
-  .ant-upload-select-picture-card .ant-upload-text {
-    margin-top: 8px;
-    color: #666;
-  }
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
 </style>

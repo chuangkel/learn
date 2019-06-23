@@ -86,7 +86,7 @@
 import { postRequestJson } from "../utils/api";
 import { getAllRequest } from "../utils/api";
 export default {
-  mounted: function() { 
+  mounted: function() {
     var _this = this;
     var userId = localStorage.getItem("userId");
     getAllRequest("/getPrizes/" + userId).then(resq => {
@@ -99,27 +99,56 @@ export default {
   data() {
     return {
       loading: false,
-      actPrizes:"",
-      selectedAct:"",
+      actPrizes: "",
+      selectedAct: "",
       value: "",
       tableData: [[]],
       validRules: {
-        actName: [
-          { required: true, message: "活动名称必须填写" }
-        ],
-        prize_level: [{ required: true, message: "奖品等级必须填写" }]
+        actName: [{ required: true, message: "活动名称必须填写" }],
+        prize_level: [{ required: true, message: "奖品等级必须填写" }],
+        prizeLevelName: [{ required: true, message: "奖品等级名称必须填写" }],
+        prizeName: [{ required: true, message: "奖品名称必须填写" }],
+        prizeTotal: [{ required: true, message: "奖品总数量必须填写" }]
       }
     };
   },
-  created() {
-  },
+  created() {},
   methods: {
-    
-    deliverValue(){
+    fullValidEvent() {
+      this.$refs.xTable.fullValidate((valid, errMap) => {
+        if (valid) {
+          this.$XMsg.alert("校验成功！");
+        } else {
+          let msgList = [];
+          Object.values(errMap).forEach(errList => {
+            errList.forEach(params => {
+              let { rowIndex, column, rules } = params;
+              rules.forEach(rule => {
+                msgList.push(
+                  `第 ${rowIndex} 行 ${column.label} 校验错误：${rule.message}`
+                );
+              });
+            });
+          });
+          this.$XMsg.alert({
+            message: () => {
+              return [
+                <div class="red" style="max-height: 400px;overflow: auto;">
+                  {msgList.map(msg => {
+                    return <p>{msg}</p>;
+                  })}
+                </div>
+              ];
+            }
+          });
+        }
+      });
+    },
+    deliverValue() {
       var arr = new Array();
-      for(var i = 0; i < this.actPrizes.length; i++){
-        if(this.value == this.actPrizes[i].actId){
-            arr.push(this.actPrizes[i]);
+      for (var i = 0; i < this.actPrizes.length; i++) {
+        if (this.value == this.actPrizes[i].actId) {
+          arr.push(this.actPrizes[i]);
         }
       }
       this.tableData = arr;
@@ -137,18 +166,16 @@ export default {
         .then(({ row }) => this.$refs.xTable.setActiveCell(row, "sex"));
     },
     getInsertEvent() {
+      this.fullValidEvent();
       let insertRecords = this.$refs.xTable.getInsertRecords();
       let updateRecords = this.$refs.xTable.getUpdateRecords();
-      if(updateRecords.length == 0){
+      if (updateRecords.length == 0) {
         $message.info("没有修改数据喔");
       }
-      debugger
       postRequestJson("/insertPrizes", insertRecords).then(resq => {
         if (resq.status == 200) {
           if (resq.data.data == "success") {
-            // alert("保存成功");
           } else {
-            // alert("保存失败")
           }
         } else {
           alert("系统异常,联系管理员");

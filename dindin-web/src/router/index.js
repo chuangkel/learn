@@ -59,7 +59,7 @@ export default new Router({
           path: '/ActivityDetail',
           name: '活动详情 ',
           component: ActivityDetail,
-          
+          hidden:true,
           meta: {
             keepAlive: false
           }
@@ -81,19 +81,35 @@ export default new Router({
           }
         }
       ]
-    }, {
+    }
+    , {
       path: '/home',
       component: Home,
       name: '奖励管理',
+      iconCls: 'fa fa-bar-chart',
       children: [
         {
-          path: '/user',
-          iconCls: 'fa fa-user-o',
+          path: '/prizemanage',
+          iconCls: 'fa fa-bar-chart',
           name: '奖励管理',
-          component: UserMana
+          component: PrizeManage
         }
       ]
-    }, {
+    }
+    // , {
+    //   path: '/home',
+    //   component: Home,
+    //   name: '奖励管理',
+    //   children: [
+    //     {
+    //       path: '/user',
+    //       iconCls: 'fa fa-user-o',
+    //       name: '奖励管理',
+    //       component: UserMana
+    //     }
+    //   ]
+    // }
+    , {
       path: '/home',
       component: Home,
       name: '抽奖管理',
@@ -116,19 +132,6 @@ export default new Router({
           iconCls: 'fa fa-bar-chart',
           name: '信息管理',
           component: DataCharts
-        }
-      ]
-    }, {
-      path: '/home',
-      component: Home,
-      name: '奖励管理1',
-      iconCls: 'fa fa-bar-chart',
-      children: [
-        {
-          path: '/prizemanage',
-          iconCls: 'fa fa-bar-chart',
-          name: '奖励管理1',
-          component: PrizeManage
         }
       ]
     }

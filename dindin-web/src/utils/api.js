@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-let base = 'http://127.0.0.1:80';
+// let base = 'http://127.0.0.1:80';
+let base = localStorage.getItem("base");
 
 export const postRequest = (url, params) => {
   return axios({
