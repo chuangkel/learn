@@ -1,6 +1,6 @@
 <template>
   <div id="app" style="background-color: rgba(235, 235, 235, 0.08)">
-    <router-view/>
+    <router-view v-if="isRouterAlive"/>
   </div>
 </template>
 
@@ -11,7 +11,23 @@ export default {
    mounted () {
     window.addEventListener('unload', this.saveState)
   },
+  provide (){
+     return {
+       reload:this.reload
+     }
+  },
+  data(){
+    return{
+      isRouterAlive:true,
+    }
+  },
   methods: {
+    reload (){
+       this.isRouterAlive = false
+       this.$nextTick(function(){
+          this.isRouterAlive = true
+       })
+    },
     saveState () {
       sessionStorage.setItem('state', JSON.stringify(this.$store.state))
     }

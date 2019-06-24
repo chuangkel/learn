@@ -5,24 +5,34 @@
         <el-button type="text" icon="el-icon-back" @click="goBack" style="padding-bottom: 0px;">返回</el-button>
       </div>
       <div>
-        <div class="button_div">
-          <el-select v-model="value" placeholder="请选择" @change="deliverValue">
+        <div style="width:500px;height:50px;">
+          <label style="float:left; margin-left:3px;margin-top:10px;padding-bottom: 10px; ">当前活动：</label>
+          <el-select
+            v-model="value"
+            placeholder="请选择"
+            @change="deliverValue"
+            style="float:left; margin-left:3px; margin-bottom:3px; display: inline-block; "
+          >
             <el-option
-              v-for="item in actPrizes"
+              v-for="item in selectedAct"
               :key="item.actId"
               :label="item.actName"
               :value="item.actId"
             ></el-option>
           </el-select>
-
-          <vxe-button @click="$refs.xTable.insertAt({actName: ''}, -1)">新增</vxe-button>
-          <vxe-button @click="getInsertEvent">提交</vxe-button>
+          <vxe-button
+            @click="$refs.xTable.insertAt({actName: ''}, -1)"
+            style="float:left;margin-left:3px; display: inline-block;height:40px; "
+          >新增</vxe-button>
+          <vxe-button
+            @click="getInsertEvent"
+            style="float:left; margin-left:3px; display: inline-block;height:40px;"
+          >提交</vxe-button>
         </div>
         <div>
           <vxe-table
             highlight-hover-row
             height="300"
-            resize
             show-all-overflow
             ref="xTable"
             border
@@ -31,50 +41,10 @@
             :edit-config="{key: 'id', trigger: 'click', mode: 'cell'}"
           >
             <vxe-table-column type="selection" width="60"></vxe-table-column>
-            <vxe-table-column prop="id" label="活动id" :edit-render="{name: 'input'}" width="100"></vxe-table-column>
-            <vxe-table-column prop="actId" label="所属活动" :edit-render="{name: 'input'}" width="100"></vxe-table-column>
-            <vxe-table-column
-              prop="actName"
-              label="活动名称"
-              :edit-render="{name: 'input'}"
-              width="100"
-            ></vxe-table-column>
-            <vxe-table-column
-              prop="prizeLevel"
-              label="奖品等级"
-              :edit-render="{name: 'input'}"
-              width="100"
-            ></vxe-table-column>
-            <vxe-table-column
-              prop="prizeLevelName"
-              label="等级名称"
-              :edit-render="{name: 'input'}"
-              width="100"
-            ></vxe-table-column>
-            <vxe-table-column
-              prop="prizeName"
-              label="奖品名称"
-              :edit-render="{name: 'input'}"
-              width="100"
-            ></vxe-table-column>
-            <vxe-table-column
-              prop="prizeTotal"
-              label="总数量"
-              :edit-render="{name: 'input'}"
-              width="100"
-            ></vxe-table-column>
-            <vxe-table-column
-              prop="prizeLeft"
-              label="奖品剩余"
-              :edit-render="{name: 'input'}"
-              width="100"
-            ></vxe-table-column>
-            <vxe-table-column
-              prop="gmtCreate"
-              label="创建时间"
-              :edit-render="{name: 'input'}"
-              width="100"
-            ></vxe-table-column>
+            <vxe-table-column prop="prizeLevel" label="奖品等级" :edit-render="{name: 'input'}"></vxe-table-column>
+            <vxe-table-column prop="prizeLevelName" label="等级名称" :edit-render="{name: 'input'}"></vxe-table-column>
+            <vxe-table-column prop="prizeName" label="奖品名称" :edit-render="{name: 'input'}"></vxe-table-column>
+            <vxe-table-column prop="prizeTotal" label="总数量" :edit-render="{name: 'input'}"></vxe-table-column>
           </vxe-table>
         </div>
       </div>
@@ -93,6 +63,12 @@ export default {
       if (resq.status == 200) {
         _this.actPrizes = resq.data.result.prizesList;
         _this.selectedAct = resq.data.result.selectOptions;
+        //刷新的时候 恢复刷新前的下拉选择
+        let selectedActId = localStorage.getItem("selectedActId");
+        if(selectedActId != undefined && selectedActId != "" ){
+           _this.value = selectedActId;
+           this.deliverValue();
+        }
       }
     });
   },
@@ -101,23 +77,53 @@ export default {
       loading: false,
       actPrizes: "",
       selectedAct: "",
-      value: "",
-      tableData: [[]],
+      value: "", //下拉框选择的值
+      tableData: "",
       validRules: {
-        actName: [{ required: true, message: "活动名称必须填写" }],
-        prize_level: [{ required: true, message: "奖品等级必须填写" }],
-        prizeLevelName: [{ required: true, message: "奖品等级名称必须填写" }],
-        prizeName: [{ required: true, message: "奖品名称必须填写" }],
+        prizeLevel: [{ required: true, message: "奖品等级必须填写" }],
+        prizeLevelName: [{ min: 3, max: 6, message: "奖品等级名称3-6个字符" }],
+        prizeName: [{ min: 3, max: 15, message: "奖品名称3-15个字符" }],
         prizeTotal: [{ required: true, message: "奖品总数量必须填写" }]
       }
     };
   },
+  inject:['reload'],
   created() {},
   methods: {
     fullValidEvent() {
+      var _this = this;
       this.$refs.xTable.fullValidate((valid, errMap) => {
         if (valid) {
-          this.$XMsg.alert("校验成功！");
+          // this.$XMsg.alert("校验成功！");
+          let updateRecords = this.$refs.xTable.getUpdateRecords();
+          let insertRecords = this.$refs.xTable.getInsertRecords();
+          if (updateRecords.length != 0 || insertRecords.length != 0) {
+          } else {
+            this.$message.info("没有修改数据喔");
+            return;
+          }
+          //数据库生成id 将id置null
+          for(var i = 0;i < insertRecords.length;i++){
+            insertRecords[i].id = null;
+            insertRecords[i].actId = _this.value;
+          }
+          //合并 更新和插入的数据
+          let arr = updateRecords.concat(insertRecords);
+          postRequestJson("/insertPrizes", arr).then(resq => {
+            if (resq.status == 200) {
+              if (resq.data.result != undefined && resq.data.result > 0) {
+                this.$message.info("新增成功");
+                //刷新 重新请求数据
+                localStorage.setItem("selectedActId",_this.value)
+                this.reload();
+              } else {
+                this.$message.info("新增失败");
+              }
+
+            } else {
+              alert("系统异常,联系管理员");
+            }
+          });
         } else {
           let msgList = [];
           Object.values(errMap).forEach(errList => {
@@ -151,7 +157,12 @@ export default {
           arr.push(this.actPrizes[i]);
         }
       }
-      this.tableData = arr;
+      //未新增过奖品 置""
+      if(arr.length == 0){
+        this.tableData = "";
+      }else{
+        this.tableData = arr;
+      }
     },
     goBack() {
       this.$router.go(-1);
@@ -165,28 +176,11 @@ export default {
         .insertAt(record, this.tableData[2])
         .then(({ row }) => this.$refs.xTable.setActiveCell(row, "sex"));
     },
+    //奖励新增
     getInsertEvent() {
       this.fullValidEvent();
-      let insertRecords = this.$refs.xTable.getInsertRecords();
-      let updateRecords = this.$refs.xTable.getUpdateRecords();
-      if (updateRecords.length == 0) {
-        $message.info("没有修改数据喔");
-      }
-      postRequestJson("/insertPrizes", insertRecords).then(resq => {
-        if (resq.status == 200) {
-          if (resq.data.data == "success") {
-          } else {
-          }
-        } else {
-          alert("系统异常,联系管理员");
-        }
-      });
     }
   }
 };
 </script>
-<style>
-.button_div {
-  left: 0%;
-}
-</style>
+
