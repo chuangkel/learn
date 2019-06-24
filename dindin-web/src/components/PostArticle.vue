@@ -396,12 +396,16 @@ export default {
       this.form.validateFields((err, values) => {
         var actTime = this.startValue._d;
         var actEndtime = this.endValue._d;
+        if(this.fileList.length == 0){
+          this.$message({ type: "error", message: "请上传海报!" });
+          return
+        }
         var actPicture = this.fileList[0].url;
         var actContent = this.activity.mdContent;
         var combinationActName;
-        debugger
         if(err){
           this.$message({ type: "error", message: "数据不能为空!" });
+          return
         }
         if (!err) {
           if (!isNotNullORBlank(this.activity.mdContent)) {

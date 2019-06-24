@@ -50,7 +50,8 @@ ip address show
 >find . -name .svn | xargs rm -rf
 
 >netstat -anp | grep 12200 查询监听端口12200
-
+netstat -ntpl //查看
+ ps -aux | grep nginx
 >command >out.file 2>&1 &
 // command>out.file是将command的输出重定向到out.file文件，即输出内容不打印到屏幕上，而是输出到out.file文件中。
 // 2>&1 是将标准出错重定向到标准输出，这里的标准输出已经重定向到了out.file文件，即将标准出错也输出到out.file文件中。最后一个&， 是让该命令在后台执行。

@@ -112,3 +112,8 @@ maven插件是为了构建自己的工具集，复用其他模块之间的代码
  import
  This scope is only supported on a dependency of type pom in the <dependencyManagement> section. It indicates the dependency to be replaced with the effective list of dependencies in the specified POM's <dependencyManagement> section. Since they are replaced, dependencies with a scope of import do not actually participate in limiting the transitivity of a dependency.
  Each of the scopes (except for import) affects transitive dependencies in different ways, as is demonstrated in the table below. If a dependency is set to the scope in the left column, transitive dependencies of that dependency with the scope across the top row will result in a dependency in the main project with the scope listed at the intersection. If no scope is listed, it means the dependency will be omitted.
+ 
+ 
+ 打包 子模块下面不要包含maven-plugin 
+ A->B->C
+ 直接B引入C A再引入B ,A可以用C中的内容
