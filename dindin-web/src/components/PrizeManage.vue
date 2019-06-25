@@ -8,7 +8,7 @@
         <div style="width:500px;height:50px;">
           <label style="float:left; margin-left:3px;margin-top:10px;padding-bottom: 10px; ">当前活动：</label>
           <el-select
-            v-model="value"
+            v-model="selectLabel"
             placeholder="请选择"
             @change="deliverValue"
             style="float:left; margin-left:3px; margin-bottom:3px; display: inline-block; "
@@ -28,6 +28,10 @@
             @click="getInsertEvent"
             style="float:left; margin-left:3px; display: inline-block;height:40px;"
           >提交</vxe-button>
+          <vxe-button
+            @click="getRemoveEvent"
+            style="float:left; margin-left:3px; display: inline-block;height:40px;"
+          >删除</vxe-button>
         </div>
         <div>
           <vxe-table
@@ -65,9 +69,9 @@ export default {
         _this.selectedAct = resq.data.result.selectOptions;
         //刷新的时候 恢复刷新前的下拉选择
         let selectedActId = localStorage.getItem("selectedActId");
-        if(selectedActId != undefined && selectedActId != "" ){
-           _this.value = selectedActId;
-           this.deliverValue();
+        if (selectedActId != undefined && selectedActId != null && selectedActId != "") {
+          //先把表格恢复 需之前下拉框的value 而不是label
+          this.deliverValue(selectedActId);
         }
       }
     });
@@ -77,7 +81,8 @@ export default {
       loading: false,
       actPrizes: "",
       selectedAct: "",
-      value: "", //下拉框选择的值
+      value: "", //下拉框选择的id
+      selectLabel: "", //下拉框显示的值
       tableData: "",
       validRules: {
         prizeLevel: [{ required: true, message: "奖品等级必须填写" }],
@@ -87,7 +92,7 @@ export default {
       }
     };
   },
-  inject:['reload'],
+  inject: ["reload"],
   created() {},
   methods: {
     fullValidEvent() {
@@ -103,7 +108,7 @@ export default {
             return;
           }
           //数据库生成id 将id置null
-          for(var i = 0;i < insertRecords.length;i++){
+          for (var i = 0; i < insertRecords.length; i++) {
             insertRecords[i].id = null;
             insertRecords[i].actId = _this.value;
           }
@@ -112,14 +117,13 @@ export default {
           postRequestJson("/insertPrizes", arr).then(resq => {
             if (resq.status == 200) {
               if (resq.data.result != undefined && resq.data.result > 0) {
-                this.$message.info("新增成功");
-                //刷新 重新请求数据
-                localStorage.setItem("selectedActId",_this.value)
-                this.reload();
+                this.$message.info("提交成功");
               } else {
-                this.$message.info("新增失败");
+                this.$message.info("提交失败");
               }
-
+              //刷新 重新请求数据
+              localStorage.setItem("selectedActId", _this.value);
+              this.reload();
             } else {
               alert("系统异常,联系管理员");
             }
@@ -150,17 +154,25 @@ export default {
         }
       });
     },
-    deliverValue() {
+    deliverValue(vId) {
+      this.value = vId;
+      localStorage.setItem("selectedActId", this.value);
+      //恢复label为actName
+      for (var i = 0; i < this.selectedAct.length; i++) {
+        if (this.selectedAct[i].actId == this.value) {
+          this.selectLabel = this.selectedAct[i].actName;
+        }
+      }
       var arr = new Array();
       for (var i = 0; i < this.actPrizes.length; i++) {
-        if (this.value == this.actPrizes[i].actId) {
+        if (this.actPrizes[i].actId == this.value) {
           arr.push(this.actPrizes[i]);
         }
       }
       //未新增过奖品 置""
-      if(arr.length == 0){
+      if (arr.length == 0) {
         this.tableData = "";
-      }else{
+      } else {
         this.tableData = arr;
       }
     },
@@ -179,6 +191,28 @@ export default {
     //奖励新增
     getInsertEvent() {
       this.fullValidEvent();
+    },
+    //删除选择
+    getRemoveEvent() {
+      //执行删除
+      this.$refs.xTable.removeSelecteds();
+      //获取删除数据
+      let removeRecords = this.$refs.xTable.getRemoveRecords();
+      var _this = this;
+      postRequestJson("/deletePrizes", removeRecords).then(resq => {
+        if (resq.status == 200) {
+          if (resq.data.result != undefined && resq.data.result > 0) {
+            this.$message.info("删除成功");
+          } else {
+            this.$message.info("删除失败");
+          }
+          //刷新 重新请求数据
+          localStorage.setItem("selectedActId", _this.value);
+          this.reload();
+        } else {
+          alert("系统异常,联系管理员");
+        }
+      });
     }
   }
 };
