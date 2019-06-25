@@ -14,6 +14,7 @@
               help="不少于5个字,最多50个字"
             >
               <a-input
+              v-model="actName"
                 ref="actNameInput"
                 id="error"
                 placeholder="输入活动标题"
@@ -27,9 +28,7 @@
               :wrapper-col="wrapperCol"
               style="margin-bottom:0;"
             >
-              <a-form-item
-                :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
-              >
+              <a-form-item :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }">
                 <a-date-picker
                   :disabledDate="disabledStartDate"
                   showTime
@@ -94,12 +93,7 @@
               </div>
             </a-form-item>
 
-            <a-form-item
-              :label-col="labelCol"
-              :wrapper-col="wrapperCol"
-              label="活动类型"
-              has-feedback
-            >
+            <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="活动类型" has-feedback>
               <a-select
                 default-value="1"
                 v-decorator="['actType', { rules: [{ required: true, message: '活动类型必填' }],}]"
@@ -110,11 +104,7 @@
               </a-select>
             </a-form-item>
 
-            <a-form-item
-              :label-col="labelCol"
-              :wrapper-col="wrapperCol"
-              label="活动标签"
-            >
+            <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="活动标签">
               <a-input
                 id="warning"
                 placeholder="活动标签必填"
@@ -122,12 +112,7 @@
               />
             </a-form-item>
 
-            <a-form-item
-              :label-col="labelCol"
-              :wrapper-col="wrapperCol"
-              label="活动亮点"
-              has-feedback
-            >
+            <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="活动亮点" has-feedback>
               <a-input
                 id="validating"
                 placeholder="增加活动亮点更具有吸引力!"
@@ -252,6 +237,35 @@ function getBase64(img, callback) {
 export default {
   mounted: function() {
     let _this = this;
+    let actRouter = this.$route.query.selected;
+    if(actRouter != undefined && actRouter != null ){
+        // _this.actTime = actRouter.actTime;
+        // _this.actTime = actRouter.actEndtime;
+        // _this.value = actRouter.actIsOpen;
+        _this.fileList[0] = {
+          url : actRouter.actPicture,
+          uid: "-1",
+          name: "xxx.png",
+          status: "done",
+        };
+        _this.activity.mdContent = actRouter.actContent;
+        _this.activity.id = actRouter.id;
+        _this.form.setFieldsValue({
+          actName:actRouter.actName,
+          actContent: actRouter.actContent,
+                actAddress: actRouter.actAddress,
+                actTags: actRouter.actTags,
+                // actTime: actRouter.actTime,
+                // actEndtime: actRouter.actEndtime,
+                // actPicture: actRouter.actPicture,
+                actPeople: actRouter.actPeople,
+                actType: actRouter.actType,
+                actStar: actRouter.actStar,
+                actIsOpen: actRouter.actIsOpen
+          });
+    }
+    
+
     var userId = localStorage.getItem("userId");
     _this.$refs.actNameInput.focus();
     getAllRequest("/selectComActivity/" + userId).then(resq => {
@@ -295,17 +309,15 @@ export default {
         actId: " ",
         combinationActName: _this.comActValue,
         combinationActContent: " "
-      }).then(
-        resp => {
-          _this.loading = false;
-          if (resp.status == 200 && resp.data.status == 200) {
-            _this.comActivities = resp.data.result;
-            _this.$message({ type: "success", message: "新增成功!" });
-          }else{
-            _this.$message({ type: "error", message: "新增组合失败!" });
-          }
+      }).then(resp => {
+        _this.loading = false;
+        if (resp.status == 200 && resp.data.status == 200) {
+          _this.comActivities = resp.data.result;
+          _this.$message({ type: "success", message: "新增成功!" });
+        } else {
+          _this.$message({ type: "error", message: "新增组合失败!" });
         }
-      );
+      });
     },
     switchChange() {
       this.switchIsHidden = !this.switchIsHidden;
@@ -394,19 +406,22 @@ export default {
     },
     saveBlog(state) {
       this.form.validateFields((err, values) => {
+        if (err) {
+          this.$message({ type: "error", message: "数据不能为空!" });
+          return;
+        }
+        
         var actTime = this.startValue._d;
         var actEndtime = this.endValue._d;
-        if(this.fileList.length == 0){
+        if (this.fileList.length == 0) {
           this.$message({ type: "error", message: "请上传海报!" });
-          return
+          return;
         }
         var actPicture = this.fileList[0].url;
         var actContent = this.activity.mdContent;
+        var actId = this.activity.id;
         var combinationActName;
-        if(err){
-          this.$message({ type: "error", message: "数据不能为空!" });
-          return
-        }
+        
         if (!err) {
           if (!isNotNullORBlank(this.activity.mdContent)) {
             this.$message({ type: "error", message: "数据不能为空!" });
@@ -423,7 +438,7 @@ export default {
           var _this = this;
           _this.loading = true;
           postRequestJson("/insertActivity/", {
-            id: "",
+            id: actId,
             userId: localStorage.getItem("userId"),
             actName: values.actName,
             actContent: actContent,
@@ -444,8 +459,9 @@ export default {
           }).then(
             resp => {
               _this.loading = false;
-              if (resp.status == 200 && resp.data.result) {
-                _this.activity.id = resp.data.msg;
+                debugger
+              if (resp.status == 200 && resp.data.status == 200 ) {
+                // _this.activity.id = resp.data.msg;
                 var actId = resp.data.result;
                 _this.$message({
                   type: "success",
@@ -483,44 +499,11 @@ export default {
         }
       });
     },
-    imgDel(pos) {},
-    // getCategories() {
-    //   let _this = this;
-    //   getRequest("/admin/category/all").then(resp => {
-    //     _this.categories = resp.data;
-    //   });
-    // },
-    // handleClose(tag) {
-    //   this.activity.dynamicTags.splice(
-    //     this.activity.dynamicTags.indexOf(tag),
-    //     1
-    //   );
-    // },
-    // showInput() {
-    //   this.tagInputVisible = true;
-    //   this.$nextTick(_ => {
-    //     this.$refs.saveTagInput.$refs.input.focus();
-    //   });
-    // },
-  //   handleInputConfirm() {
-  //     let tagValue = this.tagValue;
-  //     if (tagValue) {
-  //       this.activity.dynamicTags.push(tagValue);
-  //     }
-  //     this.tagInputVisible = false;
-  //     this.tagValue = "";
-  //   }
+    imgDel(pos) {}
   },
-  // watch: {
-  //   startValue(val) {
-  //     console.log("startValue", val);
-  //   },
-  //   endValue(val) {
-  //     console.log("endValue", val);
-  //   }
-  // },
   data() {
     return {
+      actName:"",//活动标题
       combinationActName: "", //组合下拉框选中值
       comActValue: "", //组合活动名称输入框
       comActivities: "", //组合活动下拉框
@@ -571,11 +554,8 @@ export default {
       loading: false,
       from: "",
       activity: {
-        id: "-1",
-        // dynamicTags: [],
-        // title: "",
+        id: "",
         mdContent: "",
-        // cid: "",
         actUptime: new Date(),
         actDowntime: new Date()
       }

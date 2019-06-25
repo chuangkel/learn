@@ -85,12 +85,6 @@ export default {
     });
   },
   methods: {
-    //     getMardownFileContent(data) {
-    // 		//处理markdown数据，data为markdown文件读出的字符串
-    // 		this.readmeContent = marked(articleDetail || '<h>aaaa</h>', {
-    // 		  sanitize: true
-    // 		});
-    //   }
   },
   data() {
     return {
