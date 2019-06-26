@@ -71,7 +71,6 @@ export default {
       this.$router.go(-1);
     },
     editRowEvent(row) {
-      debugger;
       // this.$refs.xTable.setActiveRow(row);
       this.$router.push({path: '/PostArticle', params: { activity:row } ,query: {selected: row}})
     },

@@ -264,7 +264,6 @@ export default {
                 actIsOpen: actRouter.actIsOpen
           });
     }
-    
 
     var userId = localStorage.getItem("userId");
     _this.$refs.actNameInput.focus();

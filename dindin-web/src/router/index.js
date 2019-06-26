@@ -3,16 +3,18 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
 import ArticleList from '@/components/ArticleList'
-import CateMana from '@/components/CateMana'
-import DataCharts from '@/components/DataCharts'
+// import CateMana from '@/components/CateMana'
+// import DataCharts from '@/components/DataCharts'
 import PostArticle from '@/components/PostArticle'
-import UserMana from '@/components/UserMana'
-import BlogDetail from '@/components/BlogDetail'
+// import UserMana from '@/components/UserMana'
+// import BlogDetail from '@/components/BlogDetail'
 import ActivityList from '@/components/ActivityList'
-import MyCanlendar from '@/components/MyCanlendar'
+// import MyCanlendar from '@/components/MyCanlendar'
 import PrizeManage from '@/components/PrizeManage'
 import ActivityCard from '@/components/ActivityCard'
 import ActivityDetail from '@/components/ActivityDetail'
+import InfoManage from '@/components/InfoManage'
+import DrawPrizeMng from '@/components/DrawPrizeMng'
 
 Vue.use(Router)
 
@@ -63,23 +65,24 @@ export default new Router({
           meta: {
             keepAlive: false
           }
-        },{
-          path: '/blogDetail',
-          name: '活动详情',
-          component: BlogDetail,
-          hidden: true,
-          meta: {
-            keepAlive: false
-          }
-        }, {
-          path: '/editBlog',
-          name: '编辑活动',
-          component: PostArticle,
-          hidden: true,
-          meta: {
-            keepAlive: false
-          }
         }
+        // ,{
+        //   path: '/blogDetail',
+        //   name: '活动详情',
+        //   component: BlogDetail,
+        //   hidden: true,
+        //   meta: {
+        //     keepAlive: false
+        //   }
+        // }, {
+        //   path: '/editBlog',
+        //   name: '编辑活动',
+        //   component: PostArticle,
+        //   hidden: true,
+        //   meta: {
+        //     keepAlive: false
+        //   }
+        // }
       ]
     }
     , {
@@ -109,31 +112,59 @@ export default new Router({
     //     }
     //   ]
     // }
+    // , {
+    //   path: '/home',
+    //   component: Home,
+    //   name: '抽奖管理',
+    //   children: [
+    //     {
+    //       path: '/cateMana',
+    //       iconCls: 'fa fa-reorder',
+    //       name: '抽奖管理',
+    //       component: CateMana
+    //     }
+    //   ]
+    // }
     , {
       path: '/home',
       component: Home,
       name: '抽奖管理',
       children: [
         {
-          path: '/cateMana',
+          path: '/DrawPrizeMng',
           iconCls: 'fa fa-reorder',
           name: '抽奖管理',
-          component: CateMana
-        }
-      ]
-    }, {
-      path: '/home',
-      component: Home,
-      name: '信息管理',
-      iconCls: 'fa fa-bar-chart',
-      children: [
-        {
-          path: '/charts',
-          iconCls: 'fa fa-bar-chart',
-          name: '信息管理',
-          component: DataCharts
+          component: DrawPrizeMng
         }
       ]
     }
+    , {
+      path: '/home',
+      component: Home,
+      name: '信息管理',
+      iconCls: 'fa fa-user-o',
+      children: [
+        {
+          path: '/InfoManage',
+          iconCls: 'fa fa-user-o',
+          name: '信息管理',
+          component: InfoManage
+        }
+      ]
+    }
+    // , {
+    //   path: '/home',
+    //   component: Home,
+    //   name: '信息管理',
+    //   iconCls: 'fa fa-bar-chart',
+    //   children: [
+    //     {
+    //       path: '/charts',
+    //       iconCls: 'fa fa-bar-chart',
+    //       name: '信息管理',
+    //       component: DataCharts
+    //     }
+    //   ]
+    // }
   ]
 })
