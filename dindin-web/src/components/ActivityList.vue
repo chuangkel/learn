@@ -14,9 +14,6 @@
         >选择删除</vxe-button>
       </div>
       <div>
-        <!-- <div style="width:500px;height:50px;">
-          
-        </div>-->
         <div>
           <vxe-table
             highlight-hover-row

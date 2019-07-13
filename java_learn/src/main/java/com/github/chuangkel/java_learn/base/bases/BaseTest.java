@@ -1,6 +1,7 @@
 package com.github.chuangkel.java_learn.base.bases;
 
 import java.io.*;
+import java.util.Random;
 
 /**
  * @program: javaNewCharacteristic
@@ -8,7 +9,7 @@ import java.io.*;
  * @author: chuangkel
  * @create: 2019-01-31 14:28
  **/
-public class baseTest implements Externalizable {
+public class BaseTest implements Externalizable {
 
     public static void main(String[] args) {
         // a^b 异或 a&b 与 a|b 或
@@ -31,6 +32,11 @@ public class baseTest implements Externalizable {
         System.out.println(-4>>1);
         /** 输出 2147483646*/
         System.out.println(-4>>>1);
+
+
+        for(int t = 0; t < 100 ; t++){
+
+        }
     }
 
     @Override

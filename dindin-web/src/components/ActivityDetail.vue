@@ -34,6 +34,16 @@
               </a-card-meta>
             </a-card>
           </div>
+          <div style="width: 200px; display: inline-block; float:left;">
+            <img
+              :alt="activityCodeUrl"
+              :src="activityCodeUrl"
+              slot="cover"
+              style="width: 100%;height: 100%;"
+            >
+            <br>
+            <p @click="downloadCode">下 载</p>
+          </div>
         </div>
       </el-main>
     </el-container>
@@ -68,6 +78,8 @@ import "mavon-editor/dist/css/index.css";
 import { getAllRequest } from "../utils/api";
 import marked from "marked";
 import { debuglog } from "util";
+import global_ from '../utils/Global'
+let base = global_.base; 
 export default {
   components: {
     mavonEditor
@@ -78,16 +90,40 @@ export default {
     _this.actId = _this.$route.query.selected;
     getAllRequest("/getActivity/" + _this.actId).then(resq => {
       if (resq.status == 200 && resq.data.result != null) {
-        _this.activity = resq.data.result;
+        _this.activity = resq.data.result.activity;
+        _this.activityCodeUrl = base+ "/image/" + resq.data.result.fileName;
       } else {
         this.$message({ type: "error", message: "查询不到活动详情" });
       }
     });
   },
   methods: {
+     downloadIamge (imgsrc, name) { // 下载图片地址和图片名
+      var image = new Image()
+      // 解决跨域 Canvas 污染问题
+      image.setAttribute('crossOrigin', 'anonymous')
+      image.onload = function () {
+        var canvas = document.createElement('canvas')
+        canvas.width = image.width
+        canvas.height = image.height
+        var context = canvas.getContext('2d')
+        context.drawImage(image, 0, 0, image.width, image.height)
+        var url = canvas.toDataURL('image/png') // 得到图片的base64编码数据
+        var a = document.createElement('a') // 生成一个a元素
+        var event = new MouseEvent('click') // 创建一个单击事件
+        a.download = name || 'photo' // 设置图片名称
+        a.href = url // 将生成的URL设置为a.href属性
+        a.dispatchEvent(event) // 触发a的单击事件
+      }
+      image.src = imgsrc
+    },
+    downloadCode(){
+    this.downloadIamge(this.activityCodeUrl,this.activity.actName)
+    }
   },
   data() {
     return {
+      activityCodeUrl:"",
       actId: "",
       activity: "",
       placeholder: "", //输入框为空时默认提示文本

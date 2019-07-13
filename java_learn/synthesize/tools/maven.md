@@ -1,63 +1,54 @@
-
-```
-mvn package -Dmaven.test.skip=true
-```
-
-
-```
-jetty:run
-```
-        
-
-mvn clean package依次执行了clean、resources、compile、testResources、testCompile、test、jar(打包)等７个阶段
-mvn clean install依次执行了clean、resources、compile、testResources、testCompile、test、jar(打包)、install等8个阶段
-mvn clean deploy依次执行了clean、resources、compile、testResources、testCompile、test、jar(打包)、install、deploy等９个阶段
-package命令完成了项目编译、单元测试、打包功能，但没有把打好的可执行jar包（war包或其它形式的包）布署到本地maven仓库和远程maven私服仓库
-install命令完成了项目编译、单元测试、打包功能，同时行j把打好的可执ar包（war包或其它形式的包）布署到本地maven仓库，但没有布署到远程maven私服仓库
-deploy命令完成了项目编译、单元测试、打包功能，同时把打好的可执行jar包（war包或其它形式的包）布署到本地maven仓库和远程maven私服仓库
+* mvn package -Dmaven.test.skip=true
+* jetty:run
+* mvn clean package依次执行了clean、resources、compile、testResources、testCompile、test、jar(打包)等７个阶段
+* mvn clean install依次执行了clean、resources、compile、testResources、testCompile、test、jar(打包)、install等8个阶段
+* mvn clean deploy依次执行了clean、resources、compile、testResources、testCompile、test、jar(打包)、install、deploy等９个阶段
+* package命令完成了项目编译、单元测试、打包功能，但没有把打好的可执行jar包（war包或其它形式的包）布署到本地maven仓库和远程maven私服仓库
+* install命令完成了项目编译、单元测试、打包功能，同时行j把打好的可执ar包（war包或其它形式的包）布署到本地maven仓库，但没有布署到远程maven私服仓库
+* deploy命令完成了项目编译、单元测试、打包功能，同时把打好的可执行jar包（war包或其它形式的包）布署到本地maven仓库和远程maven私服仓库
 ```
 <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                //指定 jar包存放的位置 相对于执行命令的当前路径
-                    <outputDirectory>../target</outputDirectory>
-                // 执行命令是传入的参数  -DworkspaceName = XXX 
-                    <classifier>${workspaceName}</classifier>
-                    // mainClass 多模块下面指明主类
-                    <mainClass> com.github.chuankel.FirstAPPDemoApplication</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+            //指定 jar包存放的位置 相对于执行命令的当前路径
+                <outputDirectory>../target</outputDirectory>
+            // 执行命令是传入的参数  -DworkspaceName = XXX 
+                <classifier>${workspaceName}</classifier>
+                // mainClass 多模块下面指明主类
+                <mainClass> com.github.chuankel.FirstAPPDemoApplication</mainClass>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
 
-        </plugins>
-    </build>
-```
-mvn clean package -Dmaven.test.skip -DworkspaceName=YaoqbProject   
-
-```
-// maven 的setting 文件 ，会根据mirrorOf 进行依赖下载;优先完全匹配、次模糊匹配;相同的mirrorOf 有先后顺序
-        <mirror>
-		  <id>nexus-aliyun</id>
-		  <mirrorOf>*</mirrorOf>
-		  <name>Nexus aliyun</name>
-		  <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-		 </mirror>
-```
 <packaging> jar </packaging> // 默认是jar包的方式
+```
+* mvn clean package -Dmaven.test.skip -DworkspaceName=YaoqbProject   
 
+```
+// maven 的setting 文件 ，会根据mirrorOf 进行依赖下载;
+//优先完全匹配、次模糊匹配;
+//相同的mirrorOf 有先后顺序
+<mirror>
+  <id>nexus-aliyun</id>
+  <mirrorOf>*</mirrorOf>
+  <name>Nexus aliyun</name>
+  <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+ </mirror>
+```
 maven插件是为了构建自己的工具集，复用其他模块之间的代码
 自定义maven插件
 命名方式：<yourplugin>-maven-plugin.
- 
  
  Project：选择开源项目
  Issue Type：选择创建新项目

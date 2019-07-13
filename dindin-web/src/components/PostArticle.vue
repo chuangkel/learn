@@ -237,7 +237,21 @@ function getBase64(img, callback) {
 export default {
   mounted: function() {
     let _this = this;
+    var userId = localStorage.getItem("userId");
+    _this.$refs.actNameInput.focus();
+    getAllRequest("/selectComActivity/" + userId).then(resq => {
+      if (resq.status == 200) {
+        _this.comActivities = resq.data.result;
+      }
+    });
+  },
+  components: {
+    mavonEditor
+  },
+  activated(){
+    let _this = this;
     let actRouter = this.$route.query.selected;
+    console.log(actRouter)
     if(actRouter != undefined && actRouter != null ){
         // _this.actTime = actRouter.actTime;
         // _this.actTime = actRouter.actEndtime;
@@ -264,17 +278,6 @@ export default {
                 actIsOpen: actRouter.actIsOpen
           });
     }
-
-    var userId = localStorage.getItem("userId");
-    _this.$refs.actNameInput.focus();
-    getAllRequest("/selectComActivity/" + userId).then(resq => {
-      if (resq.status == 200) {
-        _this.comActivities = resq.data.result;
-      }
-    });
-  },
-  components: {
-    mavonEditor
   },
   created() {
     this.form = this.$form.createForm(this, {
@@ -458,9 +461,8 @@ export default {
           }).then(
             resp => {
               _this.loading = false;
-                debugger
               if (resp.status == 200 && resp.data.status == 200 ) {
-                // _this.activity.id = resp.data.msg;
+                this.reload();
                 var actId = resp.data.result;
                 _this.$message({
                   type: "success",
@@ -500,6 +502,7 @@ export default {
     },
     imgDel(pos) {}
   },
+   inject: ["reload"],
   data() {
     return {
       actName:"",//活动标题

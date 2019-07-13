@@ -66,23 +66,7 @@ export default new Router({
             keepAlive: false
           }
         }
-        // ,{
-        //   path: '/blogDetail',
-        //   name: '活动详情',
-        //   component: BlogDetail,
-        //   hidden: true,
-        //   meta: {
-        //     keepAlive: false
-        //   }
-        // }, {
-        //   path: '/editBlog',
-        //   name: '编辑活动',
-        //   component: PostArticle,
-        //   hidden: true,
-        //   meta: {
-        //     keepAlive: false
-        //   }
-        // }
+       
       ]
     }
     , {
@@ -99,32 +83,7 @@ export default new Router({
         }
       ]
     }
-    // , {
-    //   path: '/home',
-    //   component: Home,
-    //   name: '奖励管理',
-    //   children: [
-    //     {
-    //       path: '/user',
-    //       iconCls: 'fa fa-user-o',
-    //       name: '奖励管理',
-    //       component: UserMana
-    //     }
-    //   ]
-    // }
-    // , {
-    //   path: '/home',
-    //   component: Home,
-    //   name: '抽奖管理',
-    //   children: [
-    //     {
-    //       path: '/cateMana',
-    //       iconCls: 'fa fa-reorder',
-    //       name: '抽奖管理',
-    //       component: CateMana
-    //     }
-    //   ]
-    // }
+   
     , {
       path: '/home',
       component: Home,
@@ -151,20 +110,7 @@ export default new Router({
           component: InfoManage
         }
       ]
-    }
-    // , {
-    //   path: '/home',
-    //   component: Home,
-    //   name: '信息管理',
-    //   iconCls: 'fa fa-bar-chart',
-    //   children: [
-    //     {
-    //       path: '/charts',
-    //       iconCls: 'fa fa-bar-chart',
-    //       name: '信息管理',
-    //       component: DataCharts
-    //     }
-    //   ]
-    // }
+    },
+   
   ]
 })

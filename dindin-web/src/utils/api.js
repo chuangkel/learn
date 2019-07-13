@@ -1,6 +1,7 @@
 import axios from 'axios'
 import global_ from './Global'
 let base = global_.base; 
+let Authorization = localStorage.getItem("Authorization");
 
 export const postRequest = (url, params) => {
   
@@ -36,6 +37,7 @@ export const postRequestJson = (url, params) => {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
+      'Authorization':`${Authorization}`
     }
   });
 }
@@ -46,7 +48,8 @@ export const uploadFileRequest = (url, params) => {
     url: `${base}${url}`,
     data: params,
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
+      'Authorization':`${Authorization}`
     }
   });
 }
@@ -63,7 +66,8 @@ export const putRequest = (url, params) => {
       return ret
     }],
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization':`${Authorization}`
     }
   });
 }
@@ -85,18 +89,21 @@ export const getRequest = (url,params) => {
       return ret
     }],
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization':`${Authorization}`
     },
     url: `${base}${url}`
   });
 }
 
 export const getAllRequest = (url) => {
+  debugger
   return axios({
     method: 'get',
     withCredentials: true,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization':`${Authorization}`
     },
     url: `${base}${url}`
   });

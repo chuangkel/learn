@@ -135,12 +135,6 @@ loadClass
 Class.forName()
 自定义类加载器
 
-外部连接
-https://blog.csdn.net/zhoudaxia/article/details/35824249
-
-
-
-
 生成随机数
 ```
 System.out.println(UUID.randomUUID());

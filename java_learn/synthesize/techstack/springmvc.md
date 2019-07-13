@@ -151,3 +151,5 @@ public class MyWebAppConfigurer
     }
 }
 ```
+
+@RequestHeader(name = "Content-Type",value = "application/json") String contentType,

@@ -20,13 +20,6 @@ Vue.config.productionTip = false
 Vue.use(Antd)
 
 localStorage.setItem("base",global_.base)
-// Vue.use(VXETable, {
-//   size: 'small',
-//   version: 0,
-//   tooltipConfig: {
-//     zIndex: 3000
-//   }
-// })
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

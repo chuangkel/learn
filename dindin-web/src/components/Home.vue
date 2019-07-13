@@ -1,7 +1,7 @@
 <template>
   <el-container class="home_container">
     <el-header>
-      <div class="home_title">滴打卡活动管理平台</div>
+      <div class="home_title">叮叮打卡活动管理平台</div>
       <div class="home_userinfoContainer">
         <el-dropdown @command="handleCommand">
   <span class="el-dropdown-link home_userinfo">
@@ -67,9 +67,9 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(function () {
-            getRequest("/logout")
-            _this.currentUserName = '游客';
-            _this.$router.replace({path: '/'});
+            // getRequest("/logout")
+            // _this.currentUserName = '游客';
+            // _this.$router.replace({path: '/'});
           }, function () {
             //取消
           })
@@ -78,11 +78,11 @@
     },
     mounted: function () {
       var _this = this;
-      getRequest("/currentUserName").then(function (msg) {
-        _this.currentUserName = msg.data;
-      }, function (msg) {
-        _this.currentUserName = '游客';
-      });
+      // getRequest("/currentUserName").then(function (msg) {
+      //   _this.currentUserName = msg.data;
+      // }, function (msg) {
+      //   _this.currentUserName = '游客';
+      // });
     },
     data(){
       return {

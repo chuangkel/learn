@@ -287,3 +287,7 @@ tail -100f fintaskcenter-biztask.log
 Chown -R : 进行递归,连同子目录下的所有文件、目录
 
 查询mysql 是否启动
+
+* linux解压覆盖命令   
+unzip -o  app.zip   
+-o参数不提示覆盖同名文件
