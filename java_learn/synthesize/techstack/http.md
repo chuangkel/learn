@@ -1,4 +1,4 @@
-* 资源跨域 
+*  资源跨域 
 * 同源策略SOP（Same origin policy）：是一种约定，由Netscape公司1995年引入浏览器，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，浏览器很容易受到XSS、CSFR等攻击。所谓同源是指"协议+域名+端口"三者相同，即便两个不同的域名指向同一个ip地址，也非同源。
 - 解决方案
     - 通过jsonp跨域
@@ -78,18 +78,18 @@ Access-Control-Max-Age: 86400
 * 预检请求与普通请求的区别
 满足以下条件的请求就是简单请求：
     * 请求方法属于下面三种方法之一：
-    HEAD
-    POST
-    GET
+      HEAD
+      POST
+      GET
     * HTTP 的请求头信息超出一下范围：
-    Accept
-    Accept-Language
-    Content-Language
-    Last-Event-ID
+      Accept
+      Accept-Language
+      Content-Language
+      Last-Event-ID
     * Content-Type：超出这三个的范围：
-    application/x-www-form-urlencoded
-    multipart/form-data
-    text/plain
+      application/x-www-form-urlencoded
+      multipart/form-data
+      text/plain
 不满足以上条件的请求就是非简单请求。
 
 * 如果是简单的 CORS 请求，浏览器会自动在请求头中添加一个 Origin 请求头字段，如果响应头对应的 Access-Control-Allow-Origin 没有包含 Origin 所指定的域，那么就会报 CORS 错误，请求失败。所以服务器的响应要添加对应的响应头。
@@ -130,7 +130,7 @@ session用来跟踪会话
 3. Cookie其实还可以用在一些方便用户的场景下，设想你某次登陆过一个网站，下次登录的时候不想再次输入账号了，怎么办？这个信息可以写到Cookie里面，访问网站的时候，网站页面的脚本可以读取这个信息，就自动帮你把用户名给填了，能够方便一下用户。这也是Cookie名称的由来，给用户的一点甜头。所以，总结一下：Session是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中；Cookie是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现Session的一种方式。
 
 * token的构造 token是由header（头）、payload（荷载）、sign（签名）三部分组成。
-    
+  
     * header：头部信息主要包括（参数的类型--JWT,签名的算法--HS256）
     
     * payload：存放自己想要的信息    
