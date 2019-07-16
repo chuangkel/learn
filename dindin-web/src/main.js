@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import axios from 'axios'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -30,5 +31,18 @@ new Vue({
   router,
   template: '<App/>',
   components: { App }
+});
+// Vue.use(VueAxios, axios);
+// Vue.use(qs);
+
+axios.interceptors.request.use((config) => {
+  if (['/login', '/register'].indexOf(config.url) === -1) {
+    const token = localStorage.getItem('Authorization')
+    if (token) {
+      config.headers.Authorization = token
+      debugger
+    }
+  }
+  return config
 })
 

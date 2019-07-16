@@ -111,17 +111,17 @@ export default {
 
       postRequest(path, param).then(
         resp => {
+          debugger
           _this.loading = false;
           if (resp.status == 200) {
             debugger
+            var result = JSON.parse(resp.data);
             //成功
-            if (resp.data.status == "success") {
+            if (result.status == "success") {
               if(flag == 0){
-                debugger
-                  _this.GLOBAL.userId = resp.data.userId;
-                  // _this.GLOBAL.Authorization = resp.data.Authorization;
-                  localStorage.setItem("userId", resp.data.userId);
-                  localStorage.setItem("Authorization","Bearer "+resp.data.token)
+                  _this.GLOBAL.userId = result.userId;
+                  localStorage.setItem("userId", result.userId);
+                  localStorage.setItem("Authorization","Bearer "+ result.token)
                   _this.$router.replace({ path: "/home" });
               }else{
                   //注册成功
@@ -132,7 +132,7 @@ export default {
                   message: "注册完成!"
                 });
               }
-            } else if(resp.data.result.status == "used"){
+            } else if(result.status == "used"){
               _this.$alert("用户名已被占用!", "失败!");
             }else{
                 _this.$alert("登录失败!", "失败!");

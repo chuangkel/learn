@@ -61,6 +61,7 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(function () {
+            localStorage.removeItem("Authorization");
             _this.$http.get("/logout");
             _this.currentUserName = '游客';
             _this.$router.replace({path: '/'});
