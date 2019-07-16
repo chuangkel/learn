@@ -1,6 +1,6 @@
 import axios from 'axios'
 import global_ from './Global'
-let base = global_.base; 
+let base = "" ; //global_.base; 
 let Authorization = localStorage.getItem("Authorization");
 
 export const postRequest = (url, params) => {

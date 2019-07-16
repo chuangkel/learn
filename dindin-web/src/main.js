@@ -32,17 +32,15 @@ new Vue({
   template: '<App/>',
   components: { App }
 });
-// Vue.use(VueAxios, axios);
-// Vue.use(qs);
-
+//拦截器 对Authorization 和 baseUrl进行处理
 axios.interceptors.request.use((config) => {
   if (['/login', '/register'].indexOf(config.url) === -1) {
     const token = localStorage.getItem('Authorization')
     if (token) {
       config.headers.Authorization = token
-      debugger
     }
   }
+  config.url = global_.base + config.url;
   return config
 })
 

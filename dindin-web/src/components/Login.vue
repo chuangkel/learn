@@ -115,7 +115,7 @@ export default {
           _this.loading = false;
           if (resp.status == 200) {
             debugger
-            var result = JSON.parse(resp.data);
+            var result = resp.data;
             //成功
             if (result.status == "success") {
               if(flag == 0){
