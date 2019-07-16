@@ -111,10 +111,8 @@ export default {
 
       postRequest(path, param).then(
         resp => {
-          debugger
           _this.loading = false;
           if (resp.status == 200) {
-            debugger
             var result = resp.data;
             //成功
             if (result.status == "success") {

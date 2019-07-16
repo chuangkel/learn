@@ -1,7 +1,5 @@
 import axios from 'axios'
-import global_ from './Global'
-let base = "" ; //global_.base; 
-let Authorization = localStorage.getItem("Authorization");
+let base = "" ; 
 
 export const postRequest = (url, params) => {
   
@@ -18,13 +16,7 @@ export const postRequest = (url, params) => {
     }],
     withCredentials: true,
     headers: {
-      // 'Access-Control-Allow-Origin':'*'
-      // ,
       'Content-Type': 'application/x-www-form-urlencoded',
-      // "Access-Control-Expose-Headers":"Access-Control-*",
-      // "Access-Control-Allow-Headers": "Access-Control-*, Origin, X-Requested-With, Content-Type, Accept",
-      // 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-      // 'Allow': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
     }
   });
 }
@@ -37,7 +29,6 @@ export const postRequestJson = (url, params) => {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization':`${Authorization}`
     }
   });
 }
@@ -49,7 +40,6 @@ export const uploadFileRequest = (url, params) => {
     data: params,
     headers: {
       'Content-Type': 'multipart/form-data',
-      'Authorization':`${Authorization}`
     }
   });
 }
@@ -67,7 +57,6 @@ export const putRequest = (url, params) => {
     }],
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization':`${Authorization}`
     }
   });
 }
@@ -90,20 +79,17 @@ export const getRequest = (url,params) => {
     }],
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization':`${Authorization}`
     },
     url: `${base}${url}`
   });
 }
 
 export const getAllRequest = (url) => {
-  debugger
   return axios({
     method: 'get',
     withCredentials: true,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization':`${Authorization}`
     },
     url: `${base}${url}`
   });
