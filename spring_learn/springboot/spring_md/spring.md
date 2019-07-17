@@ -17,8 +17,6 @@ jta (java transaction api) 事务
 
 
 ## 注解       
-
-
 两种注入方式: @Autowired 和 构造器 等价。
 @SpringBootApplication 相当于 下面三个注解：
 源码如下：
