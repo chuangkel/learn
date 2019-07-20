@@ -326,3 +326,9 @@ public int nextInt(int bound) {
 * 方法区（Method Area）：（也被称为永久代），方法区是各个线程共享的区域，用于存储已经被虚拟机加载的类信息（即加载类时需要加载的信息，包括版本、field、方法、接口等信息）、final常量、静态变量、编译器即时编译的代码等。
 
 * 直接内存（Direct Memory）：直接内存并不是JVM管理的内存，可以这样理解，直接内存，就是JVM以外的机器内存，比如，你有4G的内存，JVM占用了1G，则其余的3G就是直接内存，JDK中有一种基于通道（Channel）和缓冲区（Buffer）的内存分配方式，将由C语言实现的native函数库分配在直接内存中，用存储在JVM堆中的DirectByteBuffer来引用。由于直接内存收到本机器内存的限制，所以也可能出现OutOfMemoryError的异常。
+
+### 监视器方法
+* 任何一个对象 都有wait(),notify(),notifyAll()
+* Condition也提供了类似的方法，await(),singal(),singalAll()
+
+* Lock相当于Synchronized,Condition相当于对象的监视器

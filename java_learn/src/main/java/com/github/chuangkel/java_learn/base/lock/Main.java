@@ -1,5 +1,7 @@
 package com.github.chuangkel.java_learn.base.lock;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
@@ -11,7 +13,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @create: 2019-03-15 13:51
  **/
 public class Main {
-
     private static ExecutorService pool = Executors.newFixedThreadPool(10);
 
     public static void main(String[] args) {
