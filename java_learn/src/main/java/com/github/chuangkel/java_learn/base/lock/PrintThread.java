@@ -1,4 +1,4 @@
-package main.java.com.github.chuangkel.java_learn.base.lock;/**
+package com.github.chuangkel.java_learn.base.lock;/**
  * Created by Fortuner on 2019/7/19.
  */
 
@@ -30,9 +30,9 @@ public class PrintThread implements Runnable {
             for(int i = 0;i < COUNT; i++){
                 System.out.print(c);
                 try {
-                    conditionA.await();
-                    if(i < COUNT-1){
-                        conditionB.signal();
+                    conditionB.signal();
+                    if(i < COUNT - 1){
+                        conditionA.await();
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();

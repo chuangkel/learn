@@ -254,7 +254,7 @@ Transient关键字的作用是控制变量的序列化，阻止这个被声明�
 transient变量的值被设为初始值，对象设为null,int设为0
 序列化对敏感数据进行加密解密
 除了Serializable接口 还可以实现Externalizable来实现序列化,需要实现如下两个方法
-```bash
+```
  @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         
@@ -267,7 +267,7 @@ transient变量的值被设为初始值，对象设为null,int设为0
 ```
 
 获取Class的三种方式
-```bash
+```
 1.Class class = Person.class
 
 2.Person obj = new Person();
@@ -332,3 +332,6 @@ public int nextInt(int bound) {
 * Condition也提供了类似的方法，await(),singal(),singalAll()
 
 * Lock相当于Synchronized,Condition相当于对象的监视器
+
+### 为什么switch表达式不允许在Java中使用long,float,double或boolean值？为什么只允许int(或者编译之后为int的类型)
+只能支持byte short int char String（返回的hashcode是int,为了防止hash碰撞，继续用equal()方法判断）

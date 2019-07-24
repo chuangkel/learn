@@ -33,9 +33,15 @@ public class BaseTest implements Externalizable {
         /** 输出 2147483646*/
         System.out.println(-4>>>1);
 
-
-        for(int t = 0; t < 100 ; t++){
-
+        //byte b = '1'; //输入49
+        byte b = 1; //输出1
+        switch (b){
+            case '1':
+                System.out.println("b:"+b);
+                break;
+            case 1:
+                System.out.println("b:"+b);
+                break;
         }
     }
 

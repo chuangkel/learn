@@ -234,3 +234,80 @@ https://www.jianshu.com/p/7cccdaa2d177
 //mysql 统计时间差
 select b.node_desc, begin_date , end_date,TIMESTAMPDIFF(MINUTE,begin_date,end_date) as minutes from biz_node a, biz_node_def b
 where  a.node_name = b.node_name and a.biz_date = '20190224' ;
+### mysql语法基础
+* union 和 union all 都是将两个结果集合并为一个
+union 会去掉重复的行
+union all 不会去掉重复行，直接返回合并结果，效率较union高
+* alter table table_name add index(id,name...字段名) //增加索引
+* alter table 表名 rename 新表名;//修改表名
+### msyql语句优化
+查看执行计划 Explain 
+* join语句优化：尽量采用小表驱动大表，减少NestedLoop循环总数
+* where子句优化：
+1 .索引列是字符串时，索引列的值需用引号引起来，否则不走索引
+2 .尽量避免使用!= < > ,会放弃索引走全表
+
+
+### 经典mysql题
+试试选出每门课的前二名学生，按照成绩grade倒序排列，  用一个sql语句
+```mysql
+CREATE TABLE `test` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) DEFAULT NULL,
+  `grade` decimal(4,2) DEFAULT NULL,
+  `course` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+INSERT INTO `dindin`.`test` (`id`, `name`, `grade`, `course`) VALUES ('1', 'tom', '90.00', '语文');
+INSERT INTO `dindin`.`test` (`id`, `name`, `grade`, `course`) VALUES ('2', 'tom', '80.00', '数学');
+INSERT INTO `dindin`.`test` (`id`, `name`, `grade`, `course`) VALUES ('3', 'tom', '85.00', '英语');
+INSERT INTO `dindin`.`test` (`id`, `name`, `grade`, `course`) VALUES ('4', 'john', '99.00', '语文');
+INSERT INTO `dindin`.`test` (`id`, `name`, `grade`, `course`) VALUES ('5', 'john', '77.00', '数学');
+INSERT INTO `dindin`.`test` (`id`, `name`, `grade`, `course`) VALUES ('6', 'john', '88.00', '英语');
+INSERT INTO `dindin`.`test` (`id`, `name`, `grade`, `course`) VALUES ('7', 'jack', '99.00', '语文');
+INSERT INTO `dindin`.`test` (`id`, `name`, `grade`, `course`) VALUES ('8', 'jack', '89.00', '数学');
+INSERT INTO `dindin`.`test` (`id`, `name`, `grade`, `course`) VALUES ('9', 'jack', '79.00', '英语');
+
+
+SELECT
+	*
+FROM
+	(
+		SELECT
+			a.*
+		FROM
+			test a
+		WHERE
+			grade >= (
+				SELECT
+					grade
+				FROM
+					test b
+				WHERE
+					b.course = a.course
+				ORDER BY
+					grade DESC
+				LIMIT 1,
+				1
+			)
+	) c
+ORDER BY
+	course,
+	grade DESC;
+	
+	
+	select a.id,a.name,a.grade,a.course from test a LEFT JOIN test b ON a.course = b.course AND a.grade <= b.grade 
+    
+    GROUP BY a.id,a.name,a.grade,a.course HAVING COUNT(b.id) <= 2 ;
+    
+    SELECT * from (
+    
+    SELECT * from test a where (SELECT count(DISTINCT grade) from test b where a.course=b.course and b.grade>=a.grade)<=2
+    
+    ) c ORDER BY course,grade desc;
+```
+
+left join(左连接) ： 左表所有数据循环，连接右表，在字段相等的记录。
+right join(右连接)：右表所有数据循环，连接左表，在字段相等的记录。
+inner join(内连接)：取左右表的交集。

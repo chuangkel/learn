@@ -1,4 +1,4 @@
-package main.java.com.github.chuangkel.java_learn.base.lock;/**
+package com.github.chuangkel.java_learn.base.lock;/**
  * Created by Fortuner on 2019/7/19.
  */
 
@@ -17,12 +17,11 @@ public class ReentranLockTest {
     static Condition conditionA = reentrantLock.newCondition();
     static Condition conditionB = reentrantLock.newCondition();
     public static void main(String[] args) {
-        PrintThread printThreadA = new PrintThread(reentrantLock,conditionA,conditionB,"A");
-        PrintThread printThreadB = new PrintThread(reentrantLock,conditionB,conditionA,"B");
+       PrintThread printThreadA = new PrintThread(reentrantLock,conditionA,conditionB,"A");
+       PrintThread printThreadB = new PrintThread(reentrantLock,conditionB,conditionA,"B");
         Thread tA = new Thread(printThreadA);
         Thread tB = new Thread(printThreadB);
         tA.start();
         tB.start();
-
     }
 }
