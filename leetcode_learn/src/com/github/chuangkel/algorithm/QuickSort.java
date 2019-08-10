@@ -19,18 +19,16 @@ public class QuickSort {
         System.out.println(Arrays.toString(nums));
     }
     public void quickSorted(int nums[],int left,int right){
-        if(left > right)
-            return;
+        if(left > right) { return; }
         int i = left;
         int j = right;
         //left不能填0
         int key = nums[left];
         while(i != j){
-            //等号是排序相等的数造成死循环
+            //等号是防止排序相等的数造成死循环
             while (nums[j] >= key && i < j){
                 j --;
             }
-
             while(nums[i] <= key && i < j){
                 i ++;
             }
@@ -39,7 +37,6 @@ public class QuickSort {
                 nums[i] = nums[j];
                 nums[j] = temp;
             }
-
         }
 
         nums[left] = nums[i];

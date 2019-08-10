@@ -14,13 +14,10 @@ public class ThreadLocalTestt {
 
         t.set("我在main()中set");
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("子线程 before:" + t.get());
-                t.set("我在子线程中set()");
-                System.out.println("子线程 after:" + t.get());
-            }
+        Thread thread = new Thread(()->{
+            System.out.println("子线程 before:" + t.get());
+            t.set("我在子线程中set()");
+            System.out.println("子线程 after:" + t.get());
         });
         thread.start();
         thread.join();

@@ -1,6 +1,5 @@
 # 数据库
 
-
 ###### 读写分离
 ###### 幂等
 多次执行和一次执行的效果相同。
@@ -311,3 +310,35 @@ ORDER BY
 left join(左连接) ： 左表所有数据循环，连接右表，在字段相等的记录。
 right join(右连接)：右表所有数据循环，连接左表，在字段相等的记录。
 inner join(内连接)：取左右表的交集。
+
+MySQL 的相关优化
+1. MySQL 性能优化：组成、表的设计
+开启查询缓存。避免某些 SQL 函数直接在 SQL 语句中使用，从而导致 Mysql 缓存失效。
+
+避免画蛇添足。目的是什么就取什么，例如某个逻辑是只需要判断是否存在女性，若是查到了一条即可，勿要全部都查一遍，此时要善用 limit。
+
+建合适的索引。所以要建在合适的地方，合适的对象上。经常操作 / 比较 / 判断的字段应该建索引。
+
+字段大小合宜。字段的取值是有限而且是固定的，这种情况下可以用 enum，IP 字段可以用 unsigned int 来存储。
+
+表的设计。垂直分割表，使得固定表与变长表分割，从而降低表的复杂度和字段的数目。
+
+2. SQL 语句优化：避免全表扫描
+建索引：一般在 where 及 order by 中涉及到的列上建索引，尽量不要对可以重复的字段建索引。
+
+尽量避免在 where 中使用 !（<>）或 or，也不要进行 null 值判断。
+
+尽量避免在 where 中对字段进行函数操作、表达式操作。
+
+尽量避免使用 like- %，在此种情况下可以进行全文检索。
+
+```mysql
+-- 查询制定db的表名
+select TABLE_NAME from information_schema.`TABLES` where TABLE_SCHEMA = #{dbName};
+-- 查询制定表的列名
+select column_name from information_schema.columns 
+where table_schema = #{dbName} and table_name = #{tableName};
+-- 删除表中...
+DELETE FROM tab1 WHERE col1 = 'value'
+
+```

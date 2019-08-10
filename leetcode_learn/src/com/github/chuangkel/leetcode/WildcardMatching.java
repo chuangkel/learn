@@ -21,7 +21,7 @@ public class WildcardMatching {
         s = "aa";
         p = "\\*";
 
-        System.out.println(isMatch2(s, p));
+        //System.out.println(isMatch2(s, p));
     }
 
     public static boolean isMatch(String s, String p) {
@@ -74,9 +74,11 @@ public class WildcardMatching {
             }
             //dao i 说明匹配
             //不到i 说明有*  split 处理 中间匹配
-            return ;
+            return false;
 
         }
+        return false
+                ;
     }
 
 

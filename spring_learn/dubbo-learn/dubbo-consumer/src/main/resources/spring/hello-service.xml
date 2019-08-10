@@ -5,13 +5,13 @@
 
 
     <!-- 定义 HelloService 的应用名 -->
-    <dubbo:application name="hello-service-provider"/>
+    <dubbo:application name="hello-service-consumer"/>
 
     <!-- 指定注册中心地址 -->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
     <!-- 使用 Dubbo 原生协议在 20880 端口上暴露服务 -->
-    <dubbo:protocol name="dubbo" port="20880"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
 
     <!-- 将 HelloServiceImpl 的实现声明成一个 spring bean -->
     <bean id="helloService" class="com.github.chuangkel.dubboconsumer.service.HelloConsumer"/>

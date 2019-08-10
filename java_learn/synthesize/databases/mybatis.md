@@ -256,3 +256,6 @@ Hibernate对象/关系映射能力强，数据库无关性好，对于关系模�
 logging.level.mapper包的包全名=debug
 比如：com.github.chuangkel.dao.mapper
 插件：idea中搜索mybatis sql log 可以将日志中的sql语句拼接好
+
+### SqlMapCient 类提供了执行所有 mapped statement 的 API
+* dao继承这个类SqlMapClientDaoSupport，进行数据库操作，需定义map文件

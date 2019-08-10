@@ -14,7 +14,7 @@ docker pull mysql:5.6
 docker image ls
 
 运行mysql
-docker run --name mysql -e MYSQL_ROOT_PASSWORD=@HSDZgfyxgs3588h -d -i -p 3306:3306 --restart=always  mysql:5.6
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=pwd -d -i -p 3306:3306 --restart=always  mysql:5.6
 以上参数的含义：
 --name mysql  将容器命名为mysql，后面可以用这个name进行容器的启动暂停等操作
 -e MYSQL_ROOT_PASSWORD=123456 设置MySQL密码为123456

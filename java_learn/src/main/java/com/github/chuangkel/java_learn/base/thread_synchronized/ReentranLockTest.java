@@ -1,4 +1,4 @@
-package com.github.chuangkel.java_learn.base.lock;/**
+package com.github.chuangkel.java_learn.base.thread_synchronized;/**
  * Created by Fortuner on 2019/7/19.
  */
 

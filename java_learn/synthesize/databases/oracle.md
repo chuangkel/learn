@@ -187,3 +187,17 @@ select * from all_users;
 ```
 expdp system/system密码@SID schemas=xxx DUMPFILE=xxx.dmp DIRECTORY=EXPDIR logfile=expdp.log JOB_NAME=full
 ```
+
+查看当前连接的所有表：
+```oracle
+-- 查看当前连接的用户名
+select user from dual; 
+-- 查找指定表的字段名
+select lower(column_name) from user_tab_columns where table_name = upper(#{tableName})
+-- 查找当前连接的所有表名
+select lower(object_name) from user_objects;
+-- 查找库的所有表名
+select distinct lower(object_name) from all_objects;
+-- 注意客户端的修改插入操作 需要commit(); 或者导致表被锁定程序无法操作。
+-- 注意：应用程序和oracle库在同一台机器上需要使用hostname -i （即本机ip） 来进行访问 ，在不同机器上使用对外的ip地址进行访问（局域网ip）
+```

@@ -14,11 +14,18 @@ public class BaseTest implements Externalizable {
     public static void main(String[] args) {
         // a^b 异或 a&b 与 a|b 或
         System.out.println(1 ^ 0);
-        String str1 = "Person";
+        System.out.println(3>>1);
+        System.out.println(-3>>>1);
+        String str1 = "aaa";
         String str2 = "bbb";
         String str3 = "aaabbb";
-        String str4 = "Person" + "bbb";//存储在方法区的运行时常量区
-        String str5 = str1 + str2;  //存储的堆中
+        String str4 = "aaa" + "bbb";//存储在方法区的运行时常量区
+        String str5 = str1 + str2;  //存储的堆中 （1.7-1.8好像将常量池移到了堆中）
+
+        float a = 2.1f;
+        double e = 3.3;
+        e = a;
+        System.out.println(e);//输出2.0999999046325684
 
         System.out.println(str3 == str4);//true
         System.out.println(str3 == str5);//false
@@ -43,6 +50,8 @@ public class BaseTest implements Externalizable {
                 System.out.println("b:"+b);
                 break;
         }
+
+        Thread thread = new Thread();
     }
 
     @Override
