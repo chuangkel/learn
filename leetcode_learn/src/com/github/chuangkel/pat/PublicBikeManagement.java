@@ -18,7 +18,6 @@ public class PublicBikeManagement {
     public static void main(String[] args) {
         //边的邻接矩阵
         int [][] edgesMatrix = null;
-
         Scanner scanner = new Scanner(System.in);
         //cmax 站的最大容量， n站的总数量， sp问题站的index， m站之间边的条数
         if(scanner.hasNext()){
@@ -39,7 +38,7 @@ public class PublicBikeManagement {
         //两个站之间的距离 index1 index2 距离
         while (scanner.hasNext()){
             String input = scanner.nextLine();
-            if("".equals(input)){continue;}
+            if("x".equals(input.trim())){break;}
             String[] line = input.split(" ");
             List<Integer> lineInt =  Arrays.stream(line).map(a->{return Integer.parseInt(a);}).collect(Collectors.toList());
             //无向图
@@ -67,7 +66,7 @@ public class PublicBikeManagement {
             for(int j = 0; j < edgesMatrix.length;j ++){
                 if(i == j){ continue;}
                 for(int k = 0; k < edgesMatrix.length;k ++){
-                    if(i == k){ continue; }
+                    if(i == k || j == k){ continue; }
                     if(edgesMatrix[j][i] + edgesMatrix[i][k] < edgesMatrix[j][k]){
                         edgesMatrix[j][k] = edgesMatrix[j][i] + edgesMatrix[i][k];
                         //update paths

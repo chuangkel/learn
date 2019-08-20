@@ -340,5 +340,70 @@ select column_name from information_schema.columns
 where table_schema = #{dbName} and table_name = #{tableName};
 -- 删除表中...
 DELETE FROM tab1 WHERE col1 = 'value'
+```
+
+```mysql
+
+DELIMITER $$ 
+DROP TRIGGER IF EXISTS `updateegopriceondelete`$$ 
+CREATE 
+    TRIGGER `updateegopriceondelete` AFTER  DELETE ON  `customerinfo` 
+    FOR EACH ROW BEGIN 
+DELETE FROM egoprice  WHERE customerId=OLD.customerId; 
+    END$$ 
+DELIMITER ; 
+```
+DELIMITER 定好结束符为"$$", 然后最后又定义为";", MYSQL的默认结束符为";"
+```mysql
+DELIMITER $$
+DROP PROCEDURE IF EXISTS insertItemProcedure $$
+CREATE PROCEDURE insertItemProcedure(username VARCHAR(20), record VARCHAR(20),number INT)   /*参数默认为 in ,也可以指定out*/
+BEGIN
+	DECLARE s VARCHAR(255) DEFAULT 'default';
+	SET s = CONCAT('insert into item values(null,\'',username,'\',\'',record,'\',',number,');');
+	SET @s  = s;
+	PREPARE stmt FROM @s;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
+    END $$
+DELIMITER ;
 
 ```
+> 创建存储过程
+  create procedure sp_name()
+  begin
+  .........
+  end
+  
+> 调用存储过程
+  1.基本语法：call sp_name()
+  注意：存储过程名称后面必须加括号，哪怕该存储过程没有参数传递
+  
+> 删除存储过程
+  1.基本语法：
+  drop procedure sp_name//
+  
+```mysql
+show procedure status; -- 显示数据库中所有存储的存储过程基本信息，包括所属数据库，存储过程名称，创建时间等
+show create procedure executUpdateSql; -- 显示某一个mysql存储过程的详细信息 
+set global table_definition_cache = 4000; -- 报该错的解决办法 [Err] 1615 - Prepared statement needs to be re-prepared
+
+```
+在向表中插入数据的时候，经常遇到这样的情况：1. 首先判断数据是否存在； 2. 如果不存在，则插入；3.如果存在，则更新。
+replace into 跟 insert 功能类似，不同点在于：replace into 首先尝试插入数据到表中，
+ 如果发现表中已经有此行数据（根据主键或者唯一索引判断）则先删除此行数据，然后插入新的数据。 2. 否则没有此行数据的话，直接插入新数据。
+1）插入数据的表必须有主键或者是唯一索引！否则的话，replace into 会直接插入数据，这将导致表中出现重复的数据。
+2）如果数据库里边有这条记录，则直接修改这条记录；如果没有则，则直接插入，在有外键的情况下，对主表进行这样操作时，因为如果主表存在一条记录，被从表所用时，直接使用replace into是会报错的，这和replace into的内部原理是相关（ps.它会先删除然后再插入）。
+ 
+ * explain只能解释select语句
+ 
+ ```mysql
+select * from class c join student s
+on c.id = s.class_id
+where s.name = 'Sawyer';
+```
+mysql首先在s表也就是student表中查询name字段为Sawyer的值，由于name字段上并没有索引，所以使用了全表扫描，该表一共有4条记录，所以扫描了4行，rows为4。
+然后c表也就是class表使用主键和之前的结果通过s.class_id关联，由于是关联查询，并且是通过唯一键进行查询，所以使用了eq_ref的类型。
+EXPLAIN select * from dd_activity where id = 1;
+EXPLAIN select * from dd_activity where user_id = 1;
+alter TABLE dd_activity add INDEX user_id_index 

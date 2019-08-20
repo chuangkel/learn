@@ -291,3 +291,71 @@ Chown -R : 进行递归,连同子目录下的所有文件、目录
 * linux解压覆盖命令   
 unzip -o  app.zip   
 -o参数不提示覆盖同名文件
+
+host文件
+hosts文件是linux系统中负责ip地址与域名快速解析的文件，以ASCII格式保存在/etc目录下，文件名为hosts，不同的linux版本，文件也可能不同
+
+* netstat -tnlp | grep nginx 查询引用端口
+
+
+### 安装OpenSSL:
+* tar -xzf openssl-1.0.2f.tar.gz
+* cd openssl-1.0.2f
+* mkdir /usr/local/openssl
+* ./config --prefix=/usr/local/openssl
+* make
+* make install这样就安装完成了
+
+
+* yum repolist 查看yum源
+*  yum update 更新yum源库 
+
+docker子供向硬件 不共享软件 
+*  ps -aux | grep nginx //查看nginx进程
+* chown -R runoob:runoobgroup * //将目前目录下的所有文件与子目录的拥有者皆设为 runoob，群体的使用者 runoobgroup:
+                          
+```
+[root@host152 ~]# docker ps | grep  11216 //查看对外端口为11216的实例
+ae2c089e894c        192.168.44.132/tyyh/cmc20190511:tyyh   "/usr/sbin/init bash"   3 months ago        Up 10 weeks         0.0.0.0:10116->22/tcp, 0.0.0.0:11216->2024/tcp, 0.0.0.0:11616->2181/tcp, 0.0.0.0:10416->3306/tcp, 0.0.0.0:11416->5672/tcp, 0.0.0.0:10316->8088/tcp, 0.0.0.0:11716->8888/tcp, 0.0.0.0:10516->9910/tcp, 0.0.0.0:10616->9911/tcp, 0.0.0.0:10716->9912/tcp, 0.0.0.0:10816->9913/tcp, 0.0.0.0:10916->9914/tcp, 0.0.0.0:11016->9915/tcp, 0.0.0.0:11116->9916/tcp, 0.0.0.0:11316->9999/tcp, 0.0.0.0:11516->15672/tcp, 0.0.0.0:10216->15827/tcp                             MriskTest
+[root@host152 ~]# 
+[root@host152 ~]# docker restart ae2c089e894c //重启实例
+```
+* docker exec -it ae2c089e894c /usr/sbin/sshd //重启之后开启docker远程登录
+
+//创建容器，处于停止状态 本地有就使用本地镜像，
+//没有则从远程镜像库拉取。创建成功后会返回一个容器的ID 
+* docker create centos:lastest 
+* iptables -t nat -A  DOCKER -p tcp --dport 15845 -j DNAT --to-destination 172.17.0.2:15845 
+* iptables -t nat -nvL  增加完可以用这个命令看到  
+* docker ps 看不到
+以上指令会将容器的ip192.168.0.100和80端口，映射到宿主机的8000端口。 
+* docker run -p 192.168.0.100:8000:80 -it ubuntu /bin/bash
+* docker run -d -p 127.0.0.1:5000:5000 -it centos /bin/bash
+实例目录
+* /var/lib/docker/containers/05319c75265aed65356050345febc18e1c39a5b7afbf5b878d5624df89cb49ed
+```
+docker port container_ID #容器ID
+#结果输出
+80/tcp -> 0.0.0.0:800
+```
+*  chmod 755  最高权限     
+* ls exports -l 查看权限
+* chomd go+w 文件 赋予文件读写权限              
+                               
+### nfs
+
+通过NFS共享数据
+* docker之间文件共享 或 多个linux之间文件共享
+>  mount /dev/sdb1 ~/Share/ ，把新硬盘的区sdb1挂载到工作目录的~/Share/文件夹下，之后访问这个~/Share/文件夹就相当于访问这个硬盘2的sdb1分区了。
+对/Share/的任何操作，都相当于对sdb1里文件的操作。
+在一些大公司已经在使用NFS，NFS是一种行之有效的选项作为文件中心服务。
+Docker不支持NFS开箱即用,需要每个集装箱上安装NFS客户端。
+* mount挂载的作用，就是将一个设备（通常是存储设备）挂接到一个已存在的目录上。访问这个目录就是访问该存储设备。
+* linux的所有区都在/下的某个位置，比如/home
+* Windows下，mount挂载，就是给磁盘分区提供一个盘符（C,D,E,...）。比如插入U盘后系统自动分配给了它I:盘符其实就是挂载，退优盘的时候进行安全弹出，其实就是卸载unmount
+
+* ipvsadm -Ln 查看 网卡别名 和 负载均衡策略
+*  systemctl status -l keepalived 查看keepalived状态
+* ip addr show eth0
+* iptables -t nat -nL --line-number
+* 根据编号删除规则   iptables -t nat -D DOCKER $num

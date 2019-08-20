@@ -58,6 +58,9 @@ public class Demo {
         );
         //默认函数的参数是int
         IntPredicate intPredicate = (t)->{return t>0;};
+
+        Object object = new Object();
+        System.out.println("object:"+object.hashCode());
     }
     public static <T> void forEach(List<T> list, Consumer<T> c){
         for(T i: list){
