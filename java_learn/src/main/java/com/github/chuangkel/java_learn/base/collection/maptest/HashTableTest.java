@@ -1,4 +1,4 @@
-package com.github.chuangkel.java_learn.base.collection.hashtabletest;
+package com.github.chuangkel.java_learn.base.collection.maptest;
 
 import java.util.Hashtable;
 

@@ -1,6 +1,7 @@
 package com.github.chuangkel.java_learn.base.bases;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -51,7 +52,23 @@ public class BaseTest implements Externalizable {
                 break;
         }
 
-        Thread thread = new Thread();
+
+        System.out.println("=====================");
+        ArrayList<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("2");
+        /*for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).equals("2")) {
+                list.remove(i);
+            }
+        }*/
+        for (String s : list) {
+            System.out.println("1");
+            if (s.equals("2")) {
+                list.remove(s);
+            }
+        }
     }
 
     @Override
