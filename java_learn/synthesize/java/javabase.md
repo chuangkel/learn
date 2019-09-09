@@ -141,7 +141,11 @@ abstract static class Sync extends AbstractQueuedSynchronizer {
 ## Spring
 1.**BeanFactory**和**FactoryBean**
 
-> 两个都是接口，BeanFactory是IOC容器的最上层的接口，提供最基础的Bean工厂的接口规范，XmlWebApplicationContext和AnnotationConfigWebApplicationContext 往上都是实现于它的。
+> * BeanFactory是IOC容器的最上层的接口，提供最基础的Bean工厂的接口规范，XmlWebApplicationContext和AnnotationConfigWebApplicationContext 往上都是实现于它的。
+> * FactoryBean是一个接口，当在IOC容器中的Bean实现了FactoryBean后，通过getBean(String BeanName)获取到的Bean对象并不是FactoryBean的实现类对象，而是这个实现类中的getObject()方法返回的对象。要想获取FactoryBean的实现类，就要getBean(&BeanName)，在BeanName之前加上&。
+> * BeanFactory和FactoryBean的区别
+BeanFactory和FactoryBean其实没有什么比较性的，只是两者的名称特别接近，所以有时候会拿出来比较一番，BeanFactory是提供了OC容器最基本的形式，给具体的IOC容器的实现提供了规范，FactoryBean可以说为IOC容器中Bean的实现提供了更加灵活的方式，FactoryBean在IOC容器的基础上给Bean的实现加上了一个简单工厂模式和装饰模式，我们可以在getObject()方法中灵活配置。其实在Spring源码中有很多FactoryBean的实现类。
+   
 
 2.Spring IOC的理解 其初始化过程
 >将对象的创建和使用分离

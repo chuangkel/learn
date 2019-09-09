@@ -1,8 +1,10 @@
 package com.github.springboot.service;
 
-import com.github.springboot.dao.DemoTestDao;
-import org.junit.Test;
+import com.github.springboot.dao.DemoTestMapper;
+import com.github.springboot.domain.Person;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @program: javabase
@@ -13,14 +15,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DemoTestService {
-    private DemoTestDao demoTestDao;
+    private DemoTestMapper demoTestMapper;
 
-    public DemoTestService(DemoTestDao demoTestDao) {
-        this.demoTestDao = demoTestDao;
+    public DemoTestService(DemoTestMapper demoTestMapper) {
+        this.demoTestMapper = demoTestMapper;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public void testDemo(){
-        demoTestDao.print();
+        Person person = new Person(1,"john",0);
+        demoTestMapper.insert(person);
     }
 
 

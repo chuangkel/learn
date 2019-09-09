@@ -406,4 +406,17 @@ mysql首先在s表也就是student表中查询name字段为Sawyer的值，由于
 然后c表也就是class表使用主键和之前的结果通过s.class_id关联，由于是关联查询，并且是通过唯一键进行查询，所以使用了eq_ref的类型。
 EXPLAIN select * from dd_activity where id = 1;
 EXPLAIN select * from dd_activity where user_id = 1;
-alter TABLE dd_activity add INDEX user_id_index 
+alter TABLE dd_activity add INDEX user_id_index
+
+decimal(15,8)
+7 到 12 的范围（包括7和12）内得到一个随机整数, 可使用以下语句：
+SELECT FLOOR(7 + (RAND() * 6));
+round（x）是四舍五入 ；
+floor（x）是去小于等于x的整数；
+ceiling（x）是取大于等于x的整数； 
+
+> SELECT * FROM A LEFT JOIN B ON A.ID=B.ID WHERE B.OTHERKEY=XXXX
+与SELECT * FROM A LEFT JOIN B ON A.ID=B.ID AND B.OTHERKEY=XXXX
+是不一样的,后者相当于（出来的结果一样）
+SELECT * FROM A LEFT JOIN B ON A.ID=B.ID WHERE B.OTHERKEY=XXXX OR B.OTHERKEY IS NULL
+进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面

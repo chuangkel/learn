@@ -32,7 +32,7 @@ public class MyClassLoader {
                 return defineClass(name, b, 0, b.length);
             }
         };
-        Object obj = myclassLoader.loadClass("com.base.classloader.MyClassLoader").newInstance();
+        Object obj = myclassLoader.loadClass("com.github.chuangkel.java_learn.base.classloader.MyClassLoader").newInstance();
         System.out.println(obj.getClass());
         //自定义类加载器 instanceof 相等的前提是同一个类加载器
         System.out.println(obj instanceof MyClassLoader);

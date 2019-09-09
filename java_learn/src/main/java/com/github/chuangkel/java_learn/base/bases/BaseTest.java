@@ -69,6 +69,15 @@ public class BaseTest implements Externalizable {
                 list.remove(s);
             }
         }
+        System.out.println("===============");
+        System.out.println(1.0f / 0.0f); //输出 Infinity
+        System.out.println(0.2 == 0.2);
+        /**
+         * 不可将浮点变量或者double变量用“==”或“!=”做直接比较，而应该设法转化成能用“>=”或“<=”作比较的形式。
+         * 由上可知计算机在处理浮点数的时候是有误差的，所以判断两个浮点数是不是相同，是要判断是不是落在同一个区间的，
+         * 这个区间就是 [-EPSINON,EPSINON] EPSINON一般很小，10的-6次方以下，这个值肯定是越小越精确。
+         */
+        System.out.println(Integer.MAX_VALUE);
     }
 
     @Override

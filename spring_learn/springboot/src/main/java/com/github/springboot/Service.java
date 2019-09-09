@@ -1,6 +1,5 @@
 package com.github.springboot;
 
-import com.github.springboot.dao.DemoTestDao;
 import com.github.springboot.myannotation.MyAnnotation;
 import org.junit.Test;
 import org.springframework.core.annotation.AnnotationUtils;
