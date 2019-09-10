@@ -13,5 +13,6 @@ public class CostomClassLoaderMain {
         Object object = personClass.newInstance();
         //System.out.println(((Person)object).getAge());
         System.out.println(object.getClass().getClassLoader());
+
     }
 }
