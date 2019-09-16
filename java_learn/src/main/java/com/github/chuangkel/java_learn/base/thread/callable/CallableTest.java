@@ -1,4 +1,4 @@
-package com.github.chuangkel.java_learn.base.thread.thread;
+package com.github.chuangkel.java_learn.base.thread.callable;
 
 import java.util.concurrent.*;
 

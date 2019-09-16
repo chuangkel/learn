@@ -35,6 +35,12 @@
             <version>5.0.2</version>
             <scope>compile</scope>
         </dependency>
+        <!-- 限流实践 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
     </dependencies>
 
     <build>

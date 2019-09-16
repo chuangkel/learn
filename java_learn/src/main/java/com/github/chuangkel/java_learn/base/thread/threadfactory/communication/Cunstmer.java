@@ -1,41 +1,36 @@
-package com.github.chuangkel.java_learn.base.thread.thread.communication;
+package com.github.chuangkel.java_learn.base.thread.threadfactory.communication;
 
 import java.util.Queue;
-import java.util.Random;
 
 /**
  * @program: javabase
- * @description: 消费者
+ * @description:
  * @author: chuangkel
  * @create: 2019-02-13 11:42
  **/
-public class Producer implements Runnable {
+public class Cunstmer implements Runnable {
 
     private Queue<String> queue;
-    private int max = 3;
 
-    public Producer(Queue<String> queue) {
+    public Cunstmer(Queue<String> queue) {
         this.queue = queue;
     }
 
     @Override
     public void run() {
-        //生产产品
         while (true) {
             synchronized (queue) {
-                while (queue.size() == max) {
+                while (queue.size() == 0) {
                     try {
                         queue.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                int a;
-                System.out.println("生产：" + (a = new Random().nextInt()));
-                queue.add(String.valueOf(a));
+
+                System.out.println("消费：" + queue.remove());
                 queue.notify();
             }
         }
-
     }
 }

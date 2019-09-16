@@ -78,6 +78,14 @@ public class BaseTest implements Externalizable {
          * 这个区间就是 [-EPSINON,EPSINON] EPSINON一般很小，10的-6次方以下，这个值肯定是越小越精确。
          */
         System.out.println(Integer.MAX_VALUE);
+        System.out.println("ab==============");
+        String a1 = "a";
+        String b1 = "b";
+        String ab1 = "ab";
+        String ab1new = new String("ab");
+        System.out.println("ab1 == a1 + b1: " + (ab1 == a1 + b1));//false,+操作新建对象了
+        System.out.println("ab1 == (a1 + b1).intern(): " + (ab1 == (a1 + b1).intern()));//false,+操作新建对象了
+        System.out.println("ab1new == a1 + b1: " + (ab1new == a1 + b1));//false
     }
 
     @Override

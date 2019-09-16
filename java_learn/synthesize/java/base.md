@@ -338,9 +338,12 @@ public int nextInt(int bound) {
 ### 为什么switch表达式不允许在Java中使用long,float,double或boolean值？为什么只允许int(或者编译之后为int的类型)
 只能支持byte short int char String（返回的hashcode是int,为了防止hash碰撞，继续用equal()方法判断）
 
-String a = "abc";
-String b = "abc";
-String c = new String("abc");
-String d = c.intern();
-String e = a+b;
-这段代码共创建了几个对象？
+String a = "abc"; 1
+String b = "abc"; 1 
+String c = new String("abc"); 2
+String d = c.intern(); 2
+String e = a+b; 3
+这段代码共创建了几个对象？ 3
+
+Exception：在程序中必须使用try…catch进行处理。
+RuntimeException：可以不使用try…catch进行处理，但是如果有异常产生，则异常将由JVM进行处理。

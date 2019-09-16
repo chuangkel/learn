@@ -1,4 +1,4 @@
-package com.github.chuangkel.java_learn.base.thread.thread.test;
+package com.github.chuangkel.java_learn.base.thread.threadfactory.test;
 
 
 import java.util.concurrent.*;

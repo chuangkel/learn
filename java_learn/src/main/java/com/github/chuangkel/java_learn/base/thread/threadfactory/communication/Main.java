@@ -1,4 +1,4 @@
-package com.github.chuangkel.java_learn.base.thread.thread.communication;
+package com.github.chuangkel.java_learn.base.thread.threadfactory.communication;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
