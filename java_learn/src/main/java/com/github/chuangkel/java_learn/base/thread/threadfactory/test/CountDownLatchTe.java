@@ -20,18 +20,14 @@ public class CountDownLatchTe {
      */
 
     public static void main(String[] args) {
-        CountDownLatch countDownLatch = new CountDownLatch(5);
+        CountDownLatch countDownLatch = new CountDownLatch(6);
         ExecutorService pool = Executors.newCachedThreadPool();
         for (int i = 0; i < 5; i++) {
             pool.submit(new CountDownLatchTest(countDownLatch, String.valueOf(i)));
         }
-
-//        System.out.println("await 之后");
-//        pool.shutdown();
-
         try {
             countDownLatch.await(); // 1.若latch count 为0 则 继续执行；2.若不为0 则挂起当前线程；3.某个减少latch count到0的线程唤醒它。
-            System.out.println("await 之后");
+            System.out.println("await()线程,任务汇总之后...");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -41,9 +37,7 @@ public class CountDownLatchTe {
 
     static class CountDownLatchTest implements Runnable {
         CountDownLatch countDownLatch;
-
         String i;
-
         CountDownLatchTest(CountDownLatch countDownLatch, String i) {
             this.countDownLatch = countDownLatch;
             this.i = i;
@@ -53,12 +47,6 @@ public class CountDownLatchTe {
         public void run() {
             System.out.println("hello->" + i);
             countDownLatch.countDown();
-
-//            try {
-//                Thread.sleep(3000L);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
             System.out.println("sleep 3000ms");
         }
     }
