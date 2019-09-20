@@ -13,38 +13,33 @@ import java.util.concurrent.Executors;
  **/
 public class CyclicBarrierMain {
 
-    private static int NUM = 10;
-
     public static void main(String[] args) {
-
+        int NUM = 3;
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        CyclicBarrier lock = new CyclicBarrier(10, new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("各个线程都执行完成，本线程汇总一下...");
-            }
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(NUM, ()->{
+            System.out.println("各个线程都执行完成，本线程汇总一下...");
         });
         for (int i = 0; i < NUM; i++) {
-            executorService.submit(new CylicBarrierTest(String.valueOf(i), lock));
+            executorService.submit(new CylicBarrierTest(String.valueOf(i), cyclicBarrier));
         }
         executorService.shutdown();
     }
 
     static class CylicBarrierTest implements Runnable {
-        String i;
-        CyclicBarrier lock;
+        private String i;
+        private CyclicBarrier cyclicBarrier;
 
-        CylicBarrierTest(String i, CyclicBarrier lock) {
+        CylicBarrierTest(String i, CyclicBarrier cyclicBarrier) {
             this.i = i;
-            this.lock = lock;
+            this.cyclicBarrier = cyclicBarrier;
         }
 
         @Override
         public void run() {
             System.out.println("hello" + i);
             try {
-                lock.await();
+                cyclicBarrier.await(); //多线程在这里停止
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (BrokenBarrierException e) {
