@@ -20,7 +20,7 @@ apt-get update这个命令的作用是：同步 /etc/apt/sources.list 和 /etc/a
 等更新完毕以后再敲命令：apt-get install vim命令即可
 
 docker_mysql
-启动命令：docker exec it docker_mysql /bin/bash
+启动命令：docker exec -it docker_mysql /bin/bash
 docker 容器 修改mysql密码
 
 1.进入 mysql 容器
@@ -107,3 +107,7 @@ apt-get update && apt-get install vim -y
 使用docker restart命令重启容器
 使用docker attach命令进入容器
 
+## 
+ * docker pull centos 
+ * docker image ls
+ * cat /proc/version //查看系统版本 

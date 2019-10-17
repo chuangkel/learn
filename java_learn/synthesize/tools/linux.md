@@ -359,3 +359,4 @@ Docker不支持NFS开箱即用,需要每个集装箱上安装NFS客户端。
 * ip addr show eth0
 * iptables -t nat -nL --line-number
 * 根据编号删除规则   iptables -t nat -D DOCKER $num
+* unzip XXX.zip -d /roo/ 解压到指定目录

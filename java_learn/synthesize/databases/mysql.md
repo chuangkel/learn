@@ -8,6 +8,13 @@
 ###### 排它锁(写锁)
 事务A占用了对象O之后，其他事务不可对对象O加锁。
 select * from user for update;//使用了排它锁，解决并发问题。
+```mysql
+set autocommit = 0;
+START TRANSACTION;
+select * from stockprice where stock_id = 3 for UPDATE;
+update stockprice set `close` = 100 where stock_id = 3;
+COMMIT;
+```
 ###### 乐观锁：
 假设可以获得数据库锁，直接去进行增删改查操作，如果能获取锁，则执行，不能获取锁则等待。
 一查二比较三更新。
@@ -420,3 +427,10 @@ ceiling（x）是取大于等于x的整数；
 是不一样的,后者相当于（出来的结果一样）
 SELECT * FROM A LEFT JOIN B ON A.ID=B.ID WHERE B.OTHERKEY=XXXX OR B.OTHERKEY IS NULL
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面
+
+DELIMITER //
+CREATE PROCEDURE
+....
+BEGIN
+END //
+DELIMITER ;

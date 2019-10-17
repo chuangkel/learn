@@ -86,6 +86,10 @@ public class BaseTest implements Externalizable {
         System.out.println("ab1 == a1 + b1: " + (ab1 == a1 + b1));//false,+操作新建对象了
         System.out.println("ab1 == (a1 + b1).intern(): " + (ab1 == (a1 + b1).intern()));//false,+操作新建对象了
         System.out.println("ab1new == a1 + b1: " + (ab1new == a1 + b1));//false
+
+        int m = 1;
+        int n = m ++;
+        System.out.println("N:"+n);
     }
 
     @Override
