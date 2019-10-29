@@ -360,3 +360,39 @@ Docker不支持NFS开箱即用,需要每个集装箱上安装NFS客户端。
 * iptables -t nat -nL --line-number
 * 根据编号删除规则   iptables -t nat -D DOCKER $num
 * unzip XXX.zip -d /roo/ 解压到指定目录
+
+#### 指定文件 所属组和用户
+* chown -R hsiar:hsiar logs //递归指定，递归文件夹下所有文件，并指定 所有者(用户)：用户组
+```
+[root@zhgl logs]# groups hsiar //查看用户所属组
+hsiar : hsiar
+// 组和用户相关的操作
+ 1001  groupadd -g 889 zk //创建用户组zk,889为gid
+ 1002  groups //查看当前登录用户所属组， groups zk1 //查看zk1所属组
+ 1004  useradd -u 600 zk1 //创建用户 zk1,uid为600
+ 1005  gpasswd -a zk1 zk //将用户zk1加入zk用户组
+ 1006  su - zk1 //切换用户到zk1用户
+ 1007  passwd zk1 //设置用户zk1密码
+ 1009  usermod -l zk11 zk1 //修改用户账户
+ 1012  usermod -g zk zk11 //将用户zk11加入zk用户组
+ 1013  usermod -d /zk/zk11 zk11 //为用户zk11的目录改为/zk/zk11
+ [root@iZbp1ep0ql2r56axz76wx9Z zk1]# gpasswd -d zk11 zk //从zk用户组移除zk11用户
+ Removing user zk11 from group zk
+ [root@iZbp1ep0ql2r56axz76wx9Z zk1]# userdel  -r zk11 //删除zk11用户并删除该用户的目录
+ userdel: zk11 home directory (zk11) not found
+ [root@iZbp1ep0ql2r56axz76wx9Z zk1]# groupdel zk //删除用户组
+```
+
+```
+drwxr-xr-x 2 root root 4096 06-29 14:30 Test 分段解释
+d: 这个应该是目录吧 然后2 就是文件数.
+rwxr-xr-x 这里是三段分开解释.r表示可读W表示可写x表示运行
+rwx 表示文件所有者的权限
+r-x 表示文件所有者所在组的权限
+r-x 表示其他人的权限
+第一个 root 用户
+第二个 root 用户组
+4096 是文件大小
+06-29 14:30 是创建时间
+test 文件名
+```

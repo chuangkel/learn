@@ -25,6 +25,7 @@ public class CatInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("调用eat()之前");
         Object result =  method.invoke(object, args);
+
         System.out.println("调用eat()之后");
         return result;
     }

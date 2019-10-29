@@ -14,4 +14,9 @@ public class Cat implements Animal {
     public void eat() {
         System.out.println("cat is eatting");
     }
+
+    @Override
+    public void sport() {
+        System.out.println("cat is sporting");
+    }
 }

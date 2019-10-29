@@ -8,4 +8,5 @@ package com.github.chuangkel.java_learn.base.reflect.poxy;
  **/
 public interface Animal {
     void eat();
+    void sport();
 }

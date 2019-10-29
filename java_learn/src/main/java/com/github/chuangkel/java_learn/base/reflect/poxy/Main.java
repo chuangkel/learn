@@ -12,5 +12,6 @@ public class Main {
         CatInvocationHandler d = new CatInvocationHandler(cat);
         Animal animal = (Animal) d.newProxyInstance();
         animal.eat();
+        animal.sport();
     }
 }

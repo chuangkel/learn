@@ -25,10 +25,10 @@ public class IteratorTest {
         String str = "";
         while (i.hasNext()) {
             str = (String) i.next();
-            if (str.equals("Orange")) {
-                i.remove();
+            if (str.equals("Guava")) {
+                //i.remove();
+                aList.remove(str);
                 System.out.println("\nThe element Orange is removed");
-                break;
             }
         }
         System.out.println("\nThe ArrayList elements are: ");

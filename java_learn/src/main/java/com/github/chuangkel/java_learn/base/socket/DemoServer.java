@@ -1,7 +1,6 @@
 package com.github.chuangkel.java_learn.base.socket;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -17,11 +16,17 @@ public class DemoServer {
         ServerSocket serverSocket = new ServerSocket(8080);
         Socket socket = serverSocket.accept();
         InputStream inputStream = socket.getInputStream();
-
-        byte[] bytes = new byte[inputStream.available()];
-        inputStream.read(bytes);
-        System.out.println(String.valueOf(bytes));
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        byteBuffer.toString();
+        BufferedReader in =
+                new BufferedReader(new InputStreamReader(inputStream));
+        PrintWriter out =
+                new PrintWriter(
+                        new BufferedWriter(
+                                new OutputStreamWriter(socket.getOutputStream())),true);
+        while (true){
+            String hello = in.readLine();
+            System.out.println(hello);
+            out.println(hello);
+            if("END".equals(hello)) break;
+        }
     }
 }
