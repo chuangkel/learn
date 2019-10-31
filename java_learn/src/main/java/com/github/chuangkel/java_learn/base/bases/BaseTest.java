@@ -40,6 +40,9 @@ public class BaseTest implements Externalizable {
         System.out.println(-4>>1);
         /** 输出 2147483646*/
         System.out.println(-4>>>1);
+        System.out.println("=====================分割线");
+        System.out.println(Integer.toBinaryString((-1 << (Integer.SIZE - 3) )));
+
 
         //byte b = '1'; //输入49
         byte b = 1; //输出1

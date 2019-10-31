@@ -26,6 +26,7 @@ public class MoveTest {
         System.out.println(Integer.toBinaryString(3 << 3));
         //100...000(29个0)
         System.out.println(Integer.toBinaryString(1<<29));
+        System.out.println("========-1的二进制=======");
         //111...111 (32个1)
         System.out.println(Integer.toBinaryString(-1));
         //111...110
