@@ -19,3 +19,8 @@
 
 #### Redis 分布式锁
 zookeeper分布式锁实现机制
+
+连接redis：redis-cli -h 192.168.9.4 -p 6379
+登录：auth redis@123
+查看所有的键：keys *
+清空缓存：flushall

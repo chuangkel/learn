@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
  **/
 public class DateDemo {
     public static void main(String[] args) {
+        long begin = System.currentTimeMillis();
         LocalDateTime localDateTime = LocalDateTime.now();
         localDateTime.getNano();
         System.out.printf("%s-%s-%s %s:%s:%s %s\n",localDateTime.getYear(),localDateTime.getMonth(),localDateTime.getDayOfMonth()
@@ -45,6 +46,8 @@ public class DateDemo {
 
 
         long timestamp = System.currentTimeMillis();
+        System.out.println("timestamp===== "+ (timestamp - begin));
+        Instant.ofEpochMilli(timestamp - begin).toEpochMilli();
         //LocalDate localDate = Instant.ofEpochMilli(timestamp).atZone(ZoneOffset.ofHours(8)).toLocalDate();
         LocalDateTime localDateTime2 = Instant.ofEpochMilli(timestamp).atZone(ZoneOffset.ofHours(8)).toLocalDateTime();
         System.out.println(localDateTime2);
