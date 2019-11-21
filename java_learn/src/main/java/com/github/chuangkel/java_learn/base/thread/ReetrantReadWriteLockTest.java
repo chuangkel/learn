@@ -25,11 +25,9 @@ public class ReetrantReadWriteLockTest {
             Thread thread = new Thread(user);
             thread.start();
         }
-        ReentrantReadWriteLock a;
         ReentrantLock reentrantLock = new ReentrantLock();
         //.wait() notify()方法需要先获取锁，否则会报错
         reentrantLock.wait();
-        AtomicReference atomicReference;
     }
 
 
