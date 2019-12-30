@@ -18,7 +18,7 @@ public class DelayedWorkQueueTest {
 
         executor.scheduleAtFixedRate(()->{
             System.out.println("aaa");
-        },1L,1000L,TimeUnit.MILLISECONDS);
+        },1L,0L,TimeUnit.MILLISECONDS);
 
         executor.scheduleWithFixedDelay(()->{
             System.out.println("bbb");
