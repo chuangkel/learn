@@ -1,3 +1,5 @@
+* mvn dependency:sources 拉去所有的资源码
+
 * mvn package -Dmaven.test.skip=true
 * jetty:run
 * mvn clean package依次执行了clean、resources、compile、testResources、testCompile、test、jar(打包)等７个阶段

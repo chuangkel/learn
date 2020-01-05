@@ -2,6 +2,8 @@ package com.github.chuangkel.java_learn.base.thread;
 
 //import org.junit.Test;
 
+//import org.junit.jupiter.api.Test;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
