@@ -14,6 +14,9 @@
     <name>learn</name>
     <description>Demo project for Spring Boot</description>
 
+    <modules>
+        <module>java_learn</module>
+    </modules>
     <properties>
         <java.version>1.8</java.version>
     </properties>
