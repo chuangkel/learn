@@ -434,3 +434,21 @@ CREATE PROCEDURE
 BEGIN
 END //
 DELIMITER ;
+
+查询不重复记录的条数
+select  count(DISTINCT(risk_source_id)),id from tqm_truleremind ;
+//这样会被任务时不重复的 risk_source_id rule_id 两条记录不重复
+select  DISTINCT(risk_source_id) ,rule_id from tqm_truleremind ;
+
+```mysql
+
+EXPLAIN EXTENDED  -- 查看扩展信息     
+SELECT * from hub_tnewipolimit n,hub_tstockholder h 
+where h.market_no = n.market_no and h.stockholder_id = n.stockholder_id and  h.businsys_no = n.businsys_no;
+show WARNINGS; -- 查看上一条语句的告警信息（优化器之后的sql语句）
+show ERRORS;
+-- sum()函数会自动分组
+-- FIND_IN_SET(str,strlist) 返回1~N之间的值 ,find_in_set('a','a,b,c,d') 返回1，
+-- 若str不在strlist里面 则返回0 
+
+```

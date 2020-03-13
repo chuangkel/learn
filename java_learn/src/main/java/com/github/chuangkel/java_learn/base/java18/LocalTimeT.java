@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
  **/
 public class LocalTimeT {
     public static void main(String[] args) {
-
+        System.out.println(LocalDate.now());
         //时间戳
         Instant instant = Instant.now();
         System.out.println(instant);
