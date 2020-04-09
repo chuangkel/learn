@@ -13,7 +13,7 @@ package com.github.chuangkel.java_learn.pattern.structure.proxy.staticProxy;
 /**
  * @Package：com.pattern.structure.proxy.staticProxy
  * @ClassName：Subject
- * @Description：   <p> static Proxy 代理模式接口类 </p>
+ * @Description：   <p> static Proxy1 代理模式接口类 </p>
  * @Author： -
  * @CreatTime：2017年10月26日 下午1:46:44
  * @Modify By：
@@ -24,7 +24,7 @@ package com.github.chuangkel.java_learn.pattern.structure.proxy.staticProxy;
 public interface Subject {
 
     /**
-     * static Proxy
+     * static Proxy1
      */
     void request();
 

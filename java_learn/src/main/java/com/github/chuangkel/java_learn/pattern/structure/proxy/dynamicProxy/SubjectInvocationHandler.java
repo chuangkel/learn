@@ -44,9 +44,9 @@ public class SubjectInvocationHandler implements InvocationHandler {
      */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println("----Dynamic Proxy invoke method Start  ----");
+        System.out.println("----Dynamic Proxy1 invoke method Start  ----");
         Object result = method.invoke(target, args);//方法调用 
-        System.out.println("----Dynamic Proxy invoke method End by Jason----");
+        System.out.println("----Dynamic Proxy1 invoke method End by Jason----");
         return result;
     }
 

@@ -13,13 +13,13 @@ package com.github.chuangkel.java_learn.pattern.structure.proxy;
 //import com.pattern.structure.proxy.dynamicProxy.RealSujectImpl;
 //import com.pattern.structure.proxy.dynamicProxy.Subject;
 //import com.pattern.structure.proxy.dynamicProxy.SubjectInvocationHandler;
-//import com.pattern.structure.proxy.staticProxy.Proxy;
+//import com.pattern.structure.proxy.staticProxy.Proxy1;
 //import com.pattern.structure.proxy.staticProxy.RealSuject;
 
 import com.github.chuangkel.java_learn.pattern.structure.proxy.dynamicProxy.RealSujectImpl;
 import com.github.chuangkel.java_learn.pattern.structure.proxy.dynamicProxy.Subject;
 import com.github.chuangkel.java_learn.pattern.structure.proxy.dynamicProxy.SubjectInvocationHandler;
-import com.github.chuangkel.java_learn.pattern.structure.proxy.staticProxy.Proxy;
+import com.github.chuangkel.java_learn.pattern.structure.proxy.staticProxy.Proxy1;
 import com.github.chuangkel.java_learn.pattern.structure.proxy.staticProxy.RealSuject;
 
 /**
@@ -47,7 +47,7 @@ public class ProxyMain {
      */
     private static void staticProxy() {
         RealSuject realSuject = new RealSuject();
-        Proxy proxy = new Proxy(realSuject);
+        Proxy1 proxy = new Proxy1(realSuject);
         proxy.request();
     }
 

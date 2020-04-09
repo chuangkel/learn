@@ -21,7 +21,7 @@ chmod +x shadowsocks-libev.sh
 停止：/etc/init.d/shadowsocks stop
 重启：/etc/init.d/shadowsocks restart
 查看状态：/etc/init.d/shadowsocks status
-
+<---------------以上测试可以使用>
 
 
 

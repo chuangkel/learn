@@ -3,6 +3,7 @@ package com.github.chuangkel.java_learn.base.bases;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * @program: javaNewCharacteristic
@@ -13,6 +14,8 @@ import java.util.Random;
 public class BaseTest implements Externalizable {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
         // a^b 异或 a&b 与 a|b 或
         System.out.println(1 ^ 0);
         System.out.println(3>>1);

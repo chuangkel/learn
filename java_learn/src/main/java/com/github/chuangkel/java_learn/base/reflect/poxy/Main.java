@@ -1,5 +1,9 @@
 package com.github.chuangkel.java_learn.base.reflect.poxy;
 
+import com.github.chuangkel.java_learn.pattern.structure.proxy.staticProxy.Proxy1;
+
+import java.lang.reflect.Proxy;
+
 /**
  * @program: javabase
  * @description: test
@@ -13,5 +17,8 @@ public class Main {
         Animal animal = (Animal) d.newProxyInstance();
         animal.eat();
         animal.sport();
+
+        //代理的 得到的对象  继承Proxy 实现接口
+        System.out.println(animal instanceof Proxy);
     }
 }

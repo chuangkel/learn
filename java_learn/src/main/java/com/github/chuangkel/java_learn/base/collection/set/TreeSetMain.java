@@ -1,6 +1,7 @@
 package com.github.chuangkel.java_learn.base.collection.set;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @program: javabase
@@ -19,10 +20,23 @@ public class TreeSetMain {
             }
         });
         set.add("DefualtClassLoader");
+        set.add("EefualtClassLoader");
+
         Map map;
         Collection collection;
         Hashtable hashtable;
         HashMap hashMap;
         TreeSet treeSet;
+
+
+        Map<String,String> map1 = new HashMap<>();
+
+        map1.put("124","aaa");
+        map1.put("123","bbb");
+
+        List<String> set1 = map1.keySet().stream().sorted((a,b)->a.compareTo(b)).collect(Collectors.toList());
+
+        System.out.println(set1.toString());
+
     }
 }

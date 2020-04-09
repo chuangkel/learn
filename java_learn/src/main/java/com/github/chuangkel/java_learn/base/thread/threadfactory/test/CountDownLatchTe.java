@@ -27,6 +27,7 @@ public class CountDownLatchTe {
         }
         try {
             countDownLatch.await(); // 1.若latch count 为0 则 继续执行；2.若不为0 则挂起当前线程；3.某个减少latch count到0的线程唤醒它。
+            countDownLatch.await(); // 1.若latch count 为0 则 继续执行；2.若不为0 则挂起当前线程；3.某个减少latch count到0的线程唤醒它。
             System.out.println("await()线程,任务汇总之后...");
         } catch (InterruptedException e) {
             e.printStackTrace();

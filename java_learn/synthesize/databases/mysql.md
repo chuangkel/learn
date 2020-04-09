@@ -177,7 +177,7 @@ $ sudo /etc/init.d/mysql stop
 [sudo] wl 的密码：
 [ ok ] Stopping mysql (via systemctl): mysql.service.
 ```
- 
+
 
 ```
 $ sudo /usr/bin/mysqld_safe --skip-grant-tables --skip-networking &
@@ -200,7 +200,7 @@ sudo /usr/bin/mysqld_safe --skip-grant-tables --skip-networking &
 mysql -u root
 ```
  到这里应该可以进入MySQL了，继续操作
- 
+
 ```
 > use mysql;
 > update user set authentication_string=PASSWORD("这里输入你要改的密码") where User='root'; #更改密码
@@ -219,7 +219,7 @@ mysql -u root
  第一行先终止数据库运行，第二行重启数据库服务，第三行root用户登入。
 ```
 
- 
+
 ##  window上操作
 
 ```
@@ -381,15 +381,15 @@ DELIMITER ;
   begin
   .........
   end
-  
+
 > 调用存储过程
   1.基本语法：call sp_name()
   注意：存储过程名称后面必须加括号，哪怕该存储过程没有参数传递
-  
+
 > 删除存储过程
   1.基本语法：
   drop procedure sp_name//
-  
+
 ```mysql
 show procedure status; -- 显示数据库中所有存储的存储过程基本信息，包括所属数据库，存储过程名称，创建时间等
 show create procedure executUpdateSql; -- 显示某一个mysql存储过程的详细信息 
@@ -401,14 +401,14 @@ replace into 跟 insert 功能类似，不同点在于：replace into 首先尝�
  如果发现表中已经有此行数据（根据主键或者唯一索引判断）则先删除此行数据，然后插入新的数据。 2. 否则没有此行数据的话，直接插入新数据。
 1）插入数据的表必须有主键或者是唯一索引！否则的话，replace into 会直接插入数据，这将导致表中出现重复的数据。
 2）如果数据库里边有这条记录，则直接修改这条记录；如果没有则，则直接插入，在有外键的情况下，对主表进行这样操作时，因为如果主表存在一条记录，被从表所用时，直接使用replace into是会报错的，这和replace into的内部原理是相关（ps.它会先删除然后再插入）。
- 
+
  * explain只能解释select语句
- 
+
  ```mysql
 select * from class c join student s
 on c.id = s.class_id
 where s.name = 'Sawyer';
-```
+ ```
 mysql首先在s表也就是student表中查询name字段为Sawyer的值，由于name字段上并没有索引，所以使用了全表扫描，该表一共有4条记录，所以扫描了4行，rows为4。
 然后c表也就是class表使用主键和之前的结果通过s.class_id关联，由于是关联查询，并且是通过唯一键进行查询，所以使用了eq_ref的类型。
 EXPLAIN select * from dd_activity where id = 1;
@@ -452,3 +452,48 @@ show ERRORS;
 -- 若str不在strlist里面 则返回0 
 
 ```
+存储过程
+```mysql
+delimiter $$
+create or replace procedure proce()
+BEGIN
+DECLARE DONE INT DEFAULT FALSE;
+DECLARE a int ;
+DECLARE cur CURSOR for (select * from fund_id_table);
+DECLARE CONTINUE HANDLER for not fund SET DONE = true;
+OPEN cur ;
+myloop:LOOP
+FETCH cur int fund_id;
+if DONE THEN
+	LEAVE myloop;
+END if;
+replace tableName values(1,2,3,4,5);
+commit;
+end LOOP myloop;
+END $$
+
+call proce();
+```
+
+
+
+```
+[root@zhgl data]# hexdump -C mysql-bin.000001 
+00000000  fe 62 69 6e 55 18 83 5e  0f a5 a4 43 00 fc 00 00  |.binU..^...C....|
+00000010  00 00 01 00 00 01 00 04  00 31 30 2e 33 2e 31 30  |.........10.3.10|
+00000020  2d 4d 61 72 69 61 44 42  2d 6c 6f 67 00 00 00 00  |-MariaDB-log....|
+00000030  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000040  00 00 00 00 00 00 00 00  00 00 00 55 18 83 5e 13  |...........U..^.|
+00000050  38 0d 00 08 00 12 00 04  04 04 04 12 00 00 e4 00  |8...............|
+00000060  04 1a 08 00 00 00 08 08  08 02 00 00 00 0a 0a 0a  |................|
+00000070  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+*
+000000f0  04 13 04 00 0d 08 08 08  0a 0a 0a 01 8c 07 5e 12  |..............^.|
+00000100  55 18 83 5e a3 a5 a4 43  00 1d 00 00 00 1d 01 00  |U..^...C........|
+00000110  00 00 00 00 00 00 00 00  00 24 8e 9f 11 55 18 83  |.........$...U..|
+00000120  5e a1 a5 a4 43 00 2b 00  00 00 48 01 00 00 00 00  |^...C.+...H.....|
+00000130  10 00 00 00 6d 79 73 71  6c 2d 62 69 6e 2e 30 30  |....mysql-bin.00|
+00000140  30 30 30 31 e7 74 9b 60                           |0001.t.`|
+00000148
+```
+

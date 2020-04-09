@@ -49,9 +49,11 @@ update user set plugin="mysql_native_password"; #如果没这一行可能也会�
 SET PASSWORD FOR 'root'@'%' = PASSWORD('@HSDZgfyxgs3588h'); 
 
 ### 制作镜像-上传-下载镜像-运行镜像
+* docker commit 镜像id  docker用户名/docker仓库名  //提交镜像到本地
+  * sudo docker commit -m "Added json gem" -a "Docker Newbee" 0683ed74bd57  ouruser/sinatra:v2
+  * 0683ed74bd57  是用来创建镜像的容器ID
+  * ouruser/sinatra:v2 是仓库：tag
 
-
-docker commit 镜像id  docker用户名/docker仓库名  //提交镜像到本地
 docker login //登录docker 输入密码
 docker push  docker用户名/docker仓库名 //提交镜到远程
 docker pull docker用户名/docker仓库名 //拉取镜像到本地 
@@ -111,3 +113,134 @@ apt-get update && apt-get install vim -y
  * docker pull centos 
  * docker image ls
  * cat /proc/version //查看系统版本 
+
+Docker run ：创建一个新的容器并运行一个命令
+
+#### ssh tools
+
+检查是否安装 ssh localhost
+
+安装 apt-get install openssh-server   
+
+启动 sudo /etc/init.d/ssh start  
+
+检查启动 ps -e|grep ssh   
+
+编辑配置 vim /etc/ssh/sshd_config   
+
+停止 sudo stop ssh
+
+卸载 apt-get –purge remove openssh-server
+
+##### 配置密钥对验证
+
+生成密钥对 ssh -keygen -t rsa
+
+登陆 ssh -p 22 root@192.168.1.1
+
+将公钥上传到指定机器目录 ssh-copy-id -i /root/.ssh/id rsa.pub root@192.168.2.1
+
+#### 配置yum源
+
+进入目录 cd /etc/yum.repos.d
+
+将如下文件下入163.repo ,也可以是其他
+
+```bash
+[163]
+name=163
+baseurl=http://mirrors.163.com/centos/7/os/x86_64/
+gpgcheck=0
+enabled=1
+``` 
+
+### docker
+
+使用镜像nginx:latest以后台模式创建名为mynginx的容器
+
+docker run --name mynginx -d nginx:latest 
+
+随机映射端口
+
+docker run -P -d registry.XXX.com/hcs/centos:latest 
+
+端口映射 docker的80到宿主机80，主机目录的/data映射到docker的/docker
+
+docker run -p 80:80 -v /data:/data -d registry.XXX.com/hcs/centos:latest 
+
+以交互方式启动容器，在容器中执行/bin/bash，nginx:latest <=> 仓库：TAG，exit之后，docker不运行
+
+docker run -it nginx:latest /bin/bash  
+
+启动容器，映射端口，打通22端口远程登录
+
+ docker run -d -p 50001:22 registry.XXX.com/library/centos:7.2.1511 /usr/sbin/sshd -D
+
+宿主机的3306端口绑定到容器的3306端口 
+
+docker run -tid –name db -p 3306:3306 MySQL 
+
+##### Docker4种网络模式
+
+- host: 公用一个network namespace,使用宿主机的ip和端口
+- container: 和已经存在的一个容器共享network namespace
+- none: 独立的network namespace,需要手动添加网络配置
+- bridge: 默认配置,为容器自动分配namespace,设置IP,并将容器连接到一个虚拟网络
+
+Docker宿主机上可以同时存在多个不同类型的网络。位于不同网络中的容器，彼此之间无法通信。Docker容器的跨网络隔离与通信，是借助了iptables的机制
+
+bridge 网络模式；--network不指定，默认也是bridge模式
+
+
+
+##### 宿主机拷贝到docker文件
+
+查看docker 容器ID docker ps
+
+根据docker 容器ID生成字符串
+
+ docker inspect -f  '{{.Id}}' 0f7d485f2fc1 生成 0f7d485f2fc18b172822e9209e05760343b25d4dd888c1430fa296f8c9364653 字符串
+
+开始拷贝
+
+docker cp /home/ssh 0f7d485f2fc18b172822e9209e05760343b25d4dd888c1430fa296f8c9364653:/root/ssh
+
+​        
+
+```
+[root@host152 ~]# docker ps | grep  11216 //查看对外端口为11216的实例
+ae2c089e894c        192.168.44.132/tyyh/cmc20190511:tyyh   "/usr/sbin/init bash"   3 months ago        Up 10 weeks         0.0.0.0:10116->22/tcp, 0.0.0.0:11216->2024/tcp, 0.0.0.0:11616->2181/tcp, 0.0.0.0:10416->3306/tcp, 0.0.0.0:11416->5672/tcp, 0.0.0.0:10316->8088/tcp, 0.0.0.0:11716->8888/tcp, 0.0.0.0:10516->9910/tcp, 0.0.0.0:10616->9911/tcp, 0.0.0.0:10716->9912/tcp, 0.0.0.0:10816->9913/tcp, 0.0.0.0:10916->9914/tcp, 0.0.0.0:11016->9915/tcp, 0.0.0.0:11116->9916/tcp, 0.0.0.0:11316->9999/tcp, 0.0.0.0:11516->15672/tcp, 0.0.0.0:10216->15827/tcp                             MriskTest
+[root@host152 ~]# 
+[root@host152 ~]# docker restart ae2c089e894c //重启实例
+```
+
+- docker exec -it ae2c089e894c /usr/sbin/sshd //重启之后开启docker远程登录
+
+//创建容器，处于停止状态 本地有就使用本地镜像，
+//没有则从远程镜像库拉取。创建成功后会返回一个容器的ID 
+
+- docker create centos:lastest 
+- iptables -t nat -A  DOCKER -p tcp --dport 15845 -j DNAT --to-destination 172.17.0.2:15845 
+- iptables -t nat -nvL  增加完可以用这个命令看到  
+  删除端口映射
+  a. 获取规则编号   iptables -t nat -nL --line-number
+  b. 根据编号删除规则    iptables -t nat -D DOCKER $num
+- docker ps 看不到
+  以上指令会将容器的ip192.168.0.100和80端口，映射到宿主机的8000端口。 
+- docker run -p 192.168.0.100:8000:80 -it ubuntu /bin/bash
+- docker run -d -p 127.0.0.1:5000:5000 -it centos /bin/bash
+  实例目录
+- /var/lib/docker/containers/05319c75265aed65356050345febc18e1c39a5b7afbf5b878d5624df89cb49ed
+
+```
+docker port container_ID #容器ID
+#结果输出
+80/tcp -> 0.0.0.0:800
+```
+
+
+
+
+
+
+

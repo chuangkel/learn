@@ -23,11 +23,11 @@ package com.github.chuangkel.java_learn.pattern.structure.proxy.staticProxy;
  * @Modify marker：
  * @version V1.0
  */
-public class Proxy implements Subject {
+public class Proxy1 implements Subject {
 
     private Subject realSuject;
 
-    public Proxy(Subject realSuject) {
+    public Proxy1(Subject realSuject) {
         this.realSuject = realSuject;
     }
 
