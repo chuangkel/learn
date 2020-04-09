@@ -24,3 +24,18 @@ zookeeper分布式锁实现机制
 登录：auth redis@123
 查看所有的键：keys *
 清空缓存：flushall
+
+
+```
+hset(name, key, value)         name对应的hash中设置一个键值对（不存在，则创建；否则，修改）
+
+hmset(name, mapping)        在name对应的hash中批量设置键值对
+
+hget(name,key)   在name对应的hash中获取根据key获取value
+
+hmget(name, keys, *args)  在name对应的hash中获取多个key的值
+
+hgetall(name)  获取name对应hash的所有键值
+
+hlen(name) 获取name对应的hash中键值对的个数
+```
