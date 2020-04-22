@@ -1,4 +1,4 @@
-package com.github.chuangkel.java_learn.base.bases;
+package com.github.chuangkel.java_learn.base.base;
 
 import java.io.InterruptedIOException;
 import java.lang.reflect.Field;
@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.function.IntPredicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @program: nevergiveup
@@ -17,6 +18,9 @@ import java.util.regex.Pattern;
  * @create: 2018-12-04
  **/
 public class Demo {
+    class Node{
+        int a;
+    }
     public static void main(String[] args) {
 
         List<String> list = Arrays.asList("IntegerReplacement_397", "cc", "bb");
@@ -24,7 +28,6 @@ public class Demo {
         System.out.println(list);
         InterruptedIOException i;
         Thread.interrupted();
-
         /**
          * 正则表达式：总结
          * . 表示任何字符

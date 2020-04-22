@@ -1,6 +1,4 @@
-package com.github.chuangkel.java_learn.base.bases;
-
-import com.github.chuangkel.java_learn.base.bases.method.Student;
+package com.github.chuangkel.java_learn.base.base;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

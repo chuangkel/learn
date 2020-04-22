@@ -1,4 +1,4 @@
-package com.github.chuangkel.java_learn.base.bases;
+package com.github.chuangkel.java_learn.base.base;
 
 /**
  * @program: learn

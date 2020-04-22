@@ -1,10 +1,8 @@
-package com.github.chuangkel.java_learn.base.bases;
+package com.github.chuangkel.java_learn.base.base;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.TemporalUnit;
 import java.util.Scanner;
 
 import static java.time.temporal.ChronoUnit.DAYS;

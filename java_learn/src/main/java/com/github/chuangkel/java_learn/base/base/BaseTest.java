@@ -1,8 +1,7 @@
-package com.github.chuangkel.java_learn.base.bases;
+package com.github.chuangkel.java_learn.base.base;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 /**

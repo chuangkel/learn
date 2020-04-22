@@ -1,6 +1,5 @@
-package com.github.chuangkel.java_learn.base.bases;
+package com.github.chuangkel.java_learn.base.base;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
