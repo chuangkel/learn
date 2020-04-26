@@ -88,7 +88,7 @@ docker ps -a | grep "Exited" | awk '{print $1 }'|xargs docker stop
 
 镜像打包
 
-docker save -o 仓库:tag    pms.zip
+docker save -o   pms.zip 仓库:tag  
 
 镜像解包
 

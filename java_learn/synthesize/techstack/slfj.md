@@ -1,0 +1,2 @@
+
+log4j.additivity是 子Logger 是否继承 父Logger 的 输出源（appender） 的标志位。具体说，默认情况下 子Logger 会继承 父Logger 的appender，也就是说 子Logger 会在 父Logger 的appender里输出。若是additivity设为false，则 子Logger 只会在自己的appender里输出，而不会在 父Logger 的appender里输出。 

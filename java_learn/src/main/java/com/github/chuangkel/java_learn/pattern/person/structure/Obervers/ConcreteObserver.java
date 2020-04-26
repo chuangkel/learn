@@ -1,4 +1,4 @@
-package com.github.chuangkel.java_learn.pattern1.structure.Obervers;
+package com.github.chuangkel.java_learn.pattern.person.structure.Obervers;
 
 /**
  * @program: learn
