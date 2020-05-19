@@ -1,3 +1,5 @@
+ss转储套接字信息, 显示TCP状态和信息
+ss -tnlp | grep ":22"
 在linux机器为ip上抓包
 tcpdump tcp  port 12200 and host ip -w /tmp/20190120.pcap
 
