@@ -586,3 +586,7 @@ cat /proc/swaps ：查看所有swap分区的信息
 文件传输
 
 scp pms.zip  root@192.168.51.30:/home/
+
+查看所有用户
+
+vim /etc/group

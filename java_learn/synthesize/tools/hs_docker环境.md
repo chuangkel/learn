@@ -15,4 +15,4 @@ docker run -itd --name pmdockeros101  --hostname=pmshost01 --net pmnet --ip 192.
 
 
 
- docker run -d --hostname power_env --name power_env  -p 12024:2024 -p 18081:8081 -p 18883:8883 -p 13306:33061 -p 32181:2181 -p 16379:6379 -p 35672:5672  local/images:pms  /usr/sbin/sshd -D 
+ docker run -d --hostname power_env --name power_env  -p 12024:2024 -p 18081:8081 -p 18883:8883 -p 13306:33061 -p 32181:2181 -p 16379:6379 -p 35672:5672  local/images:pms  /usr/sbin/sshd -D  --privileged=true

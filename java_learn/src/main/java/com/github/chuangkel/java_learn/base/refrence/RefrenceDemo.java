@@ -10,12 +10,19 @@ import java.lang.ref.WeakReference;
  **/
 public class RefrenceDemo {
 
+    private static WeakReference<RefrenceDemo> weekReference = null;
     public static void main(String[] args) throws InterruptedException {
 
-        WeakReference<String> weekReference = new WeakReference<>("abc");
+        gcWeekRef();
+        System.gc();
+        Thread.sleep(5000L);
+        System.out.println(weekReference.get());
+    }
+
+    public static void gcWeekRef() throws InterruptedException {
+        weekReference = new WeakReference<>(new RefrenceDemo());
         System.out.println(weekReference.get());
         System.gc();
-        Thread.sleep(10000L);
         System.out.println(weekReference.get());
         System.out.println(weekReference.isEnqueued());
     }

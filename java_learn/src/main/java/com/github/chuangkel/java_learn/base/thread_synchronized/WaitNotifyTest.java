@@ -24,6 +24,8 @@ public class WaitNotifyTest {
                     object.notify();
                     if(i < count -1){
                         try {
+                            //sleep不会放弃监视器
+                            Thread.sleep(1000L);
                             object.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -32,6 +34,7 @@ public class WaitNotifyTest {
                 }
             }
         }).start();
+
 
         new Thread(()->{
             for(int i = 0; i< count;i++){
