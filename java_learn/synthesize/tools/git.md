@@ -14,3 +14,16 @@ git rm -rf 强行删除
 git stash //暂存你当前不想提交的修改，回到开始
 
 在项目中加入.gitignore文件  /A/*  表示排除A文件目录下的所以文件
+
+
+
+1.修改命令
+
+git remote origin set-url [url]
+
+2.先删后加
+
+git remote rm origin
+git remote add origin [url]
+
+git remote add origin https://github.com/chuangkel/delgen.git
