@@ -27,3 +27,13 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+/../.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/maven-wrapper.jar
+/../.mvn/wrapper/maven-wrapper.properties
+/.mvn/wrapper/maven-wrapper.properties
+/../.mvn/wrapper/MavenWrapperDownloader.java
+/.mvn/wrapper/MavenWrapperDownloader.java
+/mvnw
+/../mvnw
+/mvnw.cmd
+/../mvnw.cmd
