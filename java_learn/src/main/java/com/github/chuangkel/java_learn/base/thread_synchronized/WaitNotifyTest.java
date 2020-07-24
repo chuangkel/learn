@@ -16,13 +16,14 @@ public class WaitNotifyTest {
         CountDownLatch latch = new CountDownLatch(1);
 
 
-        new Thread(()->{
-            for(int i = 0; i< count;i++){
-                synchronized (object) {
+        new Thread(() -> {
+            synchronized (object) {
+                for (int i = 0; i < count; i++) {
+
                     System.out.print("A");
                     latch.countDown();
                     object.notify();
-                    if(i < count -1){
+                    if (i < count - 1) {
                         try {
                             //sleep不会放弃监视器
                             Thread.sleep(1000L);
@@ -36,9 +37,11 @@ public class WaitNotifyTest {
         }).start();
 
 
-        new Thread(()->{
-            for(int i = 0; i< count;i++){
-                synchronized (object) {
+        new Thread(() -> {
+            //锁升级  若 synchronized写在里面 则可能会锁升级 synchronized提到for外面去
+            synchronized (object) {
+                for (int i = 0; i < count; i++) {
+
                     try {
                         latch.await();
                     } catch (InterruptedException e) {
@@ -46,7 +49,7 @@ public class WaitNotifyTest {
                     }
                     System.out.print("B");
                     object.notify();
-                    if(i < count -1){
+                    if (i < count - 1) {
                         try {
                             object.wait();
                         } catch (InterruptedException e) {

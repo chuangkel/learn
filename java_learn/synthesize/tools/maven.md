@@ -110,3 +110,22 @@ maven插件是为了构建自己的工具集，复用其他模块之间的代码
  打包 子模块下面不要包含maven-plugin 
  A->B->C
  直接B引入C A再引入B ,A可以用C中的内容
+
+dependencyManagement 和 dependencies 的区别：
+
+1. dependencies即使在子项目中不写该依赖项，那么子项目仍然会从父项目中继承该依赖项（全部继承）
+
+2. dependencyManagement里只是声明依赖，并不实现引入，因此子项目需要显示的声明需要用的依赖。
+如果不在子项目中声明依赖，是不会从父项目中继承下来的；只有在子项目中写了该依赖项，并且没有指定具体版本，
+才会从父项目中继承该项，并且version和scope都读取自父pom;另外如果子项目中指定了版本号，
+那么会使用子项目中指定的jar版本
+
+maven 和 spring boot 都采用了约定由于配置的思想。
+* src ——> 源代码和测试代码的根目录
+    * main 应用代码的源目录
+        * java 源代码
+        * resources 项目的资源文件
+    * test 测试代码的源目录
+        * java 测试代码
+        * resources 测试的资源文件
+* target 编译后的类文件、jar文件等

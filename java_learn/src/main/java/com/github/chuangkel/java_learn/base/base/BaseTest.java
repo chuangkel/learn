@@ -36,6 +36,7 @@ public class BaseTest implements Externalizable {
         System.out.println(str3 == str5.intern());
 
         /** >> 和 >>> 的区别 都表示移位*/
+        System.out.println(">> >>>");
         System.out.println(4>>1);
         System.out.println(4>>>1);
         /** 输出 -2*/

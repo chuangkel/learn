@@ -1,10 +1,8 @@
 package com.github.chuangkel.java_learn.base.date;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAmount;
 
 /**
  * @program: learn
@@ -16,6 +14,10 @@ import java.time.format.DateTimeFormatter;
  **/
 public class DateDemo {
     public static void main(String[] args) {
+        Duration duration =  Duration.between(LocalDateTime.now(),LocalDateTime.now());
+        System.out.println(duration.toDays());
+        LocalDateTime.now().plusDays(duration.toDays());
+
         long begin = System.currentTimeMillis();
         LocalDateTime localDateTime = LocalDateTime.now();
         localDateTime.getNano();

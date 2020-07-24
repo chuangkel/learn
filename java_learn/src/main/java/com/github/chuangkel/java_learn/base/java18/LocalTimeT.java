@@ -45,6 +45,13 @@ public class LocalTimeT {
         DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;
         String time = "20190108";
         LocalDate formatDate = LocalDate.parse(time, formatter);
+        LocalDateTime localDateTime1 = formatDate.atStartOfDay();
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String dateTime = localDateTime1.format(formatter1);
+
+
+        formatDate.getYear();
+
         formatDate.minusDays(30);
         formatDate.getYear();
         System.out.println(formatDate);
