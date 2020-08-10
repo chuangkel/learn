@@ -16,7 +16,7 @@ public class RateLimiterTest {
 
     private static final ThreadPoolExecutor executor =
             new ThreadPoolExecutor(20, 20, 1000L, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>());
-    private static final RateLimiter rateLimiter = RateLimiter.create(4);
+    private static final RateLimiter rateLimiter = RateLimiter.create(0.5);
 
     public static void main(String[] args) throws InterruptedException {
 
