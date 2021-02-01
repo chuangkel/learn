@@ -55,4 +55,25 @@ public class DateDemo {
         System.out.println(localDateTime2);
 
     }
+    /**
+     * LocalDateTime转整形
+     *
+     * @param localDateTime
+     * @return
+     */
+    public static Integer transformDateToInteger(LocalDateTime localDateTime) {
+
+        if (localDateTime != null) {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            return Integer.parseInt(dateTimeFormatter.format(localDateTime.toLocalDate()));
+        }
+        return 0;
+    }
+    public static LocalDateTime transferDateInt2String(int date) {
+        DateTimeFormatter dateForm = DateTimeFormatter.BASIC_ISO_DATE;
+        LocalDate formatDate = LocalDate.parse(String.valueOf(date), dateForm);
+        LocalDateTime localDateTime1 = formatDate.atStartOfDay();
+        return localDateTime1;
+
+    }
 }

@@ -14,8 +14,6 @@ public class RateLimiterTest2 {
     public static void main(String[] args) {
         RateLimiter limiter = RateLimiter.create(1.0,3L, TimeUnit.SECONDS);
 
-        limiter.acquire(1);
-
         ExecutorService executorService = Executors.newFixedThreadPool(50);
 
         executorService.execute(()->{
@@ -23,6 +21,10 @@ public class RateLimiterTest2 {
             double costTime = limiter.acquire(1);
             //达到 max permits , stable permits 之后， 匀速 获取到 permits
             //
+            for(int i = 0;i < 20;i++){
+                System.out.println(costTime);
+
+            }
         });
 
     }

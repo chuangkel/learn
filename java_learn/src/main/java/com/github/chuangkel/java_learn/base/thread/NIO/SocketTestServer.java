@@ -5,12 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
-/**
- * @program: javaNewCharacteristic
- * @description:
- * @author: yaoqb23911
- * @create: 2019-01-01
- **/
 public class SocketTestServer implements Runnable {
     @Override
     public void run() {

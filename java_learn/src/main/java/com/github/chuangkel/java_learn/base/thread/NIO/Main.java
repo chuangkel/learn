@@ -12,8 +12,7 @@ public class Main {
         Thread thread = new Thread(new SocketTestServer());
         thread.start();
 
-        Thread client1 = new Thread(new SocketTestClient("hello world hello world hello world hello\n " +
-                "world hello world hello world hello world\n"));
+        Thread client1 = new Thread(new SocketTestClient("hello world hello world hello world hello"));
         client1.start();
 
         Thread client2 = new Thread(new SocketTestClient("client2 client2 client2"));
